@@ -276,7 +276,7 @@ function displayProjects() {
         <hr>
         ${handleSamples()}
 
-        <button id="view-btn" onclick="location.href='https://geome-db.org/workbench/overview?projectId=${local.projectId}'">View Project in GEOME <i class="fa fa-external-link"></i></button>
+        <button id="view-btn" onclick="location.href='https://geome-db.org/workbench/project-overview?projectId=${local.projectId}'">View Project in GEOME <i class="fa fa-external-link"></i></button>
 
         <button id="back-btn" onclick="location.href='/projects'">Back to Projects</button>
 
