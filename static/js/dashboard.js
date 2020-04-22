@@ -1,3 +1,5 @@
+let baseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
+
 class Dashboard{
     // Build the dashboard chart interface
     constructor() {
@@ -17,6 +19,10 @@ class Dashboard{
       dashboardSelect.append($("<option>").attr("value","country").text("Country Count"));
       dashboardSelect.append($("<option>").attr("value","yearCollected").text("Year Collected Count"));
       dashboardSelect.append($("<option>").attr("value","bdByCountry").text("Bd Counts By Country"));
+      dashboardSelect.append($("<option>").attr("value","bsalByCountry").text("Bsal Counts By Country"));
+      dashboardSelect.append($("<option>").attr("value","bothByCountry").text("Both Bsal and Bd Counts By Country"));
+
+
 
   
       dashboardForm.append(document.createTextNode("Choose a chart:"));
@@ -30,6 +36,10 @@ class Dashboard{
           dashboard.yearCollectedCount();
         } else if ((selectedVariable == "bdByCountry")) {
           dashboard.bdByCountry()
+        } else if (selectedVariable == 'bsalByCountry') {
+          dashboard.bsalByCountry()
+        } else if (selectedVariable == 'bothByCountry') {
+          dashboard.bothByCountry()
         }
       })
 
@@ -53,10 +63,10 @@ class Dashboard{
       })
 
     }
-
-
+    
+    // BD samples by country chart
     bdByCountry() {
-      d3.json('https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/country_Bd.json')
+      d3.json(`${baseURL}country_Bd.json`)
       .then(samples => {
         //console.log(samples)
         let data = d3.nest()
@@ -64,8 +74,49 @@ class Dashboard{
         .rollup(function(v) { return d3.sum(v, function(d) { return d.value })})
         .entries(samples)
     
-        //console.log(data)
+        var labels = data.map(function(d) {
+          console.log(d.key)
+          return d.key
+        })
+        var codes = data.map(function(d) {
+          console.log(d.value)
+          return d.value
+        })
+        dashboard.makeGenericChart(labels, codes)
+      })
+    }
 
+    // BSAL by country chart
+    bsalByCountry() {
+      d3.json(`${baseURL}country_Bsal.json`)
+      .then(samples => {
+        //console.log(samples)
+        let data = d3.nest()
+        .key(function(d) { return (d.country) })
+        .rollup(function(v) { return d3.sum(v, function(d) { return d.value })})
+        .entries(samples)
+    
+        var labels = data.map(function(d) {
+          console.log(d.key)
+          return d.key
+        })
+        var codes = data.map(function(d) {
+          console.log(d.value)
+          return d.value
+        })
+        dashboard.makeGenericChart(labels, codes)
+      })
+    }
+
+    bothByCountry() {
+      d3.json(`${baseURL}country_Both.json`)
+      .then(samples => {
+        //console.log(samples)
+        let data = d3.nest()
+        .key(function(d) { return (d.country) })
+        .rollup(function(v) { return d3.sum(v, function(d) { return d.value })})
+        .entries(samples)
+    
         var labels = data.map(function(d) {
           console.log(d.key)
           return d.key
@@ -105,7 +156,7 @@ class Dashboard{
       }
       );
     }
-    // Count of records by yearCollected
+    // Count of records by yearCollected by projectId
     yearCollectedCount() {
       d3
       .json("https://api.geome-db.org/records/Sample/json?limit=10000&page=0&networkId=1&q=_projects_:" + this.projectIds +"+" +
