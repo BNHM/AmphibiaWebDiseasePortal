@@ -32,15 +32,17 @@ function findMatches(wordToMatch, projectData) {
       // Checks to see which radio button is selected to do the search
       const radioPI = document.getElementById('rad-proj-pi').checked
       const radioName = document.getElementById('rad-proj-name').checked
+      const radioAffiliation = document.getElementById('rad-proj-affiliation').checked
       
-      //TODO: Fix when PI and Affiliation are null. 
-      //Still need to be able to search by title if PI is null!
+      //TODO: Needs handling if PI and affiliation are null but there is a title
 
-      // Checks for which radio button is selected, if PI is null, excludes from search
-      if (radioPI == true && radioName == false && project.principalInvestigator != null) {
+      // Checks for which radio button is selected, if PI or Affiliation is null, excludes from search
+      if (radioPI == true && radioName == false && radioAffiliation == false && project.principalInvestigator != null) {
           return project.principalInvestigator.match(regex)
-      } if (radioName == true && radioPI == false) {
+      } if (radioName == true && radioPI == false && radioAffiliation == false) {
         return project.projectTitle.match(regex)
+      } if (radioAffiliation == true && radioPI == false && radioName == false && project.principalInvestigatorAffiliation != null) {
+        return project.principalInvestigatorAffiliation.match(regex)
       }
     }
   })
@@ -57,15 +59,17 @@ function displayMatches() {
 
   const html = matchArray.map(project => {
       const regex = new RegExp(this.value, 'gi')
-      const projName = project.projectTitle.replace(regex, `<span class="hl">${this.value}</span>`);
-      const projPI = project.principalInvestigator.replace(regex, `<span class="hl">${this.value}</span>`)
+      const projName = project.projectTitle == null ? 'None Found' : project.projectTitle.replace(regex, `<span class="hl">${this.value}</span>`);
+      const projPI = project.principalInvestigator == null ? 'None Found': project.principalInvestigator.replace(regex, `<span class="hl">${this.value}</span>`)
+      const projAffiliation = project.principalInvestigatorAffiliation == null ? 'None Found' : project.principalInvestigatorAffiliation.replace(regex, `<span class="hl">${this.value}</span>`)
+
 
       return tr.innerHTML = `
       <tr>
       <td> <i id="pubglobe" class="fa fa-globe"></i> </td>
       <td> ${projName} </td>
       <td> ${projPI} </td>
-      <td> ${project.principalInvestigatorAffiliation} </td>
+      <td> ${projAffiliation} </td>
       <td><button onclick="window.location.href = '/projects/?id=${project.projectId}'" class="detailsBtn" 
           id='project${project.projectId}'
           >Details</button></td>
@@ -76,23 +80,7 @@ function displayMatches() {
   allProjTable.appendChild(tr)
   allProjTable.innerHTML = html
   } 
-
-  // Displays "Loading Data..." while it is being fetched
-  function showLoader() {
-    const p = document.createElement('p')
-    const searchDiv = document.getElementById('search-container')
-
-    p.innerHTML = `Loading Data.....`
-    p.setAttribute('id', 'loader')
-    searchDiv.appendChild(p)
-  }
-  // Hides "Loading Data..." after data has been fetched.
-  function hideLoader() {
-    const p = document.getElementById('loader')
-    p.style.display = 'none'
-  }
   
-
   // FETCH ALL PROJECT DATA AND STORE LOCALLY WITH EXPIRY
   function fetchProjectsStoreLocally() {
 
@@ -129,39 +117,6 @@ function displayMatches() {
 
   checkLocalStorage()
 
-// SET LOCALSTORAGE WITH TIME LIMIT
-  function setWithExpiry(key, value, ttl) {
-    const now = new Date()
-
-    // `item` is an object which contains the original value
-    // as well as the time when it's supposed to expire
-    const item = {
-      value: value,
-      expiry: now.getTime() + ttl
-    }
-    localStorage.setItem(key, JSON.stringify(item))
-  }
-
-// GET FROM LOCAL STORAGE
-  function getWithExpiry(key) {
-    const itemStr = localStorage.getItem(key)
-
-    // if the item doesn't exist, return null
-    if (!itemStr) {
-      return null
-    }
-    const item = JSON.parse(itemStr)
-    const now = new Date()
-
-    // compare the expiry time of the item with the current time
-    if (now.getTime() > item.expiry) {
-      // If the item is expired, delete the item from storage
-      // and return null
-      localStorage.removeItem(key)
-      return null
-    }
-    return item.value
-  }
 
 // Displays the data in a table.
 function displayProjects() {
@@ -195,8 +150,7 @@ function displayProjects() {
                     >Details</button></td>
                 `
               allProjTable.appendChild(tr)
-              document.getElementById(`project${project.projectId}`).addEventListener('click', function(e) {
-                //console.log(e)
+              document.getElementById(`project${project.projectId}`).addEventListener('click', function() {
                 window.location.href = `/projects/?id=${project.projectId}`
                 // console.log(`This button's ID: ${project.projectId}`)
               })
@@ -290,6 +244,56 @@ function displayProjects() {
     //console.log("fetching project at id " + projectId)
   }
 }
+
+  // Displays "Loading Data..." while it is being fetched
+  function showLoader() {
+    const p = document.createElement('p')
+    const searchDiv = document.getElementById('search-container')
+
+    p.innerHTML = `Loading Data.....`
+    p.setAttribute('id', 'loader')
+    searchDiv.appendChild(p)
+  }
+  // Hides "Loading Data..." after data has been fetched.
+  function hideLoader() {
+    const p = document.getElementById('loader')
+    p.style.display = 'none'
+  }
+
+// SET LOCALSTORAGE WITH TIME LIMIT
+function setWithExpiry(key, value, ttl) {
+  const now = new Date()
+
+  // `item` is an object which contains the original value
+  // as well as the time when it's supposed to expire
+  const item = {
+    value: value,
+    expiry: now.getTime() + ttl
+  }
+  localStorage.setItem(key, JSON.stringify(item))
+}
+
+// GET FROM LOCAL STORAGE
+function getWithExpiry(key) {
+  const itemStr = localStorage.getItem(key)
+
+  // if the item doesn't exist, return null
+  if (!itemStr) {
+    return null
+  }
+  const item = JSON.parse(itemStr)
+  const now = new Date()
+
+  // compare the expiry time of the item with the current time
+  if (now.getTime() > item.expiry) {
+    // If the item is expired, delete the item from storage
+    // and return null
+    localStorage.removeItem(key)
+    return null
+  }
+  return item.value
+}
+
 
 function getUrlVars() {
   var vars = {};
