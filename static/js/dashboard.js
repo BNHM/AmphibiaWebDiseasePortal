@@ -21,6 +21,7 @@ class Dashboard{
       dashboardSelect.append($("<option>").attr("value","bdByCountry").text("Bd Counts By Country"));
       dashboardSelect.append($("<option>").attr("value","bsalByCountry").text("Bsal Counts By Country"));
       dashboardSelect.append($("<option>").attr("value","bothByCountry").text("Both Bsal and Bd Counts By Country"));
+      dashboardSelect.append($("<option>").attr("value","bothStacked").text("Both Bsal and Bd Counts Stacked By Country"));
 
 
 
@@ -40,27 +41,29 @@ class Dashboard{
           dashboard.bsalByCountry()
         } else if (selectedVariable == 'bothByCountry') {
           dashboard.bothByCountry()
+        } else if (selectedVariable == 'bothStacked') {
+          dashboard.bothStacked()
         }
       })
 
       // project Dropdown
-      let projectDash = $('#project-dash')
-      let projectDashSelect = $('<select>').appendTo(projectDash)
+      // let projectDash = $('#project-dash')
+      // let projectDashSelect = $('<select>').appendTo(projectDash)
 
-      projectDashSelect.attr('id', 'projectDashSelect')
-      projectDashSelect.append($("<option>").attr("value","").text("-- Select By Project --"))
-      projectDashSelect.append($("<option>").attr("value","sample").text("Testing"))
+      // projectDashSelect.attr('id', 'projectDashSelect')
+      // projectDashSelect.append($("<option>").attr("value","").text("-- Select By Project --"))
+      // projectDashSelect.append($("<option>").attr("value","sample").text("Testing"))
 
-      projectDash.append(document.createTextNode('View Data By Individual Project:'))
-      projectDash.append(projectDashSelect)
+      // projectDash.append(document.createTextNode('View Data By Individual Project:'))
+      // projectDash.append(projectDashSelect)
 
-      document.querySelector('#projectDashSelect').addEventListener('change', function() {
-        let selectedOption = document.querySelector('#projectDashSelect').value
+      // document.querySelector('#projectDashSelect').addEventListener('change', function() {
+      //   let selectedOption = document.querySelector('#projectDashSelect').value
         
-        if (selectedOption == 'sample') {
-          console.log(selectedOption)
-        }
-      })
+      //   if (selectedOption == 'sample') {
+      //     console.log(selectedOption)
+      //   }
+      // })
 
     }
     
@@ -128,6 +131,44 @@ class Dashboard{
         dashboard.makeGenericChart(labels, codes)
       })
     }
+
+    bothStacked() {
+      var ctx = document.getElementById('dashboardChart').getContext('2d');
+
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Risk Level', 'Another Label'],
+          datasets: [
+            {
+              label: 'Low',
+              data: [67.8],
+              backgroundColor: '#D6E9C6',
+            },
+            {
+              label: 'Moderate',
+              data: [20.7],
+              backgroundColor: '#FAEBCC',
+            },
+            {
+              label: 'High',
+              data: [11.4],
+              backgroundColor: '#EBCCD1',
+            }
+          ],
+        
+          
+          
+        },
+        options: {
+          scales: {
+            xAxes: [{ stacked: true }],
+            yAxes: [{ stacked: true }]
+          },
+            responsive: false
+        }
+      });
+          }
     
   
     // Count of records by country
