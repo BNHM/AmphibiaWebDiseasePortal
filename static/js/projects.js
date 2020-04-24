@@ -222,7 +222,7 @@ function displayProjects() {
           if (local.projectDataGuid == null) {
             return 'None Available'
           } else {
-            return `<a href="${local.projectDataGuid}">${local.projectDataGuid}</a> `
+            return `<a href="${local.projectDataGuid}" target="_blank">${local.projectDataGuid}</a> `
           }
         } 
 
@@ -231,12 +231,12 @@ function displayProjects() {
           if (local.publicationGuid == null) {
             return 'None Available'
           } else {
-            return `<a href="${local.publicationGuid}">${local.publicationGuid}</a>`
+            return `<a href="${local.publicationGuid}" target="_blank">${local.publicationGuid}</a>`
           }
         }
         
 
-        // Checks to see if there is event data
+        // Checks to see if there is event & sample data
         let handleSamples = () => {
           if (sampleData.EventCount == 0 || sampleData.EventCount == null) {
             return `No Sample Data Available<br>`
@@ -246,7 +246,7 @@ function displayProjects() {
             Samples Collected: ${sampleData.SampleCount} 
             <br>
     
-            <button id="data-btn" onclick="location.href='https://geome-db.org/query?q=_projects_:${local.projectId}'">Query Dataset in GEOME <i class="fa fa-external-link"></i></button>
+            <button id="data-btn" onclick="window.open('https://geome-db.org/query?q=_projects_:${local.projectId}')" target="_blank">Query Dataset in GEOME <i class="fa fa-external-link"></i></button>
             <button id="download-btn" onclick="downloadDataFile(${local.projectId})"><i class="fa fa-download"></i>Download Newest Datafile</button>
     
             `
@@ -266,7 +266,7 @@ function displayProjects() {
         <h3>Information</h3>
         <hr>
         Project PI: ${local.principalInvestigator == null ? 'None' : local.principalInvestigator} <br>
-        Project Contact: ${local.projectContact} <a href="mailto:${local.projectContactEmail}"><i class="fa fa-envelope"></i> </a><br>
+        Project Contact: ${local.projectContact} <a href="mailto:${local.projectContactEmail}" target="_blank"><i class="fa fa-envelope"></i> </a><br>
         Dataset DOI: ${checkForDataDoi()}
         
         <br>
@@ -276,7 +276,7 @@ function displayProjects() {
         <hr>
         ${handleSamples()}
 
-        <button id="view-btn" onclick="location.href='https://geome-db.org/workbench/project-overview?projectId=${local.projectId}'">View Project in GEOME <i class="fa fa-external-link"></i></button>
+        <button id="view-btn" onclick="window.open('https://geome-db.org/workbench/project-overview?projectId=${local.projectId}')">View Project in GEOME <i class="fa fa-external-link"></i></button>
 
         <button id="back-btn" onclick="location.href='/projects'">Back to Projects</button>
 
