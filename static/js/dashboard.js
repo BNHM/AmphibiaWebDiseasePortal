@@ -1,64 +1,29 @@
 const baseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
 
-
-//TODO: The following functions:
-
-// async function yearCollectedData() {
-//   let id = 255
-//   const response = await fetch(`https://api.geome-db.org/records/Sample/json?limit=10000&page=0&networkId=1&q=_projects_:${id}_select_:%5BEvent,Sample%5D+&source=Event.yearCollected,expeditionCode`)
-//   const data = await response.json()
-
-// console.log(data.content)
-// let event = data.content.Event
-// let yearCollected = []
-
-// event.forEach(entry => {
-//   //console.log(entry.yearCollected)
-// })
-// }
-// yearCollectedData()
-
-// async function getCountryCountByProject() {
-//   let id = 255
-//   const response = await fetch(`https://api.geome-db.org/records/Sample/json?limit=10000&page=0&networkId=1&q=_projects_:${id}+_select_:%5BEvent%5D+&source=Event.country,expeditionCode`)
-//   const data = await response.json()
-
-//   let country = []
-
-//   let event = data.content.Event
-//   event.forEach(entry => {
-//     console.log(entry.country)
-//     country.push(entry.country)
-//   })
-//   return { country }
-// }
-
-async function countryCountByProject() {
+// Function for making a generic bar chart
+function makeBarChart(chartLabel, dataLabel, values) {
   let ctx = document.getElementById('dashboardChart').getContext('2d');
-  let data = await getCountryCountByProject()
 
-  let myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: data.country,
-      datasets: [
-        {
-          label: 'Countries Sampled Count',
-          data: data.country,
-          backgroundColor: 'rgb(255, 99, 132)',
-        }
-      ],
-    },
+   return new Chart(ctx, {
+    type: "bar",
     options: {
       maintainAspectRatio: false,
       legend: {
         display: true
       }
+    },
+    data: {
+      labels: chartLabel,
+      datasets: [
+        {
+          label: dataLabel,
+          data: values,
+          backgroundColor: 'rgb(255, 99, 132)'
+        }
+      ]
     }
   });
-
 }
-// getCountryCountByProject()
 
 // Fetch Bsal by Country
 async function getBsalByCountryData() {
@@ -75,31 +40,11 @@ async function getBsalByCountryData() {
   return { country, bsalCount}
 }
 
+
 // Display Bsal by Country Chart
 async function bsalByCountry() {
-  let ctx = document.getElementById('dashboardChart').getContext('2d');
   let data = await getBsalByCountryData()
-
-  let myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: data.country,
-      datasets: [
-        {
-          label: 'Bsal',
-          data: data.bsalCount,
-          backgroundColor: 'rgb(255, 99, 132)',
-        }
-      ],
-    },
-    options: {
-      maintainAspectRatio: false,
-      legend: {
-        display: true
-      }
-    }
-  });
-
+  makeBarChart(data.country, 'Bsal', data.bsalCount)
 }
 
 // Bd Samples by Country
@@ -118,29 +63,9 @@ async function getBdByCountryData() {
 }
 
 async function bdByCountry() {
-  let ctx = document.getElementById('dashboardChart').getContext('2d');
+  // let ctx = document.getElementById('dashboardChart').getContext('2d');
   let data = await getBdByCountryData()
-
-  let myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: data.country,
-      datasets: [
-        {
-          label: 'Bd',
-          data: data.bdCount,
-          backgroundColor: 'rgb(255, 99, 132)',
-        }
-      ],
-    },
-    options: {
-      maintainAspectRatio: false,
-      legend: {
-        display: true
-      }
-    }
-  });
-
+  makeBarChart(data.country, 'Bd', data.bdCount)
 }
 
 // Get totals together for both pathogens
@@ -160,29 +85,8 @@ async function getDataBothPathogens() {
 }
 
 async function bothPathogens() {
-  let ctx = document.getElementById('dashboardChart').getContext('2d');
   let data = await getDataBothPathogens()
-
-  let myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: data.country,
-      datasets: [
-        {
-          label: 'Total Bd and Bsal Samples Collected By Country',
-          data: data.totalSamples,
-          backgroundColor: 'rgb(255, 99, 132)',
-        }
-      ],
-    },
-    options: {
-      maintainAspectRatio: false,
-      legend: {
-        display: true
-      }
-    }
-  });
-
+  makeBarChart(data.country, 'Total Bd and Bsal Samples Collected By Country', data.totalSamples)
 }
 
 // Stacked Data for Bd and Bsal by country
@@ -207,7 +111,7 @@ async function bothStacked() {
 let ctx = document.getElementById('dashboardChart').getContext('2d');
 let data = await getStackedBdBsalData()
 
-  let myChart = new Chart(ctx, {
+  let dataChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: data.countries,
@@ -237,26 +141,15 @@ let data = await getStackedBdBsalData()
   });
       }
 
-
-
 class Dashboard{
     // Build the dashboard chart interface
     constructor() {
       let mychart = this;
-  
-      // TODO: create method to select projects that are part of the AD portal team (see /project/stats JSON call)
-      // For now, the uploaded project identifiers are hard-coded right here, see
-      // https://github.com/jdeck88/AmphibiaWebDiseasePortal/issues/6
-      this.projectIds = "255"
-      
 
       $('#dashboardSelect').change(function(mychart) {
         const selectedVariable = $('#dashboardSelect').val().trim()
         if (selectedVariable == "country") {
-          dashboard.countryCount()
           // countryCountByProject()
-        } else if (selectedVariable == "yearCollected"){
-          dashboard.yearCollectedCount();
         } else if ((selectedVariable == "bdByCountry")) {
           bdByCountry()
         } else if (selectedVariable == 'bsalByCountry') {
@@ -267,81 +160,5 @@ class Dashboard{
           bothStacked()
         }
       })
-
-    }
-
-    // Count of records by country
-    countryCount() {
-      d3
-      .json("https://api.geome-db.org/records/Sample/json?limit=10000&page=0&networkId=1&q=_projects_:" + this.projectIds + "+" +
-          "_select_:%5BEvent%5D+&source=Event.country,expeditionCode")
-      .then(function(samples) {
-        let metrics = d3.nest()
-        .key(function(d) { return (d.country); })
-        .rollup(function(v) { return {
-          count: v.length
-          //total: d3.sum(v, function(d) { return d.yearCollected; }),
-          //avg: d3.mean(v, function(d) { return d.yearCollected; })
-        }; })
-        .entries(samples.content.Event);
-  
-        let labels = metrics.map(function(d) {
-          return d.key;
-        });
-        let codes = metrics.map(function(d) {
-          return d.value.count;
-        });
-        dashboard.makeGenericChart(labels, codes);
-        ;
-      }
-      );
-    }
-    // Count of records by yearCollected by projectId
-    yearCollectedCount() {
-      d3
-      .json("https://api.geome-db.org/records/Sample/json?limit=10000&page=0&networkId=1&q=_projects_:" + this.projectIds +"+" +
-          "_select_:%5BEvent,Sample%5D+&source=Event.yearCollected,expeditionCode")
-      .then(function(samples) {
-        let metrics = d3.nest()
-        .key(function(d) { return (d.yearCollected); })
-        .rollup(function(v) { 
-          console.log(v.length)
-          return {
-          count: v.length
-        }; })
-        .entries(samples.content.Event);
-  
-        let labels = metrics.map(function(d) {
-          return d.key;
-        });
-        let codes = metrics.map(function(d) {
-          return d.value.count;
-        });
-        dashboard.makeGenericChart(labels, codes);
-      }
-      );
-    }
-  
-    /*
-    Pass an object to a generic function for mapping
-    */
-    makeGenericChart(labels, values) {
-      let chart = new Chart('dashboardChart', {
-        type: "bar",
-        options: {
-          maintainAspectRatio: false,
-          legend: {
-            display: true
-          }
-        },
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              data: values
-            }
-          ]
-        }
-      });
     }
   }
