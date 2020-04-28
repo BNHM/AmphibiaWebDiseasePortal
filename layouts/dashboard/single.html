@@ -4,25 +4,46 @@
 {{ define "main" }}
 
 {{ range  $.Params.js }}
-<script src="{{ . }}"></script>
+	<script type="text/javascript" src="{{ . }}"></script>
 {{ end }}
 {{ range  $.Params.css }}
 <link rel="stylesheet" href="{{ . }}" | relURL/>
 {{ end }}
-
+<body>
 <div id="hero" class="wrap">
   <h2>{{.Title }}</h2>
   {{ .Content }}
 
   <div id="dash-form-container">
-    <form id="dashboardForm"></form>
-    <form id="project-dash"></form>
-  </div>
-   <div id="chart-container" >
-    <canvas id="dashboardChart" height="550px" style="border: 2px solid red; margin: auto;"></canvas>
-   </div>  
-</div>
 
+    <select id="dashboardSelect">
+      <option value="">By Pathogen</option>
+      <option value="country">Country Count</option>
+      <option value="yearCollected">Year Collected Count</option>
+      <option value="bdByCountry">Bd Counts By Country</option>
+      <option value="bsalByCountry">Bsal Counts By Country</option>
+      <option value="bothByCountry">Both Bsal and Bd Counts By Country</option>
+      <option value="bothStacked">Both Bsal and Bd Counts Stacked By Country</option>
+    </select>
+
+    <select id="result-select">
+      <option value="">By Result</option>
+      <option value="">Bd Detected</option>
+      <option value="">Bsal Detected</option>
+      <option value="">Both Detected</option>
+    </select>
+
+    <select id="third-select">
+      <option value="">Third Dropdown</option>
+    </select>
+  </div>
+
+   <div id="chart-container" >
+      <canvas id="dashboardChart" height="600px" width="1000px" style="margin: auto;"></canvas>
+   </div>  
+
+</div>
+</body>
 
 <script>
   dashboard = new Dashboard();
