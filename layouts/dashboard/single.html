@@ -18,8 +18,6 @@
 
     <select id="dashboardSelect">
       <option value="">By Pathogen</option>
-      <!-- <option value="country">Country Count</option>
-      <option value="yearCollected">Year Collected Count</option> -->
       <option value="bdByCountry">Bd Counts By Country</option>
       <option value="bsalByCountry">Bsal Counts By Country</option>
       <option value="bothByCountry">Both Bsal and Bd Counts By Country</option>
@@ -28,13 +26,21 @@
 
     <select id="result-select">
       <option value="">By Result</option>
-      <option value="">Bd Detected</option>
-      <option value="">Bsal Detected</option>
-      <option value="">Both Detected</option>
+      <option value="bdDetected">Bd Detected</option>
+      <option value="bsalDetected">Bsal Detected</option>
+      <option value="bothDetected">Both Detected</option>
+      <option value="bdDetectedByCountry">Bd Detected By Country</option>
+      <option value="bsalDetectedByCountry">Bsal Detected By Country</option>
+      <option value="bothDetectedByCountry">Both Detected By Country</option>
+
     </select>
 
-    <select id="third-select">
-      <option value="">Third Dropdown</option>
+    <select id="byYear-select">
+      <option value="">By Year Collected</option>
+      <option value="bdByYear">Bd By Year</option>
+      <option value="bsalByYear">Bsal By Year</option>
+      <option value="bothByYear">Both (Total) By Year</option>
+      <option value="bothByYearStacked">Both Stacked By Year</option>
     </select>
   </div>
 
