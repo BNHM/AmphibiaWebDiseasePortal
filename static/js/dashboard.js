@@ -33,7 +33,21 @@ class Dashboard{
         bsalDetectedByCountry()
       } else if (selectedValue == 'bothDetectedByCountry') {
         bothDetectedByCountry()
-      } 
+      } else if (selectedValue == 'diseaseTestedBoth') {
+        diseaseTestedBoth()
+      } else if (selectedValue == 'bdDetectedByGenus') {
+        bdDetectedByGenus()
+      } else if (selectedValue == 'bsalDetectedByGenus') {
+        bsalDetectedByGenus()
+      } else if (selectedValue == 'bothDetectedByGenus') {
+        bothDetectedByGenus()
+      } else if (selectedValue == 'bdDetectedByScientificName') {
+        bdDetectedByScientificName()
+      } else if (selectedValue == 'bsalDetectedByScientificName') {
+        bsalDetectedByScientificName()
+      } else if (selectedValue == 'bothDetectedByScientificName') {
+        bothDetectedByScientificName()
+      }
     })
 
     $('#byYear-select').change(function(mychart) {
@@ -46,10 +60,473 @@ class Dashboard{
         bothByYear()
       } else if (selectedValue == 'bothByYearStacked') {
         bothByYearStacked()
+      } else if (selectedValue == 'bdDetectedByYear') {
+        bdDetectedByYear()
+      } else if (selectedValue == 'bsalDetectedByYear') {
+        bsalDetectedByYear()
+      } else if (selectedValue == 'bothDetectedByYear') {
+        bothDetectedByYear()
+      } 
+    })
+
+    $('#bySpecies').change(function(mychart) {
+      const selectedValue = $('#bySpecies').val().trim()
+      if (selectedValue == 'bdGenus') {
+        bdGenus()
+      } else if (selectedValue == 'bsalGenus') {
+        bsalGenus()
+      } else if (selectedValue == 'bothGenus') {
+        bothGenus()
+      } else if (selectedValue == 'bothGenusStacked') {
+        bothStackedGenus()
+      } else if (selectedValue == 'bdScientificName') {
+        bdScientificName()
+      } else if (selectedValue == 'bsalScientificName') {
+        bsalScientificName()
+      } else if (selectedValue == 'bothScientificName') {
+        bothScientificName()
+      } else if (selectedValue == 'bothScientificNameStacked') {
+        bothScientificNameStacked()
       }
     })
 
+    $('#byProjectID').change(function(mychart) {
+      const selectedValue = $('#byProjectID').val().trim()
+      if(selectedValue == '221') {
+        byProjectId(221)
+      }
+    })
+    
+
   }
+}
+
+// TODO: FINISH THIS FUNCTION
+async function byProjectId(id) {
+  const response = await fetch(`${baseURL}scientificName_projectId_${id}.json`)
+  const data = await response.json()
+
+  let speciesCount = []
+
+  data.forEach(entry => {
+    console.log(entry)
+  })
+}
+
+//FETCH Bd Detected by Scientific Name
+async function getBdDetectedByScientificName() {
+  const response = await fetch(`${baseURL}scientificName_diseaseDetected_Bd.json`)
+  const data = await response.json()
+
+  let scientificName = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    scientificName.push(entry.scientificName)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+  return { scientificName, trueValue, falseValue }
+}
+// CHART Display Bd Detected By Scientific Name
+async function bdDetectedByScientificName() {
+  let data = await getBdDetectedByScientificName()
+  makeStackedBarChart(data.scientificName, 'True', data.trueValue, 'False', data.falseValue)
+}
+
+//FETCH Bsal Detected by Scientific Name
+async function getBsalDetectedByScientificName() {
+  const response = await fetch(`${baseURL}scientificName_diseaseDetected_Bsal.json`)
+  const data = await response.json()
+
+  let scientificName = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    scientificName.push(entry.scientificName)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+  return { scientificName, trueValue, falseValue }
+
+}
+
+// CHART Display Bsal Detected By Scientific Name
+async function bsalDetectedByScientificName() {
+  let data = await getBsalDetectedByScientificName()
+  makeStackedBarChart(data.scientificName, 'True', data.trueValue, 'False', data.falseValue)
+
+}
+
+// FETCH Both Detected by Scientific Name
+async function getBothDetectedByScientificName() {
+  const response = await fetch(`${baseURL}scientificName_diseaseDetected_Both.json`)
+  const data = await response.json()
+
+  let scientificName = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    scientificName.push(entry.scientificName)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+  return { scientificName, trueValue, falseValue }
+
+}
+
+// CHART Display Both Detected by Scientific Name
+async function bothDetectedByScientificName() {
+  let data = await getBothDetectedByScientificName()
+  makeStackedBarChart(data.scientificName, 'True', data.trueValue, 'False', data.falseValue)
+
+}
+
+// FETCH
+async function getBdScientificNameData() {
+  const response = await fetch(`${baseURL}scientificName_Bd.json`)
+  const data = await response.json()
+
+  let scientificName = []
+  let value = []
+
+  data.forEach(entry => {
+    scientificName.push(entry.scientificName)
+    value.push(entry.value)
+  })
+  return { scientificName, value }
+}
+
+// CHART
+async function bdScientificName() {
+  const data = await getBdScientificNameData()
+makeBarChart(data.scientificName, 'Bd by Scientific Name', data.value)
+}
+
+// FETCH
+async function getBsalScientificNameData() {
+  const response = await fetch(`${baseURL}scientificName_Bsal.json`)
+  const data = await response.json()
+
+  let scientificName = []
+  let value = []
+
+  data.forEach(entry => {
+    scientificName.push(entry.scientificName)
+    value.push(entry.value)
+  })
+  return { scientificName, value }
+
+}
+
+// CHART
+async function bsalScientificName() {
+  const data = await getBsalScientificNameData()
+  makeBarChart(data.scientificName, 'Bsal by Scientific Name', data.value)  
+}
+
+// FETCH
+async function getBothScientificNameData() {
+  const response = await fetch(`${baseURL}scientificName_Both.json`)
+  const data = await response.json()
+
+  let scientificName = []
+  let value = []
+
+  data.forEach(entry => {
+    scientificName.push(entry.scientificName)
+    value.push(entry.value)
+  })
+  return { scientificName, value }
+
+}
+
+// CHART
+async function bothScientificName() {
+  const data = await getBothScientificNameData()
+  makeBarChart(data.scientificName, 'Both by Scientific Name', data.value)
+}
+
+// FETCH
+async function getBothScientificNameStackedData() {
+  const response = await fetch(`${baseURL}scientificName_Both_stacked.json`)
+  const data = await response.json()
+
+  let scientificName = []
+  let bdValue = []
+  let bsalValue = []
+
+  data.forEach(entry => {
+    scientificName.push(entry.scientificName)
+    bdValue.push(entry.Bd)
+    bsalValue.push(entry.Bsal)
+  })
+  return { scientificName, bdValue, bsalValue }
+
+}
+
+// CHART
+async function bothScientificNameStacked() {
+  const data = await getBothScientificNameStackedData()
+makeStackedBarChart(data.scientificName, 'Bd', data.bdValue, 'Bsal', data.bsalValue)  
+  
+}
+
+// FETCH
+async function bdDetectedByYearData() {
+  const response = await fetch(`${baseURL}yearCollected_diseaseDetected_Bd.json`)
+  const data = await response.json()
+
+  let yearCollected = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    yearCollected.push(entry.yearCollected)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+
+  return { yearCollected, trueValue, falseValue }
+}
+
+// CHART
+async function bdDetectedByYear() {
+  let data = await bdDetectedByYearData()
+makeStackedBarChart(data.yearCollected, 'True', data.trueValue, 'False', data.falseValue)
+}
+
+// FETCH
+async function bsalDetectedByYearData() {
+  const response = await fetch(`${baseURL}yearCollected_diseaseDetected_Bsal.json`)
+  const data = await response.json()
+
+  let yearCollected = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    yearCollected.push(entry.yearCollected)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+
+  return { yearCollected, trueValue, falseValue }
+}
+
+// CHART
+async function bsalDetectedByYear() {
+  let data = await bsalDetectedByYearData()
+makeStackedBarChart(data.yearCollected, 'True', data.trueValue, 'False', data.falseValue)
+}
+
+// FETCH
+async function bothDetectedByYearData() {
+  const response = await fetch(`${baseURL}yearCollected_diseaseDetected_Both.json`)
+  const data = await response.json()
+
+  let yearCollected = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    yearCollected.push(entry.yearCollected)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+
+  return { yearCollected, trueValue, falseValue }
+}
+
+// CHART
+async function bothDetectedByYear() {
+  let data = await bothDetectedByYearData()
+makeStackedBarChart(data.yearCollected, 'True', data.trueValue, 'False', data.falseValue)
+}
+
+// FETCH
+async function bdDetectedByGenusData() {
+  const response = await fetch(`${baseURL}genus_diseaseDetected_Bd.json`)
+  const data = await response.json()
+
+  let genus = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    genus.push(entry.genus)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+
+  return { genus, trueValue, falseValue }
+}
+
+// CHART
+async function bdDetectedByGenus() {
+  let data = await bdDetectedByGenusData()
+makeStackedBarChart(data.genus, 'True', data.trueValue, 'False', data.falseValue)
+}
+
+// FETCH
+async function bsalDetectedByGenusData() {
+  const response = await fetch(`${baseURL}genus_diseaseDetected_Bsal.json`)
+  const data = await response.json()
+
+  let genus = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    genus.push(entry.genus)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+
+  return { genus, trueValue, falseValue }
+}
+
+// CHART
+async function bsalDetectedByGenus() {
+  let data = await bsalDetectedByGenusData()
+makeStackedBarChart(data.genus, 'True', data.trueValue, 'False', data.falseValue)
+}
+
+// FETCH
+async function bothDetectedByGenusData() {
+  const response = await fetch(`${baseURL}genus_diseaseDetected_Both.json`)
+  const data = await response.json()
+
+  let genus = []
+  let trueValue = []
+  let falseValue = []
+
+  data.forEach(entry => {
+    genus.push(entry.genus)
+    trueValue.push(entry.True)
+    falseValue.push(entry.False)
+  })
+
+  return { genus, trueValue, falseValue }
+}
+
+// CHART
+async function bothDetectedByGenus() {
+  let data = await bothDetectedByGenusData()
+makeStackedBarChart(data.genus, 'True', data.trueValue, 'False', data.falseValue)
+}
+
+// FETCH
+async function getBdGenusData() {
+  const response = await fetch(`${baseURL}genus_Bd.json`)
+  const data = await response.json()
+
+  let genus = []
+  let value = []
+
+  data.forEach(entry => {
+    genus.push(entry.genus)
+    value.push(entry.value)
+  })
+
+  return { genus, value }
+}
+
+// CHART
+async function bdGenus() {
+  let data = await getBdGenusData()
+makeBarChart(data.genus, 'Bd By Genus', data.value)
+}
+
+// FETCH
+async function getBsalGenusData() {
+  const response = await fetch(`${baseURL}genus_Bsal.json`)
+  const data = await response.json()
+
+  let genus = []
+  let value = []
+
+  data.forEach(entry => {
+    genus.push(entry.genus)
+    value.push(entry.value)
+  })
+
+  return { genus, value }
+}
+
+// CHART
+async function bsalGenus() {
+  let data = await getBsalGenusData()
+  makeBarChart(data.genus, 'Bsal By Genus', data.value)
+}
+
+// FETCH
+async function getBothGenusData() {
+  const response = await fetch(`${baseURL}genus_Both.json`)
+  const data = await response.json()
+
+  let genus = []
+  let value = []
+
+  data.forEach(entry => {
+    genus.push(entry.genus)
+    value.push(entry.value)
+  })
+
+  return { genus, value }
+}
+ 
+// CHART
+async function bothGenus() {
+  let data = await getBothGenusData()
+  makeBarChart(data.genus, 'Both By Genus', data.value)
+}
+
+// FETCH
+async function getBothStackedGenusData() {
+  const response = await fetch(`${baseURL}genus_Both_stacked.json`)
+  const data = await response.json()
+
+  let genus = []
+  let bdValue = []
+  let bsalValue = []
+
+  data.forEach(entry => {
+    genus.push(entry.genus)
+    bdValue.push(entry.Bd)
+    bsalValue.push(entry.Bsal)
+  })
+
+  return { genus, bdValue, bsalValue }
+}
+// CHART
+async function bothStackedGenus() {
+  let data = await getBothStackedGenusData()
+makeStackedBarChart(data.genus, 'Bd', data.bdValue, 'Bsal', data.bsalValue)
+  
+}
+
+//Fetch Disease Tested Data
+async function getDiseaseTestedBothData() {
+  const response = await fetch(`${baseURL}diseaseTested_Both.json`)
+  const data = await response.json()
+
+  let diseaseTested = []
+  let values = []
+
+  data.forEach(entry => {
+    diseaseTested.push(entry.diseaseTested)
+    values.push(entry.value)
+  })
+  return { diseaseTested, values}
+}
+
+async function diseaseTestedBoth() {
+  const data = await getDiseaseTestedBothData()
+  makePieChart(data.diseaseTested, 'Disease Tested', data.values)
 }
 
 // Fetch data for both stacked
