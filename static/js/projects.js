@@ -4,6 +4,25 @@ const baseURL = 'https://api.geome-db.org/projects/stats?'
 // Initialize local storage variable
 let bigdatafile
 
+// API URL
+const apiBaseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
+
+function byProjectId(id) {
+  fetch(`${apiBaseURL}scientificName_projectId_${id}.json`)
+  .then(res => res.json())
+  .then(function(data) {
+
+    let scientificName = []
+    let value = []
+    
+    data.forEach(entry => {
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)
+    })
+    return makeBarChart(scientificName, 'Species Sampled', value)
+  })
+}
+
 // Recovers link from the fetch using the project id, creates an anchor for it and clicks it.
 function downloadDataFile(id) {
   fetch (`https://api.geome-db.org/records/Sample/excel?networkId=1&q=_projects_:${id}`)
@@ -90,7 +109,7 @@ function displayMatches() {
       showLoader()
       // Setting local storage to expire in 24 hrs (approx)
       // Could be more precise but I don't think it really matters here 
-      // as long as the data is refreshed once a day.
+      // as long as the data is refreshed about once a day.
       let oneDay = 1000 * 60 * 60 * 24
       bigdatafile = data
       setWithExpiry('bigdatafile', bigdatafile, oneDay)
@@ -199,7 +218,12 @@ function displayProjects() {
             Events: ${sampleData.EventCount} || 
             Samples Collected: ${sampleData.SampleCount} 
             <br>
-    
+            <div id="sample-chart" >
+            <canvas id="sampleChart" height="600px" width="1000px" style="margin: auto;"></canvas>
+            </div> 
+            ${byProjectId(local.projectId)}
+            <br>
+
             <button id="data-btn" onclick="window.open('https://geome-db.org/query?q=_projects_:${local.projectId}')" target="_blank">Query Dataset in GEOME <i class="fa fa-external-link"></i></button>
             <button id="download-btn" onclick="downloadDataFile(${local.projectId})"><i class="fa fa-download"></i>Download Newest Datafile</button>
     
@@ -315,3 +339,26 @@ function hideDetailTable() {
   container.style.display = "none"
 }
 
+function makeBarChart(xLabel, dataLabel, values) {
+  let ctx = document.getElementById('sampleChart').getContext('2d');
+
+   return new Chart(ctx, {
+    type: "bar",
+    options: {
+      maintainAspectRatio: false,
+      legend: {
+        display: true
+      }
+    },
+    data: {
+      labels: xLabel,
+      datasets: [
+        {
+          label: dataLabel,
+          data: values,
+          backgroundColor: '#b3cde3'
+        }
+      ]
+    }
+  });
+}
