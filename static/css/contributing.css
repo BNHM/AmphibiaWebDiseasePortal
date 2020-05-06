@@ -1,3 +1,6 @@
+.contribute-instruction {
+    margin-top: 40px;
+}
 .contribute-instruction li {
     text-align: left;
     margin-top: 10px;
@@ -9,4 +12,12 @@
     box-shadow: 5px 10px grey;
     border-radius: 10px;
     align-content: center;
+}
+
+#table-contents {
+    padding: 10px;
+    margin: auto;
+    width: 40%;
+    background-color: #f2f2f2;
+    border-radius: 10px;
 }
