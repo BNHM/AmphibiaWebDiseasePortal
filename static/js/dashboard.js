@@ -4,88 +4,94 @@ class Dashboard{
   constructor() {
     let mychart = this;
 
-    $('#dashboardSelect').change(function(mychart) {
-      const selectedValue = $('#dashboardSelect').val().trim()
-      if (selectedValue == "country") {
-        // countryCountByProject()
-      } else if ((selectedValue == "bdByCountry")) {
+    const countrySelect = document.getElementById('countrySelect')
+    countrySelect.addEventListener('change', function () {
+      let optionValue = countrySelect.value
+
+      if(optionValue == 'bdByCountry') {
         bdByCountry()
-      } else if (selectedValue == 'bsalByCountry') {
+      } else if (optionValue == 'bsalByCountry') {
         bsalByCountry()
-      } else if (selectedValue == 'bothByCountry') {
+      } else if (optionValue == 'bothByCountry') {
         bothPathogens()
-      } else if (selectedValue == 'bothStacked') {
+      } else if (optionValue == 'bothStacked') {
         bothStacked()
       }
     })
+   
+    const resultSelect = document.getElementById('result-select')
+    resultSelect.addEventListener('change', function() {
+      let optionValue = resultSelect.value
 
-    $('#result-select').change(function(mychart) {
-      const selectedValue = $('#result-select').val().trim()
-      if (selectedValue == 'bdDetected') {
+      if (optionValue == 'bdDetected') {
         bdDetected()
-      } else if (selectedValue == 'bsalDetected') {
+      } else if (optionValue == 'bsalDetected') {
         bsalDetected()
-      } else if (selectedValue == 'bothDetected') {
+      } else if (optionValue == 'bothDetected') {
         bothDetected()
-      } else if (selectedValue == 'bdDetectedByCountry') {
+      } else if (optionValue == 'bdDetectedByCountry') {
         bdDetectedByCountry()
-      } else if (selectedValue == 'bsalDetectedByCountry') {
+      } else if (optionValue == 'bsalDetectedByCountry') {
         bsalDetectedByCountry()
-      } else if (selectedValue == 'bothDetectedByCountry') {
+      } else if (optionValue == 'bothDetectedByCountry') {
         bothDetectedByCountry()
-      } else if (selectedValue == 'diseaseTestedBoth') {
+      } else if (optionValue == 'diseaseTestedBoth') {
         diseaseTestedBoth()
-      } else if (selectedValue == 'bdDetectedByGenus') {
+      } else if (optionValue == 'bdDetectedByGenus') {
         bdDetectedByGenus()
-      } else if (selectedValue == 'bsalDetectedByGenus') {
+      } else if (optionValue == 'bsalDetectedByGenus') {
         bsalDetectedByGenus()
-      } else if (selectedValue == 'bothDetectedByGenus') {
+      } else if (optionValue == 'bothDetectedByGenus') {
         bothDetectedByGenus()
-      } else if (selectedValue == 'bdDetectedByScientificName') {
+      } else if (optionValue == 'bdDetectedByScientificName') {
         bdDetectedByScientificName()
-      } else if (selectedValue == 'bsalDetectedByScientificName') {
+      } else if (optionValue == 'bsalDetectedByScientificName') {
         bsalDetectedByScientificName()
-      } else if (selectedValue == 'bothDetectedByScientificName') {
+      } else if (optionValue == 'bothDetectedByScientificName') {
         bothDetectedByScientificName()
       }
     })
 
-    $('#byYear-select').change(function(mychart) {
-      const selectedValue = $('#byYear-select').val().trim()
-      if (selectedValue == 'bdByYear') {
+    const byYearSelect = document.getElementById('by-year-select')
+    byYearSelect.addEventListener('change', function() {
+      let optionValue = byYearSelect.value
+
+      if (optionValue == 'bdByYear') {
         bdByYear()
-      } else if (selectedValue == 'bsalByYear') {
+      } else if (optionValue == 'bsalByYear') {
         bsalByYear()
-      } else if (selectedValue == 'bothByYear') {
+      } else if (optionValue == 'bothByYear') {
         bothByYear()
-      } else if (selectedValue == 'bothByYearStacked') {
+      } else if (optionValue == 'bothByYearStacked') {
         bothByYearStacked()
-      } else if (selectedValue == 'bdDetectedByYear') {
+      } else if (optionValue == 'bdDetectedByYear') {
         bdDetectedByYear()
-      } else if (selectedValue == 'bsalDetectedByYear') {
+      } else if (optionValue == 'bsalDetectedByYear') {
         bsalDetectedByYear()
-      } else if (selectedValue == 'bothDetectedByYear') {
+      } else if (optionValue == 'bothDetectedByYear') {
         bothDetectedByYear()
       } 
     })
 
-    $('#bySpecies').change(function(mychart) {
-      const selectedValue = $('#bySpecies').val().trim()
-      if (selectedValue == 'bdGenus') {
+    const speciesSelect = document.getElementById('by-species-select')
+    speciesSelect.addEventListener('change', function() {
+      let optionValue = speciesSelect.value
+      
+      if (optionValue == 'bdGenus') {
         bdGenus()
-      } else if (selectedValue == 'bsalGenus') {
+      } else if (optionValue == 'bsalGenus') {
         bsalGenus()
-      } else if (selectedValue == 'bothGenus') {
+      } else if (optionValue == 'bothGenus') {
         bothGenus()
-      } else if (selectedValue == 'bothGenusStacked') {
+      } else if (optionValue == 'bothGenusStacked') {
         bothStackedGenus()
-      } else if (selectedValue == 'bdScientificName') {
+      } else if (optionValue == 'bdScientificName') {
         bdScientificName()
-      } else if (selectedValue == 'bsalScientificName') {
+      } else if (optionValue == 'bsalScientificName') {
         bsalScientificName()
-      } else if (selectedValue == 'bothScientificName') {
+      } else if (optionValue == 'bothScientificName') {
         bothScientificName()
-      } else if (selectedValue == 'bothScientificNameStacked') {
+      } else if (optionValue == 'bothScientificNameStacked') {
         bothScientificNameStacked()
       }
     })
