@@ -5,93 +5,102 @@ class Dashboard{
     let mychart = this;
 
     const countrySelect = document.getElementById('countrySelect')
-    countrySelect.addEventListener('change', function () {
-      let optionValue = countrySelect.value
+    const resultSelect = document.getElementById('result-select')
+    const byYearSelect = document.getElementById('by-year-select')
+    const speciesSelect = document.getElementById('by-species-select')
 
-      if(optionValue == 'bdByCountry') {
+    countrySelect.addEventListener('change', function () {
+      resultSelect.value = ''
+      byYearSelect.value = ''
+      speciesSelect.value = ''
+
+      if(this.value == 'bdByCountry') {
         bdByCountry()
-      } else if (optionValue == 'bsalByCountry') {
+      } else if (this.value == 'bsalByCountry') {
         bsalByCountry()
-      } else if (optionValue == 'bothByCountry') {
+      } else if (this.value == 'bothByCountry') {
         bothPathogens()
-      } else if (optionValue == 'bothStacked') {
+      } else if (this.value == 'bothStacked') {
         bothStacked()
       }
     })
    
-    const resultSelect = document.getElementById('result-select')
     resultSelect.addEventListener('change', function() {
-      let optionValue = resultSelect.value
+      byYearSelect.value = ''
+      speciesSelect.value = ''
+      countrySelect.value = ''
 
-      if (optionValue == 'bdDetected') {
+      if (this.value == 'bdDetected') {
         bdDetected()
-      } else if (optionValue == 'bsalDetected') {
+      } else if (this.value == 'bsalDetected') {
         bsalDetected()
-      } else if (optionValue == 'bothDetected') {
+      } else if (this.value == 'bothDetected') {
         bothDetected()
-      } else if (optionValue == 'bdDetectedByCountry') {
+      } else if (this.value == 'bdDetectedByCountry') {
         bdDetectedByCountry()
-      } else if (optionValue == 'bsalDetectedByCountry') {
+      } else if (this.value == 'bsalDetectedByCountry') {
         bsalDetectedByCountry()
-      } else if (optionValue == 'bothDetectedByCountry') {
+      } else if (this.value == 'bothDetectedByCountry') {
         bothDetectedByCountry()
-      } else if (optionValue == 'diseaseTestedBoth') {
+      } else if (this.value == 'diseaseTestedBoth') {
         diseaseTestedBoth()
-      } else if (optionValue == 'bdDetectedByGenus') {
+      } else if (this.value == 'bdDetectedByGenus') {
         bdDetectedByGenus()
-      } else if (optionValue == 'bsalDetectedByGenus') {
+      } else if (this.value == 'bsalDetectedByGenus') {
         bsalDetectedByGenus()
-      } else if (optionValue == 'bothDetectedByGenus') {
+      } else if (this.value == 'bothDetectedByGenus') {
         bothDetectedByGenus()
-      } else if (optionValue == 'bdDetectedByScientificName') {
+      } else if (this.value == 'bdDetectedByScientificName') {
         bdDetectedByScientificName()
-      } else if (optionValue == 'bsalDetectedByScientificName') {
+      } else if (this.value == 'bsalDetectedByScientificName') {
         bsalDetectedByScientificName()
-      } else if (optionValue == 'bothDetectedByScientificName') {
+      } else if (this.value == 'bothDetectedByScientificName') {
         bothDetectedByScientificName()
       }
     })
 
-    const byYearSelect = document.getElementById('by-year-select')
     byYearSelect.addEventListener('change', function() {
-      let optionValue = byYearSelect.value
+      speciesSelect.value = ''
+      countrySelect.value = ''
+      resultSelect.value = ''
 
-      if (optionValue == 'bdByYear') {
+      if (this.value == 'bdByYear') {
         bdByYear()
-      } else if (optionValue == 'bsalByYear') {
+      } else if (this.value == 'bsalByYear') {
         bsalByYear()
-      } else if (optionValue == 'bothByYear') {
+      } else if (this.value == 'bothByYear') {
         bothByYear()
-      } else if (optionValue == 'bothByYearStacked') {
+      } else if (this.value == 'bothByYearStacked') {
         bothByYearStacked()
-      } else if (optionValue == 'bdDetectedByYear') {
+      } else if (this.value == 'bdDetectedByYear') {
         bdDetectedByYear()
-      } else if (optionValue == 'bsalDetectedByYear') {
+      } else if (this.value == 'bsalDetectedByYear') {
         bsalDetectedByYear()
-      } else if (optionValue == 'bothDetectedByYear') {
+      } else if (this.value == 'bothDetectedByYear') {
         bothDetectedByYear()
       } 
     })
 
-    const speciesSelect = document.getElementById('by-species-select')
     speciesSelect.addEventListener('change', function() {
-      let optionValue = speciesSelect.value
-      
-      if (optionValue == 'bdGenus') {
+      countrySelect.value = ''
+      resultSelect.value = ''
+      byYearSelect.value = ''
+
+      if (this.value == 'bdGenus') {
         bdGenus()
-      } else if (optionValue == 'bsalGenus') {
+      } else if (this.value == 'bsalGenus') {
         bsalGenus()
-      } else if (optionValue == 'bothGenus') {
+      } else if (this.value == 'bothGenus') {
         bothGenus()
-      } else if (optionValue == 'bothGenusStacked') {
+      } else if (this.value == 'bothGenusStacked') {
         bothStackedGenus()
-      } else if (optionValue == 'bdScientificName') {
+      } else if (this.value == 'bdScientificName') {
         bdScientificName()
-      } else if (optionValue == 'bsalScientificName') {
+      } else if (this.value == 'bsalScientificName') {
         bsalScientificName()
-      } else if (optionValue == 'bothScientificName') {
+      } else if (this.value == 'bothScientificName') {
         bothScientificName()
-      } else if (optionValue == 'bothScientificNameStacked') {
+      } else if (this.value == 'bothScientificNameStacked') {
         bothScientificNameStacked()
       }
     })
@@ -142,7 +151,6 @@ async function getBsalDetectedByScientificName() {
 async function bsalDetectedByScientificName() {
   let data = await getBsalDetectedByScientificName()
   makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, 'Negative', data.falseValue)
-
 }
 
 // FETCH Both Detected by Scientific Name
@@ -821,6 +829,15 @@ makeStackedBarChart(data.countries, 'Bd', data.bdCounts, 'Bsal', data.bsalCounts
 
   // Function for making a generic Stacked bar chart
   function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, valueLabelTwo, valuesTwo) {
+    let chartContainer = document.getElementById('chart-container')
+    let element = document.getElementById('dashboardChart');
+    chartContainer.removeChild(element)
+
+    let canvas = document.createElement('canvas')
+    canvas.id = 'dashboardChart'
+    canvas.width = '1000px'
+    canvas.height = '600px'
+    chartContainer.appendChild(canvas)
     let ctx = document.getElementById('dashboardChart').getContext('2d');
   
     let dataChart = new Chart(ctx, {
@@ -855,9 +872,18 @@ makeStackedBarChart(data.countries, 'Bd', data.bdCounts, 'Bsal', data.bsalCounts
   
   // Function for making a generic bar chart
   function makeBarChart(xLabel, dataLabel, values) {
+    let chartContainer = document.getElementById('chart-container')
+    let element = document.getElementById('dashboardChart');
+    element.parentNode.removeChild(element)
+
+    let canvas = document.createElement('canvas')
+    canvas.id = 'dashboardChart'
+    canvas.width = '1000px'
+    canvas.height = '600px'
+    chartContainer.appendChild(canvas)
     let ctx = document.getElementById('dashboardChart').getContext('2d');
   
-     return new Chart(ctx, {
+     let barChart = new Chart(ctx, {
       type: "bar",
       options: {
         maintainAspectRatio: false,
@@ -880,9 +906,22 @@ makeStackedBarChart(data.countries, 'Bd', data.bdCounts, 'Bsal', data.bsalCounts
   
   // Function for making a generic pie chart
   function makePieChart(chartLabel, dataLabel, values) {
+    let chartContainer = document.getElementById('chart-container')
+
+    // Removes the previously existing canvas
+    let element = document.getElementById('dashboardChart');
+    element.parentNode.removeChild(element)
+
+    // Creates a new canvas
+    let canvas = document.createElement('canvas')
+    canvas.id = 'dashboardChart'
+    canvas.width = '1000px'
+    canvas.height = '600px'
+    chartContainer.appendChild(canvas)
+
     let ctx = document.getElementById('dashboardChart').getContext('2d');
-  
-     return new Chart(ctx, {
+      
+     let pieChart = new Chart(ctx, {
       type: "pie",
       options: {
         maintainAspectRatio: false,
