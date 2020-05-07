@@ -106,6 +106,9 @@ class Dashboard{
     })
   }
 }
+
+// Colors to use in building charts based on what data is used.
+
 // Orange
 const bdColor = "#feb24c"
 // Lavender
