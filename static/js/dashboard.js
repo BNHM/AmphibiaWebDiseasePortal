@@ -106,6 +106,17 @@ class Dashboard{
     })
   }
 }
+// Orange
+const bdColor = "#feb24c"
+// Lavender
+const bsalColor = "#bcbddc"
+// Light Pink
+const posColor = '#fbb4ae'
+// Light Blue
+const negColor = '#a6cee3'
+// Grey
+const genericColor = '#bdbdbd'
+
 
 //FETCH Bd Detected by Scientific Name
 async function getBdDetectedByScientificName() {
@@ -126,7 +137,7 @@ async function getBdDetectedByScientificName() {
 // CHART Display Bd Detected By Scientific Name
 async function bdDetectedByScientificName() {
   let data = await getBdDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, 'Negative', data.falseValue)
+  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 }
 
 //FETCH Bsal Detected by Scientific Name
@@ -150,7 +161,7 @@ async function getBsalDetectedByScientificName() {
 // CHART Display Bsal Detected By Scientific Name
 async function bsalDetectedByScientificName() {
   let data = await getBsalDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, 'Negative', data.falseValue)
+  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 }
 
 // FETCH Both Detected by Scientific Name
@@ -174,7 +185,7 @@ async function getBothDetectedByScientificName() {
 // CHART Display Both Detected by Scientific Name
 async function bothDetectedByScientificName() {
   let data = await getBothDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, 'Negative', data.falseValue)
+  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 
 }
 
@@ -196,7 +207,7 @@ async function getBdScientificNameData() {
 // CHART
 async function bdScientificName() {
   const data = await getBdScientificNameData()
-makeBarChart(data.scientificName, 'Bd by Scientific Name', data.value)
+makeBarChart(data.scientificName, 'Bd by Scientific Name', data.value, bdColor)
 }
 
 // FETCH
@@ -218,7 +229,7 @@ async function getBsalScientificNameData() {
 // CHART
 async function bsalScientificName() {
   const data = await getBsalScientificNameData()
-  makeBarChart(data.scientificName, 'Bsal by Scientific Name', data.value)  
+  makeBarChart(data.scientificName, 'Bsal by Scientific Name', data.value, bsalColor)  
 }
 
 // FETCH
@@ -240,7 +251,7 @@ async function getBothScientificNameData() {
 // CHART
 async function bothScientificName() {
   const data = await getBothScientificNameData()
-  makeBarChart(data.scientificName, 'Both by Scientific Name', data.value)
+  makeBarChart(data.scientificName, 'Both by Scientific Name', data.value, bsalColor)
 }
 
 // FETCH
@@ -264,7 +275,7 @@ async function getBothScientificNameStackedData() {
 // CHART
 async function bothScientificNameStacked() {
   const data = await getBothScientificNameStackedData()
-makeStackedBarChart(data.scientificName, 'Bd', data.bdValue, 'Bsal', data.bsalValue)  
+makeStackedBarChart(data.scientificName, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)  
   
 }
 
@@ -289,7 +300,7 @@ async function bdDetectedByYearData() {
 // CHART
 async function bdDetectedByYear() {
   let data = await bdDetectedByYearData()
-makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, 'Negative', data.falseValue)
+makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 }
 
 // FETCH
@@ -313,7 +324,7 @@ async function bsalDetectedByYearData() {
 // CHART
 async function bsalDetectedByYear() {
   let data = await bsalDetectedByYearData()
-makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, 'Negative', data.falseValue)
+makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 }
 
 // FETCH
@@ -337,7 +348,7 @@ async function bothDetectedByYearData() {
 // CHART
 async function bothDetectedByYear() {
   let data = await bothDetectedByYearData()
-makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, 'Negative', data.falseValue)
+makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 }
 
 // FETCH
@@ -361,7 +372,7 @@ async function bdDetectedByGenusData() {
 // CHART
 async function bdDetectedByGenus() {
   let data = await bdDetectedByGenusData()
-makeStackedBarChart(data.genus, 'Positive', data.trueValue, 'Negative', data.falseValue)
+makeStackedBarChart(data.genus, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 }
 
 // FETCH
@@ -385,7 +396,7 @@ async function bsalDetectedByGenusData() {
 // CHART
 async function bsalDetectedByGenus() {
   let data = await bsalDetectedByGenusData()
-makeStackedBarChart(data.genus, 'Positive', data.trueValue, 'Negative', data.falseValue)
+makeStackedBarChart(data.genus, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 }
 
 // FETCH
@@ -409,7 +420,7 @@ async function bothDetectedByGenusData() {
 // CHART
 async function bothDetectedByGenus() {
   let data = await bothDetectedByGenusData()
-makeStackedBarChart(data.genus, 'Positive', data.trueValue, 'Negative', data.falseValue)
+makeStackedBarChart(data.genus, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
 }
 
 // FETCH
@@ -431,7 +442,7 @@ async function getBdGenusData() {
 // CHART
 async function bdGenus() {
   let data = await getBdGenusData()
-makeBarChart(data.genus, 'Bd By Genus', data.value)
+makeBarChart(data.genus, 'Bd By Genus', data.value, bdColor)
 }
 
 // FETCH
@@ -453,7 +464,7 @@ async function getBsalGenusData() {
 // CHART
 async function bsalGenus() {
   let data = await getBsalGenusData()
-  makeBarChart(data.genus, 'Bsal By Genus', data.value)
+  makeBarChart(data.genus, 'Bsal By Genus', data.value, bsalColor)
 }
 
 // FETCH
@@ -475,7 +486,7 @@ async function getBothGenusData() {
 // CHART
 async function bothGenus() {
   let data = await getBothGenusData()
-  makeBarChart(data.genus, 'Both By Genus', data.value)
+  makeBarChart(data.genus, 'Both By Genus', data.value, genericColor)
 }
 
 // FETCH
@@ -498,7 +509,7 @@ async function getBothStackedGenusData() {
 // CHART
 async function bothStackedGenus() {
   let data = await getBothStackedGenusData()
-makeStackedBarChart(data.genus, 'Bd', data.bdValue, 'Bsal', data.bsalValue)
+makeStackedBarChart(data.genus, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)
   
 }
 
@@ -542,7 +553,7 @@ async function getBothByYearStackedData() {
 //Both by year stacked Chart
 async function bothByYearStacked() {
 let data = await getBothByYearStackedData()
-makeStackedBarChart(data.year, 'Bd', data.bd, 'Bsal', data.bsal)
+makeStackedBarChart(data.year, 'Bd', data.bd, bdColor, 'Bsal', data.bsal, bsalColor)
 }
 
 // Fetch Both By year collected
@@ -563,7 +574,7 @@ async function getBothByYearData() {
 // Build Bar chart for both by year collected
 async function bothByYear() {
   let data = await getBsalByYearData()
-  makeBarChart(data.yearCollected, 'Both by Year Collected', data.value)
+  makeBarChart(data.yearCollected, 'Both by Year Collected', data.value, genericColor)
 }
 
 // Fetch Bsal By year collected
@@ -584,7 +595,7 @@ async function getBsalByYearData() {
 // Build Bar chart for bsal by year collected
 async function bsalByYear() {
   let data = await getBsalByYearData()
-  makeBarChart(data.yearCollected, 'Bsal by Year Collected', data.value)
+  makeBarChart(data.yearCollected, 'Bsal by Year Collected', data.value, bsalColor)
 }
 
 // Fetch Bd By year collected
@@ -604,7 +615,7 @@ async function getBdByYearData() {
 // Build Bar chart for bd by year collected
 async function bdByYear() {
   let data = await getBdByYearData()
-  makeBarChart(data.yearCollected, 'Bd by Year Collected', data.value)
+  makeBarChart(data.yearCollected, 'Bd by Year Collected', data.value, bdColor)
 }
 
 // Both Detected by country
@@ -627,7 +638,7 @@ async function getBothDetectedByCountryData() {
 // Stacked Both by Country Bar Chart
 async function bothDetectedByCountry() {
   let data = await getBothDetectedByCountryData()
-  makeStackedBarChart(data.country, 'Both Positive', data.trueCount, 'Both Negative', data.falseCount)
+  makeStackedBarChart(data.country, 'Both Positive', data.trueCount, posColor, 'Both Negative', data.falseCount, negColor)
 }
 
 // Bsal Detected by country
@@ -650,7 +661,7 @@ async function getBsalDetectedByCountryData() {
 // Stacked Bsal by Country Bar Chart
 async function bsalDetectedByCountry() {
   let data = await getBsalDetectedByCountryData()
-  makeStackedBarChart(data.country, 'Bsal Positive', data.trueCount, 'Bsal Negative', data.falseCount)
+  makeStackedBarChart(data.country, 'Bsal Positive', data.trueCount, posColor, 'Bsal Negative', data.falseCount, negColor)
 }
 
 // Bd Detected by country
@@ -673,7 +684,7 @@ async function getBdDetectedByCountryData() {
 // Stacked Bd by Country Bar Chart
 async function bdDetectedByCountry() {
   let data = await getBdDetectedByCountryData()
-  makeStackedBarChart(data.country, 'Bd Positive', data.trueCount, 'Bd Negative', data.falseCount)
+  makeStackedBarChart(data.country, 'Bd Positive', data.trueCount, posColor, 'Bd Negative', data.falseCount, negColor)
 }
 
 // Fetch data for both detected
@@ -759,7 +770,7 @@ async function getBsalByCountryData() {
 // Display Bsal by Country Chart
 async function bsalByCountry() {
   let data = await getBsalByCountryData()
-  makeBarChart(data.country, 'Bsal', data.bsalCount)
+  makeBarChart(data.country, 'Bsal', data.bsalCount, bsalColor)
 }
 
 // Bd Samples by Country
@@ -780,7 +791,7 @@ async function getBdByCountryData() {
 async function bdByCountry() {
   // let ctx = document.getElementById('dashboardChart').getContext('2d');
   let data = await getBdByCountryData()
-  makeBarChart(data.country, 'Bd', data.bdCount)
+  makeBarChart(data.country, 'Bd', data.bdCount, bdColor)
 }
 
 // Get totals together for both pathogens
@@ -801,7 +812,7 @@ async function getDataBothPathogens() {
 
 async function bothPathogens() {
   let data = await getDataBothPathogens()
-  makeBarChart(data.country, 'Total Bd and Bsal Samples Collected By Country', data.totalSamples)
+  makeBarChart(data.country, 'Total Bd and Bsal Samples Collected By Country', data.totalSamples, genericColor)
 }
 
 // Stacked Data for Bd and Bsal by country
@@ -824,11 +835,11 @@ async function getStackedBdBsalData() {
 // Display data for both Bd and Bsal Stacked
 async function bothStacked() {
 let data = await getStackedBdBsalData()
-makeStackedBarChart(data.countries, 'Bd', data.bdCounts, 'Bsal', data.bsalCounts)
+makeStackedBarChart(data.countries, 'Bd', data.bdCounts, bdColor, 'Bsal', data.bsalCounts, bsalColor)
 }
 
   // Function for making a generic Stacked bar chart
-  function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, valueLabelTwo, valuesTwo) {
+  function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
     let chartContainer = document.getElementById('chart-container')
     let element = document.getElementById('dashboardChart');
     chartContainer.removeChild(element)
@@ -848,12 +859,12 @@ makeStackedBarChart(data.countries, 'Bd', data.bdCounts, 'Bsal', data.bsalCounts
           {
             label: valueLabelOne,
             data: valuesOne,
-            backgroundColor: '#d95f02',
+            backgroundColor: colorOne,
           },
           {
             label: valueLabelTwo,
             data: valuesTwo,
-            backgroundColor: '#1b9e77',
+            backgroundColor: colorTwo,
           }
         ],
       },
@@ -871,7 +882,7 @@ makeStackedBarChart(data.countries, 'Bd', data.bdCounts, 'Bsal', data.bsalCounts
   }
   
   // Function for making a generic bar chart
-  function makeBarChart(xLabel, dataLabel, values) {
+  function makeBarChart(xLabel, dataLabel, values, color) {
     let chartContainer = document.getElementById('chart-container')
     let element = document.getElementById('dashboardChart');
     element.parentNode.removeChild(element)
@@ -897,7 +908,7 @@ makeStackedBarChart(data.countries, 'Bd', data.bdCounts, 'Bsal', data.bsalCounts
           {
             label: dataLabel,
             data: values,
-            backgroundColor: 'rgb(255, 99, 132)'
+            backgroundColor: color
           }
         ]
       }
