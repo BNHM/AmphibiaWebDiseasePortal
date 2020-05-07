@@ -1,8 +1,20 @@
 const baseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
 
+function toggleTableButton() {
+  let div = document.getElementById('topten-data-table-container')
+  if (div.style.display === 'none') {
+    div.style.display = 'flex'
+  } else {
+    div.style.display = 'none'
+  }
+}
+
 class Dashboard{
   constructor() {
     let mychart = this;
+    buildSummaryTable()
+    buildSpeciesTable()
+    buildCountryTable()
 
     const countrySelect = document.getElementById('countrySelect')
     const resultSelect = document.getElementById('result-select')
@@ -105,6 +117,88 @@ class Dashboard{
       }
     })
   }
+}
+
+async function buildSpeciesTable() {
+  let data = await getBothScientificNameData()
+  let objectArray = data.nameAndValue
+
+  let sortedArray = objectArray.sort(function(a, b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  });
+
+  let tenItems = sortedArray.slice(0, 10)
+
+  return tenItems.forEach(entry => {
+    let table = document.getElementById('species-table')
+    let tr = document.createElement('tr')
+
+      tr.innerHTML = `
+        <td>${entry.scientificName}</td>
+        <td>${entry.value}</td>
+      `
+      table.appendChild(tr)
+  })
+}
+
+async function buildCountryTable() {
+  let data = await getDataBothPathogens()
+
+  let objectArray = data.countryAndValue
+
+  let sortedArray = objectArray.sort(function(a, b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  });
+
+  let tenItems = sortedArray.slice(0, 10)
+  
+  return tenItems.forEach(entry => {
+    let table = document.getElementById('country-table')
+    let tr = document.createElement('tr')
+
+      tr.innerHTML = `
+        <td>${entry.country}</td>
+        <td>${entry.value}</td>
+      `
+      table.appendChild(tr)
+  })
+}
+
+async function buildSummaryTable() {
+  let countryData = await getDataBothPathogens()
+  let speciesData = await getBothScientificNameData()
+
+  let summaryTable = document.getElementById('summary-data-table')
+  let tr = document.createElement('tr')
+
+  // Data from fetch function for country count
+  let totalSamples = countryData.totalSamples
+  let countries = countryData.country
+
+  // Data from fetch function for species count
+  let species = speciesData.scientificName
+
+  let countryCount = 0
+  let speciesCount = 0
+
+  let sampleSum = totalSamples.reduce(function(a,b) {
+    return a + b
+  }, 0)
+
+  countries.forEach(entry => {
+    countryCount++
+  })
+
+  species.forEach(item => {
+    speciesCount++
+  })
+
+  tr.innerHTML = `
+  <td>${sampleSum}</td>
+  <td>${speciesCount}</td>
+  <td>${countryCount}</td>
+  `
+  summaryTable.appendChild(tr)
 }
 
 // Colors to use in building charts based on what data is used.
@@ -242,12 +336,14 @@ async function getBothScientificNameData() {
 
   let scientificName = []
   let value = []
+  let nameAndValue = []
 
   data.forEach(entry => {
+    nameAndValue.push(entry)
     scientificName.push(entry.scientificName)
     value.push(entry.value)
   })
-  return { scientificName, value }
+  return { scientificName, value, nameAndValue }
 
 }
 
@@ -804,12 +900,14 @@ async function getDataBothPathogens() {
 
   let country = []
   let totalSamples = []
+  let countryAndValue = []
 
   data.forEach(event => {
+    countryAndValue.push(event)
     country.push(event.country)
     totalSamples.push(event.value)
   })
-  return { country, totalSamples }
+  return { country, totalSamples, countryAndValue }
   
 }
 

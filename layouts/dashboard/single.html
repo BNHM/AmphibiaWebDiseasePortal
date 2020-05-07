@@ -14,6 +14,38 @@
   <h2>{{.Title }}</h2>
   {{ .Content }}
 
+  <div id="summary-table-data-container">
+    <table id="summary-data-table">
+      <tr>
+        <th>Total Samples</th>
+        <th>Number of Species</th>
+        <th>Number of Countries</th>
+      </tr>
+    </table>
+  </div>
+
+  <button id="toggle-data-table" onclick="toggleTableButton()">Toggle Top Ten By Country and Species</button>
+
+  <div id="topten-data-table-container" style="display: none;">
+
+    <table id="country-table">
+      <tr>
+        <th>Country</th>
+        <th>Count</th>
+      </tr>
+    </table>
+
+    <table id="species-table">
+      <tr>
+        <th>Species</th>
+        <th>Count</th>
+      </tr>
+    </table>
+
+</div>
+
+<p>Generate Charts</p>
+
   <div id="dash-form-container">
 
     <select id="countrySelect">
