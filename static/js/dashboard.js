@@ -1,14 +1,5 @@
 const baseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
 
-function toggleTableButton() {
-  let div = document.getElementById('topten-data-table-container')
-  if (div.style.display === 'none') {
-    div.style.display = 'flex'
-  } else {
-    div.style.display = 'none'
-  }
-}
-
 class Dashboard{
   constructor() {
     let mychart = this;
@@ -16,31 +7,13 @@ class Dashboard{
     buildSpeciesTable()
     buildCountryTable()
 
-    const countrySelect = document.getElementById('countrySelect')
     const resultSelect = document.getElementById('result-select')
     const byYearSelect = document.getElementById('by-year-select')
     const speciesSelect = document.getElementById('by-species-select')
-
-    countrySelect.addEventListener('change', function () {
-      resultSelect.value = ''
-      byYearSelect.value = ''
-      speciesSelect.value = ''
-
-      if(this.value == 'bdByCountry') {
-        bdByCountry()
-      } else if (this.value == 'bsalByCountry') {
-        bsalByCountry()
-      } else if (this.value == 'bothByCountry') {
-        bothPathogens()
-      } else if (this.value == 'bothStacked') {
-        bothStacked()
-      }
-    })
    
     resultSelect.addEventListener('change', function() {
       byYearSelect.value = ''
       speciesSelect.value = ''
-      countrySelect.value = ''
 
       if (this.value == 'bdDetected') {
         bdDetected()
@@ -73,18 +46,9 @@ class Dashboard{
 
     byYearSelect.addEventListener('change', function() {
       speciesSelect.value = ''
-      countrySelect.value = ''
       resultSelect.value = ''
 
-      if (this.value == 'bdByYear') {
-        bdByYear()
-      } else if (this.value == 'bsalByYear') {
-        bsalByYear()
-      } else if (this.value == 'bothByYear') {
-        bothByYear()
-      } else if (this.value == 'bothByYearStacked') {
-        bothByYearStacked()
-      } else if (this.value == 'bdDetectedByYear') {
+     if (this.value == 'bdDetectedByYear') {
         bdDetectedByYear()
       } else if (this.value == 'bsalDetectedByYear') {
         bsalDetectedByYear()
@@ -94,7 +58,6 @@ class Dashboard{
     })
 
     speciesSelect.addEventListener('change', function() {
-      countrySelect.value = ''
       resultSelect.value = ''
       byYearSelect.value = ''
 
@@ -632,91 +595,6 @@ async function diseaseTestedBoth() {
   makePieChart(data.diseaseTested, 'Disease Tested', data.values)
 }
 
-// Fetch data for both stacked
-async function getBothByYearStackedData() {
-  const response = await fetch(`${baseURL}yearCollected_Both_stacked.json`)
-  const data = await response.json()
-
-  let year = []
-  let bd = []
-  let bsal = []
-
-  data.forEach(entry => {
-    year.push(entry.yearCollected)
-    bd.push(entry.Bd)
-    bsal.push(entry.Bsal)
-  })
-  return { year, bd, bsal }
-}
-
-//Both by year stacked Chart
-async function bothByYearStacked() {
-let data = await getBothByYearStackedData()
-makeStackedBarChart(data.year, 'Bd', data.bd, bdColor, 'Bsal', data.bsal, bsalColor)
-}
-
-// Fetch Both By year collected
-async function getBothByYearData() {
-  const response = await fetch(`${baseURL}yearCollected_Both.json`)
-  const data = await response.json()
-
-  let yearCollected = []
-  let value = []
-
-  data.forEach(entry => {
-    yearCollected.push(entry.yearCollected)
-    value.push(entry.value)
-  })
-  return { yearCollected, value }
-}
-
-// Build Bar chart for both by year collected
-async function bothByYear() {
-  let data = await getBsalByYearData()
-  makeBarChart(data.yearCollected, 'Both by Year Collected', data.value, genericColor)
-}
-
-// Fetch Bsal By year collected
-async function getBsalByYearData() {
-  const response = await fetch(`${baseURL}yearCollected_Bsal.json`)
-  const data = await response.json()
-
-  let yearCollected = []
-  let value = []
-
-  data.forEach(entry => {
-    yearCollected.push(entry.yearCollected)
-    value.push(entry.value)
-  })
-  return { yearCollected, value }
-}
-
-// Build Bar chart for bsal by year collected
-async function bsalByYear() {
-  let data = await getBsalByYearData()
-  makeBarChart(data.yearCollected, 'Bsal by Year Collected', data.value, bsalColor)
-}
-
-// Fetch Bd By year collected
-async function getBdByYearData() {
-  const response = await fetch(`${baseURL}yearCollected_Bd.json`)
-  const data = await response.json()
-  let yearCollected = []
-  let value = []
-
-  data.forEach(entry => {
-    yearCollected.push(entry.yearCollected)
-    value.push(entry.value)
-  })
-  return { yearCollected, value }
-}
-
-// Build Bar chart for bd by year collected
-async function bdByYear() {
-  let data = await getBdByYearData()
-  makeBarChart(data.yearCollected, 'Bd by Year Collected', data.value, bdColor)
-}
-
 // Both Detected by country
 async function getBothDetectedByCountryData() {
   const response = await fetch(`${baseURL}country_diseaseDetected_Both.json`)
@@ -850,48 +728,6 @@ async function bdDetected() {
 makePieChart(data.detectedLabel, 'Bd Detected', data.detectedValue)
 }
 
-// Fetch Bsal by Country
-async function getBsalByCountryData() {
-  const response = await fetch(`${baseURL}country_Bsal.json`)
-  const data = await response.json()
-
-  let country = []
-  let bsalCount = []
-
-  data.forEach(entry => {
-    country.push(entry.country)
-    bsalCount.push(entry.value)
-  })
-  return { country, bsalCount}
-}
-
-
-// Display Bsal by Country Chart
-async function bsalByCountry() {
-  let data = await getBsalByCountryData()
-  makeBarChart(data.country, 'Bsal', data.bsalCount, bsalColor)
-}
-
-// Bd Samples by Country
-async function getBdByCountryData() {
-  const response = await fetch(`${baseURL}country_Bd.json`)
-  const data = await response.json()
-
-  let country = []
-  let bdCount = []
-
-  data.forEach(entry => {
-    country.push(entry.country)
-    bdCount.push(entry.value)
-  })
-  return { country, bdCount }
-}
-
-async function bdByCountry() {
-  // let ctx = document.getElementById('dashboardChart').getContext('2d');
-  let data = await getBdByCountryData()
-  makeBarChart(data.country, 'Bd', data.bdCount, bdColor)
-}
 
 // Get totals together for both pathogens
 async function getDataBothPathogens() {
@@ -916,28 +752,6 @@ async function bothPathogens() {
   makeBarChart(data.country, 'Total Bd and Bsal Samples Collected By Country', data.totalSamples, genericColor)
 }
 
-// Stacked Data for Bd and Bsal by country
-async function getStackedBdBsalData() {
-  const response = await fetch(`${baseURL}country_Both_stacked.json`)
-  const data = await response.json()
-  
-  let countries = []
-  let bdCounts = []
-  let bsalCounts = []
-
-  data.forEach(entry => {
-    countries.push(entry.country)
-    bdCounts.push(entry.Bd)
-    bsalCounts.push(entry.Bsal)
-  })
-  return { countries, bdCounts, bsalCounts }
-}
-
-// Display data for both Bd and Bsal Stacked
-async function bothStacked() {
-let data = await getStackedBdBsalData()
-makeStackedBarChart(data.countries, 'Bd', data.bdCounts, bdColor, 'Bsal', data.bsalCounts, bsalColor)
-}
 
   // Function for making a generic Stacked bar chart
   function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
@@ -1052,4 +866,13 @@ makeStackedBarChart(data.countries, 'Bd', data.bdCounts, bdColor, 'Bsal', data.b
         ]
       }
     });
+  }
+
+  function toggleTableButton() {
+    let div = document.getElementById('topten-data-table-container')
+    if (div.style.display === 'none') {
+      div.style.display = 'flex'
+    } else {
+      div.style.display = 'none'
+    }
   }
