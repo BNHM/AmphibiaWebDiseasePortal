@@ -6,6 +6,7 @@ class Dashboard{
     buildSummaryTable()
     buildSpeciesTable()
     buildCountryTable()
+    buildPathogenSummaryTable()
 
     const resultSelect = document.getElementById('result-select')
     const byYearSelect = document.getElementById('by-year-select')
@@ -15,11 +16,7 @@ class Dashboard{
       byYearSelect.value = ''
       speciesSelect.value = ''
 
-      if (this.value == 'bdDetected') {
-        bdDetected()
-      } else if (this.value == 'bsalDetected') {
-        bsalDetected()
-      } else if (this.value == 'bothDetected') {
+       if (this.value == 'bothDetected') {
         bothDetected()
       } else if (this.value == 'bdDetectedByCountry') {
         bdDetectedByCountry()
@@ -27,9 +24,7 @@ class Dashboard{
         bsalDetectedByCountry()
       } else if (this.value == 'bothDetectedByCountry') {
         bothDetectedByCountry()
-      } else if (this.value == 'diseaseTestedBoth') {
-        diseaseTestedBoth()
-      } else if (this.value == 'bdDetectedByGenus') {
+      }  else if (this.value == 'bdDetectedByGenus') {
         bdDetectedByGenus()
       } else if (this.value == 'bsalDetectedByGenus') {
         bsalDetectedByGenus()
@@ -127,6 +122,41 @@ async function buildCountryTable() {
   })
 }
 
+//TODO: FINSIH THIS TABLE
+async function buildPathogenSummaryTable() {
+  const bothTestedData = await getDiseaseTestedBothData()
+  const bdData = await getBdDetectedData()
+  const bsalData = await getBsalDetectedData()
+
+  let bothTestedObj = bothTestedData.obj
+  let bdObj = bdData.bdResultObj
+  let bsalObj
+
+
+  bothTestedObj.forEach(entry => {
+    let table = document.getElementById('pathogen-summary-table')
+    let tr = document.createElement('tr')  
+
+    tr.innerHTML = `
+    <td>${entry.diseaseTested}</td>
+    <td>${entry.value}</td>
+    `
+    table.appendChild(tr)
+  })
+
+  // bdObj.forEach(entry => {
+  //   console.log(entry)
+  //   let table = document.getElementById('pathogen-summary-table')
+  //   let tr = document.createElement('tr')  
+
+  //   tr.innerHTML = `
+  //   <td>${entry.diseaseDetected}</td>
+  //   <td>${entry.value}</td>
+  //   `
+  //   table.appendChild(tr)
+  // })
+}
+
 async function buildSummaryTable() {
   let countryData = await getDataBothPathogens()
   let speciesData = await getBothScientificNameData()
@@ -167,9 +197,9 @@ async function buildSummaryTable() {
 // Colors to use in building charts based on what data is used.
 
 // Orange
-const bdColor = "#feb24c"
+const bdColor = '#feb24c'
 // Lavender
-const bsalColor = "#bcbddc"
+const bsalColor = '#bcbddc'
 // Light Pink
 const posColor = '#fbb4ae'
 // Light Blue
@@ -580,19 +610,12 @@ async function getDiseaseTestedBothData() {
   const response = await fetch(`${baseURL}diseaseTested_Both.json`)
   const data = await response.json()
 
-  let diseaseTested = []
-  let values = []
+  let obj = []
 
   data.forEach(entry => {
-    diseaseTested.push(entry.diseaseTested)
-    values.push(entry.value)
+    obj.push(entry)
   })
-  return { diseaseTested, values}
-}
-
-async function diseaseTestedBoth() {
-  const data = await getDiseaseTestedBothData()
-  makePieChart(data.diseaseTested, 'Disease Tested', data.values)
+  return { obj }
 }
 
 // Both Detected by country
@@ -649,13 +672,15 @@ async function getBdDetectedByCountryData() {
   let country = []
   let trueCount = []
   let falseCount = []
+  let countryObj = []
 
   data.forEach(entry => {
+    countryObj.push(entry)
     country.push(entry.country)
     trueCount.push(entry.True)
     falseCount.push(entry.False)
   })
-  return { country, trueCount, falseCount }
+  return { country, trueCount, falseCount, countryObj }
 }
 
 // Stacked Bd by Country Bar Chart
@@ -701,31 +726,17 @@ async function getBsalDetectedData() {
   return { detectedLabel, detectedValue }
 }
 
-// Display bsal detected in pie chart
-async function bsalDetected() {
-  let data = await getBsalDetectedData()
-makePieChart(data.detectedLabel, 'Bsal Detected', data.detectedValue)
-}
-
 // Fetch Bd Detected Data
 async function getBdDetectedData() {
   const response = await fetch(`${baseURL}diseaseDetected_Bd.json`)
   const data = await response.json()
 
-  let detectedLabel = []
-  let detectedValue = []
+  let bdResultObj = []
 
   data.forEach(entry => {
-    detectedValue.push(entry.value)
-    detectedLabel.push(entry.diseaseDetected)
+    bdResultObj.push(entry)
   })
-  return { detectedLabel, detectedValue }
-}
-
-// Display bd detected pie chart
-async function bdDetected() {
-  let data = await getBdDetectedData()
-makePieChart(data.detectedLabel, 'Bd Detected', data.detectedValue)
+  return { bdResultObj }
 }
 
 
@@ -794,6 +805,17 @@ async function bothPathogens() {
         }
       }
     });
+
+    canvas.addEventListener('click', function(event) {
+      let firstPoint = dataChart.getElementAtEvent(event)[0]
+      if (firstPoint) {
+        let label = dataChart.data.labels[firstPoint._index];
+        let value = dataChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+    
+        console.log('Label: ' + label + "\nValue: " + value);
+        displayDataModal(label, value)
+      }
+    })
   }
   
   // Function for making a generic bar chart
@@ -810,7 +832,7 @@ async function bothPathogens() {
     let ctx = document.getElementById('dashboardChart').getContext('2d');
   
      let barChart = new Chart(ctx, {
-      type: "bar",
+      type: 'bar',
       options: {
         maintainAspectRatio: false,
         legend: {
@@ -828,6 +850,17 @@ async function bothPathogens() {
         ]
       }
     });
+
+    canvas.addEventListener('click', function(event) {
+      let firstPoint = barChart.getElementAtEvent(event)[0]
+      if (firstPoint) {
+        let label = barChart.data.labels[firstPoint._index];
+        let value = barChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+    
+        console.log('Label: ' + label + "\nValue: " + value);
+      }
+    })
+  
   }
   
   // Function for making a generic pie chart
@@ -848,7 +881,7 @@ async function bothPathogens() {
     let ctx = document.getElementById('dashboardChart').getContext('2d');
       
      let pieChart = new Chart(ctx, {
-      type: "pie",
+      type: 'pie',
       options: {
         maintainAspectRatio: false,
         legend: {
@@ -875,4 +908,52 @@ async function bothPathogens() {
     } else {
       div.style.display = 'none'
     }
+  }
+
+  function displayDataModal(label, datavalue) {
+    let modal = document.getElementById('modal-container')
+    let span = document.getElementsByClassName('close')[0]
+
+    if (modal.style.display === 'none') {
+      modal.style.display = 'block'
+    }
+
+    span.onclick = function() {
+      modal.style.display = 'none'
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none'
+      }
+    }
+
+    let modalChartContainer = document.getElementById('modal-chart-container')
+
+    let canvas = document.createElement('canvas')
+    canvas.id = 'modalChart'
+    canvas.width = '500px'
+    canvas.height = '300px'
+    modalChartContainer.appendChild(canvas)
+  
+    let ctx = document.getElementById('modalChart').getContext('2d')
+    let chart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+              labels: [label],
+              datasets: [{
+                  // label: 'Random Fake Data Set',
+                  backgroundColor: 'rgb(255, 99, 132)',
+                  borderColor: 'rgb(255, 99, 132)',
+                  data: [datavalue]
+              }]
+          },
+          options: {
+            maintainAspectRatio: false,
+            legend: {
+              display: true
+            }
+          }
+      });
+
   }

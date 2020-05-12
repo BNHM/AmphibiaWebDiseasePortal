@@ -24,6 +24,17 @@
     </table>
   </div>
 
+  <div id="pathogen-summary-container">
+    <table id="pathogen-summary-table">
+      <tr>
+        <th>Pathogen Targeted</th>
+        <th>Total Samples Tested</th>
+        <!-- <th>Disease Tested Positive</th>
+        <th>Disease Tested Negative</th> -->
+      </tr>
+    </table>
+  </div>
+
   <button id="toggle-data-table" onclick="toggleTableButton()">Toggle Top Ten By Country and Species</button>
 
   <div id="topten-data-table-container" style="display: none;">
@@ -50,9 +61,6 @@
 
     <select id="result-select">
       <option value="">By Result</option>
-      <option value="diseaseTestedBoth">Disease Tested Both</option>
-      <option value="bdDetected">Bd Detected</option>
-      <option value="bsalDetected">Bsal Detected</option>
       <option value="bothDetected">Both Detected</option>
       <option value="bdDetectedByCountry">Bd Detected By Country</option>
       <option value="bsalDetectedByCountry">Bsal Detected By Country</option>
@@ -91,6 +99,17 @@
    <div id="chart-container" >
       <canvas id="dashboardChart" height="600px" width="1000px" style="margin: auto;"></canvas>
    </div>  
+
+   <div id="modal-container" style='display: none;'>
+    <div class="modal-content">
+      <span class="close"> &times;</span>
+
+      <div id="modal-chart-container">
+        <canvas id="modalChart" height="500px" width="300px" style="margin: auto;"></canvas>
+      </div>
+
+    </div>
+   </div>
 
 </div>
 </body>
