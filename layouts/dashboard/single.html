@@ -43,8 +43,6 @@
     </table>
   </div>
 
-  <!-- <button id="toggle-data-table" onclick="toggleTableButton()">Toggle Top Ten By Country and Scientific Name</button> -->
-
   <div id="topten-data-table-container">
 
     <table id="country-table">
@@ -65,13 +63,13 @@
 
 </div>
 
-<div id="chart-tab" class="tabcontent">
+<div id="chart-tab" class="tabcontent" style="display: block;">
   <h4>Select a Chart:</h4>
 
   <div id="dash-form-container">
 
     <select id="result-select">
-      <option value="">By Result</option>
+      <option value="">Result</option>
       <option value="bdDetectedByCountry">Bd Detected By Country</option>
       <option value="bsalDetectedByCountry">Bsal Detected By Country</option>
       <option value="bothDetectedByCountry">Both Detected By Country</option>
@@ -81,18 +79,17 @@
       <option value="bdDetectedByScientificName">Bd Detected By Scientific Name</option>
       <option value="bsalDetectedByScientificName">Bsal Detected By Scientific Name</option>
       <option value="bothDetectedByScientificName">Both Detected By Scientific Name</option>
-
     </select>
 
     <select id="by-year-select">
-      <option value="">By Year Collected</option>
+      <option value="">Year Collected</option>
       <option value="bdDetectedByYear">Bd Disease Detected By Year</option>
       <option value="bsalDetectedByYear">Bsal Disease Detected By Year</option>
       <option value="bothDetectedByYear">Both Diseases Detected By Year</option>
     </select>
 
     <select id="by-species-select">
-      <option value="">By Genus and Scientific Name</option>
+      <option value="">Genus and Scientific Name</option>
       <option value="bdGenus">Bd Genus</option>
       <option value="bsalGenus">Bsal Genus</option>
       <option value="bothGenus">Both Genus</option>
@@ -118,7 +115,7 @@
       </div>
 
     </div>
-   </div>
+   </div> <!--modal container-->
 
 </div> <!--chart tab container-->
 

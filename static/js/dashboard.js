@@ -917,15 +917,7 @@ async function bothPathogens() {
     });
   }
 
-  function toggleTableButton() {
-    let div = document.getElementById('topten-data-table-container')
-    if (div.style.display === 'none') {
-      div.style.display = 'flex'
-    } else {
-      div.style.display = 'none'
-    }
-  }
-
+  // MODAL
   function displayDataModal(label, datavalue) {
     let modal = document.getElementById('modal-container')
     let span = document.getElementsByClassName('close')[0]
@@ -958,7 +950,6 @@ async function bothPathogens() {
           data: {
               labels: [label],
               datasets: [{
-                  // label: 'Random Fake Data Set',
                   backgroundColor: 'rgb(255, 99, 132)',
                   borderColor: 'rgb(255, 99, 132)',
                   data: [datavalue]
