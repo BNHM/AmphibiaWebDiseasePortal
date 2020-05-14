@@ -75,6 +75,8 @@ class Dashboard{
   }
 }
 
+
+
 async function buildSpeciesTable() {
   let data = await getBothScientificNameData()
   let objectArray = data.nameAndValue
@@ -612,6 +614,7 @@ async function getBothStackedGenusData() {
 
   return { genus, bdValue, bsalValue }
 }
+
 // CHART
 async function bothStackedGenus() {
   let data = await getBothStackedGenusData()
@@ -777,8 +780,7 @@ async function bothPathogens() {
   makeBarChart(data.country, 'Total Bd and Bsal Samples Collected By Country', data.totalSamples, genericColor)
 }
 
-
-  // Function for making a generic Stacked bar chart
+  // GENERIC STACKED BAR CHART
   function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
     let chartContainer = document.getElementById('chart-container')
     let element = document.getElementById('dashboardChart');
@@ -832,7 +834,7 @@ async function bothPathogens() {
     })
   }
   
-  // Function for making a generic bar chart
+  // GENERIC BAR CHART
   function makeBarChart(xLabel, dataLabel, values, color) {
     let chartContainer = document.getElementById('chart-container')
     let element = document.getElementById('dashboardChart');
@@ -877,7 +879,7 @@ async function bothPathogens() {
   
   }
   
-  // Function for making a generic pie chart
+  // GENERIC PIE CHART
   function makePieChart(chartLabel, dataLabel, values) {
     let chartContainer = document.getElementById('chart-container')
 
@@ -971,3 +973,24 @@ async function bothPathogens() {
       });
 
   }
+
+  // TABS
+function toggleData(evt, tabType) {
+  let i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabType).style.display = "block";
+  evt.currentTarget.className += " active";
+}

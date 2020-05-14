@@ -14,6 +14,14 @@
   <h2>{{.Title }}</h2>
   {{ .Content }}
 
+  <!-- Tab links -->
+<div class="tab">
+  <button class="tablinks" onclick="toggleData(event, 'table-tab')">Tables</button>
+  <button class="tablinks" onclick="toggleData(event, 'chart-tab')">Charts</button>
+</div>
+
+<!-- TABLE TAB -->
+<div id="table-tab" class="tabcontent">
   <div id="summary-table-data-container">
     <table id="summary-data-table">
       <tr>
@@ -35,9 +43,9 @@
     </table>
   </div>
 
-  <button id="toggle-data-table" onclick="toggleTableButton()">Toggle Top Ten By Country and Scientific Name</button>
+  <!-- <button id="toggle-data-table" onclick="toggleTableButton()">Toggle Top Ten By Country and Scientific Name</button> -->
 
-  <div id="topten-data-table-container" style="display: none;">
+  <div id="topten-data-table-container">
 
     <table id="country-table">
       <tr>
@@ -55,7 +63,10 @@
 
 </div>
 
-<p>Generate Charts</p>
+</div>
+
+<div id="chart-tab" class="tabcontent">
+  <h4>Select a Chart:</h4>
 
   <div id="dash-form-container">
 
@@ -81,7 +92,7 @@
     </select>
 
     <select id="by-species-select">
-      <option value="">By Species and Genus</option>
+      <option value="">By Genus and Scientific Name</option>
       <option value="bdGenus">Bd Genus</option>
       <option value="bsalGenus">Bsal Genus</option>
       <option value="bothGenus">Both Genus</option>
@@ -90,16 +101,15 @@
       <option value="bsalScientificName">Bsal Scientific Name</option>
       <option value="bothScientificName">Both Scientific Name</option>
       <option value="bothScientificNameStacked">Both Stacked Scientific Name</option>
-
-
     </select>
-  </div>
 
-   <div id="chart-container" >
-      <canvas id="dashboardChart" height="600px" width="1000px" style="margin: auto;"></canvas>
-   </div>  
+  </div> <!-- container for selects-->
 
-   <div id="modal-container" style='display: none;'>
+  <div id="chart-container" >
+    <canvas id="dashboardChart" height="600px" width="1000px" style="margin: auto;"></canvas>
+ </div>  <!-- canvas container-->
+
+  <div id="modal-container" style='display: none;'>
     <div class="modal-content">
       <span class="close"> &times;</span>
 
@@ -109,6 +119,9 @@
 
     </div>
    </div>
+
+</div> <!--chart tab container-->
+
 
 </div>
 </body>
