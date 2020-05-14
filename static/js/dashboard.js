@@ -89,8 +89,12 @@ async function buildSpeciesTable() {
     let table = document.getElementById('species-table')
     let tr = document.createElement('tr')
 
+    let arr = entry.scientificName.split(' ')
+    let genus = arr[0]
+    let species = arr[1]
+
       tr.innerHTML = `
-        <td>${entry.scientificName}</td>
+        <td><a href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}' target='_blank'>${entry.scientificName} <i class="fa fa-external-link"></i></a></td>
         <td>${entry.value}</td>
       `
       table.appendChild(tr)
