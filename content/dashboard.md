@@ -12,4 +12,4 @@ css:
   - "/css/dashboard.css"
 ---
 
- Visualize data for all publicly accessible projects. All data is dynamically pulled from GEOME.
+ Visualize data for all publicly accessible projects.

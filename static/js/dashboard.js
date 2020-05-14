@@ -16,9 +16,7 @@ class Dashboard{
       byYearSelect.value = ''
       speciesSelect.value = ''
 
-       if (this.value == 'bothDetected') {
-        bothDetected()
-      } else if (this.value == 'bdDetectedByCountry') {
+     if (this.value == 'bdDetectedByCountry') {
         bdDetectedByCountry()
       } else if (this.value == 'bsalDetectedByCountry') {
         bsalDetectedByCountry()
@@ -122,39 +120,51 @@ async function buildCountryTable() {
   })
 }
 
-//TODO: FINSIH THIS TABLE
+
 async function buildPathogenSummaryTable() {
   const bothTestedData = await getDiseaseTestedBothData()
   const bdData = await getBdDetectedData()
   const bsalData = await getBsalDetectedData()
+  const bothDetectedData = await getBothDetectedData()
 
-  let bothTestedObj = bothTestedData.obj
-  let bdObj = bdData.bdResultObj
-  let bsalObj
+ let diseaseTested = bothTestedData.diseaseTested
+ let testedValue = bothTestedData.testedValue
 
+ let bdDetectedValue = bdData.resultValueBd
+ let bsalDetectedValue = bsalData.detectedValue
 
-  bothTestedObj.forEach(entry => {
-    let table = document.getElementById('pathogen-summary-table')
-    let tr = document.createElement('tr')  
+ let bothDetectedValue = bothDetectedData.detectedValue
 
-    tr.innerHTML = `
-    <td>${entry.diseaseTested}</td>
-    <td>${entry.value}</td>
-    `
-    table.appendChild(tr)
-  })
+ let checkBsalCounts = bsalDetectedValue[1] === undefined ? 0 : bsalDetectedValue[1]
 
-  // bdObj.forEach(entry => {
-  //   console.log(entry)
-  //   let table = document.getElementById('pathogen-summary-table')
-  //   let tr = document.createElement('tr')  
+ let table = document.getElementById('pathogen-summary-table')
+ let trOne = document.createElement('tr')  
+ let trTwo = document.createElement('tr')
+ let trThree = document.createElement('tr')
 
-  //   tr.innerHTML = `
-  //   <td>${entry.diseaseDetected}</td>
-  //   <td>${entry.value}</td>
-  //   `
-  //   table.appendChild(tr)
-  // })
+ trOne.innerHTML = `
+ <td>${diseaseTested[0]}</td>
+ <td>${testedValue[0]}</td>
+ <td>${bdDetectedValue[1]}</td>
+ <td>${bdDetectedValue[0]}</td>
+ `
+ 
+ trTwo.innerHTML = `
+ <td>${diseaseTested[1]}</td>
+ <td>${testedValue[1]}</td>
+ <td>${checkBsalCounts}</td>
+ <td>${bsalDetectedValue}</td>
+ `
+
+ trThree.innerHTML = `
+ <td>Both</td>
+ <td>${bothDetectedValue[0] + bothDetectedValue[1]}</td>
+ <td>${bothDetectedValue[1]}</td>
+ <td>${bothDetectedValue[0]}</td>
+ `
+table.appendChild(trOne)
+table.appendChild(trTwo)
+table.appendChild(trThree)
 }
 
 async function buildSummaryTable() {
@@ -610,12 +620,14 @@ async function getDiseaseTestedBothData() {
   const response = await fetch(`${baseURL}diseaseTested_Both.json`)
   const data = await response.json()
 
-  let obj = []
+  let diseaseTested = []
+  let testedValue = []
 
   data.forEach(entry => {
-    obj.push(entry)
+    diseaseTested.push(entry.diseaseTested)
+    testedValue.push(entry.value)
   })
-  return { obj }
+  return { diseaseTested, testedValue }
 }
 
 // Both Detected by country
@@ -704,12 +716,6 @@ async function getBothDetectedData() {
   return { detectedValue, detectedLabel }
 }
 
-// Both Detected Pie Chart
-async function bothDetected() {
-  let data = await getBothDetectedData()
-  makePieChart(data.detectedLabel, 'Both Detected', data.detectedValue)
-}
-
 //Fetch Bsal Detected By Country Data
 async function getBsalDetectedData() {
   const response = await fetch(`${baseURL}diseaseDetected_Bsal.json`)
@@ -732,11 +738,15 @@ async function getBdDetectedData() {
   const data = await response.json()
 
   let bdResultObj = []
+  let diseaseDetectedBd = []
+  let resultValueBd = []
 
   data.forEach(entry => {
     bdResultObj.push(entry)
+    diseaseDetectedBd.push(entry.diseaseDetected)
+    resultValueBd.push(entry.value)
   })
-  return { bdResultObj }
+  return { bdResultObj, diseaseDetectedBd, resultValueBd }
 }
 
 
