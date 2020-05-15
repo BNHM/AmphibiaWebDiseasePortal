@@ -19,7 +19,7 @@ function byProjectId(id) {
       scientificName.push(entry.scientificName)
       value.push(entry.value)
     })
-    return makeBarChart(scientificName, 'Species Sampled', value)
+    return makeBarChart(scientificName, 'Samples Collected', value)
   })
 }
 

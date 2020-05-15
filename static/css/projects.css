@@ -1,7 +1,6 @@
 
 /* SEARCH BAR */
 #search-container {
-  /* border: 2px solid red; */
   margin: 20px;
 }
 
@@ -29,7 +28,6 @@
     margin-left: 20px;
     margin-right: 20px;
     text-align: left;
-    /* border: 2px solid red; */
 }
 
 td, th, tr {
@@ -40,7 +38,6 @@ td, th, tr {
     float: right;
 }
 
-/* When hovered over this element, will display no background color*/
 .no-background:hover {
     background-color: white;
 }
@@ -62,15 +59,18 @@ tr:hover {
   margin-top: 10px;
   text-align: center;
   padding: 10px;
+  cursor: pointer;
 }
 
 #back-btn {
   width:100%;  
   margin-top: 10px;
   background-color: grey;
+  cursor: pointer;
 }
 
 #download-btn, #view-btn, #data-btn {
     margin: 5px;
     margin-top: 20px;
+    cursor: pointer;
 }

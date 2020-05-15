@@ -35,8 +35,8 @@
   <div id="pathogen-summary-container">
     <table id="pathogen-summary-table">
       <tr>
-        <th>Pathogen Targeted</th>
-        <th>Total Samples Tested</th>
+        <th>Pathogen</th>
+        <th>Total Sample Count</th>
         <th>Tested Positive</th>
         <th>Tested Negative</th>
       </tr>
@@ -48,14 +48,14 @@
     <table id="country-table">
       <tr>
         <th>Country</th>
-        <th>Count</th>
+        <th>Sample Count</th>
       </tr>
     </table>
 
     <table id="species-table">
       <tr>
         <th>Species</th>
-        <th>Count</th>
+        <th>Sample Count</th>
       </tr>
     </table>
 
@@ -109,6 +109,7 @@
   <div id="modal-container" style='display: none;'>
     <div class="modal-content">
       <span class="close"> &times;</span>
+      <p id="insert-label"></p>
 
       <div id="modal-chart-container">
         <canvas id="modalChart" height="500px" width="300px" style="margin: auto;"></canvas>

@@ -1,5 +1,19 @@
 const baseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
 
+
+// Colors to use in building charts based on what data is used.
+
+// Orange
+const bdColor = '#feb24c'
+// Lavender
+const bsalColor = '#bcbddc'
+// Light Pink
+const posColor = '#fbb4ae'
+// Light Blue
+const negColor = '#a6cee3'
+// Grey
+const genericColor = '#bdbdbd'
+
 class Dashboard{
   constructor() {
     let mychart = this;
@@ -210,19 +224,6 @@ async function buildSummaryTable() {
   summaryTable.appendChild(tr)
 }
 
-// Colors to use in building charts based on what data is used.
-
-// Orange
-const bdColor = '#feb24c'
-// Lavender
-const bsalColor = '#bcbddc'
-// Light Pink
-const posColor = '#fbb4ae'
-// Light Blue
-const negColor = '#a6cee3'
-// Grey
-const genericColor = '#bdbdbd'
-
 
 //FETCH Bd Detected by Scientific Name
 async function getBdDetectedByScientificName() {
@@ -232,13 +233,15 @@ async function getBdDetectedByScientificName() {
   let scientificName = []
   let trueValue = []
   let falseValue = []
+  let bdObj = []
 
   data.forEach(entry => {
+    bdObj.push(entry)
     scientificName.push(entry.scientificName)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
   })
-  return { scientificName, trueValue, falseValue }
+  return { scientificName, trueValue, falseValue, bdObj }
 }
 // CHART Display Bd Detected By Scientific Name
 async function bdDetectedByScientificName() {
@@ -821,21 +824,10 @@ async function bothPathogens() {
         }
       }
     });
-
-    canvas.addEventListener('click', function(event) {
-      let firstPoint = dataChart.getElementAtEvent(event)[0]
-      if (firstPoint) {
-        let label = dataChart.data.labels[firstPoint._index];
-        let value = dataChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
-    
-        console.log('Label: ' + label + "\nValue: " + value);
-        displayDataModal(label, value)
-      }
-    })
   }
   
   // GENERIC BAR CHART
-  function makeBarChart(xLabel, dataLabel, values, color) {
+  async function makeBarChart(xLabel, dataLabel, values, color) {
     let chartContainer = document.getElementById('chart-container')
     let element = document.getElementById('dashboardChart');
     element.parentNode.removeChild(element)
@@ -867,58 +859,38 @@ async function bothPathogens() {
       }
     });
 
+    const bdData = await getBdDetectedByScientificName()
+    const bsalData = await getBsalDetectedByScientificName()
+
+    //Array of scientific names
+    let bdObj = bdData.bdObj
+
     canvas.addEventListener('click', function(event) {
       let firstPoint = barChart.getElementAtEvent(event)[0]
       if (firstPoint) {
         let label = barChart.data.labels[firstPoint._index];
-        let value = barChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+        // let value = barChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
     
-        console.log('Label: ' + label + "\nValue: " + value);
+        bdObj.forEach(entry => {
+          if (label == entry.scientificName) {
+            // console.log(label)
+            // console.log(entry)
+
+            let modalTitle = document.getElementById('insert-label')
+            modalTitle.innerHTML = `${label}`
+
+            displayDataModal('Bd Detected', 'Bd Not Detected', entry.True, entry.False)
+          }
+        })
+
+        // console.log('Label: ' + label + "\nValue: " + value);
       }
     })
   
   }
-  
-  // GENERIC PIE CHART
-  function makePieChart(chartLabel, dataLabel, values) {
-    let chartContainer = document.getElementById('chart-container')
 
-    // Removes the previously existing canvas
-    let element = document.getElementById('dashboardChart');
-    element.parentNode.removeChild(element)
-
-    // Creates a new canvas
-    let canvas = document.createElement('canvas')
-    canvas.id = 'dashboardChart'
-    canvas.width = '1000px'
-    canvas.height = '600px'
-    chartContainer.appendChild(canvas)
-
-    let ctx = document.getElementById('dashboardChart').getContext('2d');
-      
-     let pieChart = new Chart(ctx, {
-      type: 'pie',
-      options: {
-        maintainAspectRatio: false,
-        legend: {
-          display: true
-        }
-      },
-      data: {
-        labels: chartLabel,
-        datasets: [
-          {
-            label: dataLabel,
-            data: values,
-            backgroundColor: ['#b3cde3', '#fbb4ae']
-          }
-        ]
-      }
-    });
-  }
-
-  // MODAL
-  function displayDataModal(label, datavalue) {
+  // MODAL WITH PIE CHART
+  function displayDataModal(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
     let modal = document.getElementById('modal-container')
     let span = document.getElementsByClassName('close')[0]
 
@@ -948,11 +920,10 @@ async function bothPathogens() {
     let chart = new Chart(ctx, {
           type: 'pie',
           data: {
-              labels: [label],
+              labels: [dataLabel, dataLabelTwo],
               datasets: [{
-                  backgroundColor: 'rgb(255, 99, 132)',
-                  borderColor: 'rgb(255, 99, 132)',
-                  data: [datavalue]
+                  backgroundColor: [posColor, negColor],
+                  data: [valuesOne, valuesTwo]
               }]
           },
           options: {
@@ -985,3 +956,41 @@ function toggleData(evt, tabType) {
   document.getElementById(tabType).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+  // // GENERIC PIE CHART
+  // function makePieChart(chartLabel, dataLabel, values) {
+  //   let chartContainer = document.getElementById('chart-container')
+
+  //   // Removes the previously existing canvas
+  //   let element = document.getElementById('dashboardChart');
+  //   element.parentNode.removeChild(element)
+
+  //   // Creates a new canvas
+  //   let canvas = document.createElement('canvas')
+  //   canvas.id = 'dashboardChart'
+  //   canvas.width = '1000px'
+  //   canvas.height = '600px'
+  //   chartContainer.appendChild(canvas)
+
+  //   let ctx = document.getElementById('dashboardChart').getContext('2d');
+      
+  //    let pieChart = new Chart(ctx, {
+  //     type: 'pie',
+  //     options: {
+  //       maintainAspectRatio: false,
+  //       legend: {
+  //         display: true
+  //       }
+  //     },
+  //     data: {
+  //       labels: chartLabel,
+  //       datasets: [
+  //         {
+  //           label: dataLabel,
+  //           data: values,
+  //           backgroundColor: ['#b3cde3', '#fbb4ae']
+  //         }
+  //       ]
+  //     }
+  //   });
+  // }
