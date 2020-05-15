@@ -214,6 +214,8 @@ function displayProjects() {
           if (sampleData.EventCount == 0 || sampleData.EventCount == null) {
             return `No Sample Data Available<br>`
           } else {
+            byProjectId(local.projectId)
+
             return `
             Events: ${sampleData.EventCount} || 
             Samples Collected: ${sampleData.SampleCount} 
@@ -221,7 +223,6 @@ function displayProjects() {
             <div id="sample-chart" >
             <canvas id="sampleChart" height="600px" width="1000px" style="margin: auto;"></canvas>
             </div> 
-            ${byProjectId(local.projectId)}
             <br>
 
             <button id="data-btn" onclick="window.open('https://geome-db.org/query?q=_projects_:${local.projectId}')" target="_blank">Query Dataset in GEOME <i class="fa fa-external-link"></i></button>
