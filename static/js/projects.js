@@ -8,7 +8,7 @@ let bigdatafile
 const apiBaseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
 
 function byProjectId(id) {
-  fetch(`${apiBaseURL}scientificName_projectId_${id}.json`)
+  fetch(`${apiBaseURL}scientificName_projectID_${id}.json`)
   .then(res => res.json())
   .then(function(data) {
 
@@ -188,7 +188,17 @@ function displayProjects() {
         let div = document.getElementById('project')
         let p = document.createElement('p')
         let sampleData = local.entityStats
-        let today = new Date().toDateString() 
+
+        // Check if date data last modified is null.
+        let checkForModificationDate = () => {
+          let modificationDate = local.latestDataModification
+
+          if (modificationDate == null) {
+            return 'Data Last Modified: Unavailable'
+          } else {
+            return `Data Last Modified: ${modificationDate}`
+          }
+        }
         
         // Check if dataset DOI is null.
         let checkForDataDoi =  () => {
@@ -235,7 +245,7 @@ function displayProjects() {
         p.innerHTML = `
         <h2>${local.projectTitle}</h2>
         <h6 style="font-size:12px;">Recommended Citation: </h6>
-        <h6 id="date">${local.recommendedCitation == null ? 'No Citation Available' : local.recommendedCitation} ${today}</h6>
+        <h6 id="date">${local.recommendedCitation == null ? 'No Citation Available.' : local.recommendedCitation} <br> ${checkForModificationDate()}</h6>
 
         
         <h3>Project Description</h3>

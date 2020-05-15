@@ -186,5 +186,8 @@ tr:nth-child(even) {
   cursor: pointer;
 }
 
-
+/* LIST */
+#name-list {
+    list-style-type: none;
+}
 

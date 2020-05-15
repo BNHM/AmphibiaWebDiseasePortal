@@ -21,6 +21,7 @@ class Dashboard{
     buildSpeciesTable()
     buildCountryTable()
     buildPathogenSummaryTable()
+    buildTaxonomyList()
 
     const resultSelect = document.getElementById('result-select')
     const byYearSelect = document.getElementById('by-year-select')
@@ -356,8 +357,8 @@ async function getBothScientificNameData() {
     value.push(entry.value)
   })
   return { scientificName, value, nameAndValue }
-
 }
+
 
 // CHART
 async function bothScientificName() {
@@ -381,6 +382,27 @@ async function getBothScientificNameStackedData() {
   })
   return { scientificName, bdValue, bsalValue }
 
+}
+
+// Builds List of species sampled by Scientific Name
+async function buildTaxonomyList() {
+  const data = await getBothScientificNameStackedData()
+  let names = data.scientificName
+
+  names.forEach(name => {
+    let list = document.getElementById('name-list')
+    let li = document.createElement('li')
+
+    let arr = name.split(' ')
+    let genus = arr[0]
+    let species = arr[1]
+
+    li.innerHTML = `
+    ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+    `
+
+    list.appendChild(li)
+  })
 }
 
 // CHART
