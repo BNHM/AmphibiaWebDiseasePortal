@@ -187,7 +187,31 @@ tr:nth-child(even) {
 }
 
 /* LIST */
-#name-list {
+
+div ul {
     list-style-type: none;
 }
+
+#list-nav {
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+#list-nav a {
+    font-weight: bold;
+}
+  
+#backtotop {
+    margin: auto;
+    padding: 5px;
+    border: 2px solid #45bce1;
+    border-radius: 15px;
+    width: 150px;
+}
+
+#backtotop a {
+    text-decoration: none;
+}
+
+
 

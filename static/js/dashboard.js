@@ -90,7 +90,7 @@ class Dashboard{
   }
 }
 
-
+// TABLES TAB
 
 async function buildSpeciesTable() {
   let data = await getBothScientificNameData()
@@ -225,6 +225,183 @@ async function buildSummaryTable() {
   summaryTable.appendChild(tr)
 }
 
+//LIST TAB
+
+// Builds List of species sampled by Scientific Name & organize alphabetically
+async function buildTaxonomyList() {
+  const data = await getBothScientificNameStackedData()
+  let names = data.scientificName
+
+  names.forEach(name => {
+    let li = document.createElement('li')
+
+    let arr = name.split(' ')
+    let genus = arr[0]
+    let species = arr[1]
+
+    let aNames = document.querySelector('#sort-a ul')
+    let bNames = document.querySelector('#sort-b ul')
+    let cNames = document.querySelector('#sort-c ul')
+    let dNames = document.querySelector('#sort-d ul')
+    let eNames = document.querySelector('#sort-e ul')
+    let fNames = document.querySelector('#sort-f ul')
+    let gNames = document.querySelector('#sort-g ul')
+    let hNames = document.querySelector('#sort-h ul')
+    let iNames = document.querySelector('#sort-i ul')
+    let jNames = document.querySelector('#sort-j ul')
+    let kNames = document.querySelector('#sort-k ul')
+    let lNames = document.querySelector('#sort-l ul')
+    let mNames = document.querySelector('#sort-m ul')
+    let nNames = document.querySelector('#sort-n ul')
+    let oNames = document.querySelector('#sort-o ul')
+    let pNames = document.querySelector('#sort-p ul')
+    let qNames = document.querySelector('#sort-q ul')
+    let rNames = document.querySelector('#sort-r ul')
+    let sNames = document.querySelector('#sort-s ul')
+    let tNames = document.querySelector('#sort-t ul')
+    let uNames = document.querySelector('#sort-u ul')
+    let vNames = document.querySelector('#sort-v ul')
+    let wNames = document.querySelector('#sort-w ul')
+    let xNames = document.querySelector('#sort-x ul')
+    let yNames = document.querySelector('#sort-y ul')
+    let zNames = document.querySelector('#sort-z ul')
+
+    if (name.startsWith('A') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      aNames.appendChild(li)
+    } else if (name.startsWith('B') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      bNames.appendChild(li)
+    } else if (name.startsWith('C') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      cNames.appendChild(li)
+    } else if (name.startsWith('D') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      dNames.appendChild(li)
+    } else if (name.startsWith('E') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      eNames.appendChild(li)
+    } else if (name.startsWith('F') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      fNames.appendChild(li)
+    } else if (name.startsWith('G') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      gNames.appendChild(li)
+    } else if (name.startsWith('H') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      hNames.appendChild(li)
+    } else if (name.startsWith('I') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      iNames.appendChild(li)
+    } else if (name.startsWith('J') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      jNames.appendChild(li)
+    } else if (name.startsWith('K') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      kNames.appendChild(li)
+    } else if (name.startsWith('L') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      lNames.appendChild(li)
+    }else if (name.startsWith('M') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      mNames.appendChild(li)
+    } else if (name.startsWith('N') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      nNames.appendChild(li)
+    } else if (name.startsWith('O') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      oNames.appendChild(li)
+    }else if (name.startsWith('P') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      pNames.appendChild(li)
+    } else if (name.startsWith('Q') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      qNames.appendChild(li)
+    } else if (name.startsWith('R') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      rNames.appendChild(li)
+    } else if (name.startsWith('S') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      sNames.appendChild(li)
+    } else if (name.startsWith('T') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      tNames.appendChild(li)
+    } else if (name.startsWith('U') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      uNames.appendChild(li)
+    } else if (name.startsWith('V') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      vNames.appendChild(li)
+    } else if (name.startsWith('W') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      wNames.appendChild(li)
+    } else if (name.startsWith('X') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      xNames.appendChild(li)
+    } else if (name.startsWith('Y') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      yNames.appendChild(li)
+    } else if (name.startsWith('Z') === true) {
+      li.innerHTML = `
+        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+      `
+      zNames.appendChild(li)
+    }
+
+  })
+}
+
+//CHARTS TAB
 
 //FETCH Bd Detected by Scientific Name
 async function getBdDetectedByScientificName() {
@@ -382,27 +559,6 @@ async function getBothScientificNameStackedData() {
   })
   return { scientificName, bdValue, bsalValue }
 
-}
-
-// Builds List of species sampled by Scientific Name
-async function buildTaxonomyList() {
-  const data = await getBothScientificNameStackedData()
-  let names = data.scientificName
-
-  names.forEach(name => {
-    let list = document.getElementById('name-list')
-    let li = document.createElement('li')
-
-    let arr = name.split(' ')
-    let genus = arr[0]
-    let species = arr[1]
-
-    li.innerHTML = `
-    ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-    `
-
-    list.appendChild(li)
-  })
 }
 
 // CHART
@@ -978,6 +1134,22 @@ function toggleData(evt, tabType) {
   document.getElementById(tabType).style.display = "block";
   evt.currentTarget.className += " active";
 }
+
+// LIST SCROLL TO TOP 
+const scrollToTop = () => {
+  // variable for the number of pixels we are from the top of the document.
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+   
+  // If that number is greater than 0, we'll scroll back to 0, or the top of the document.
+  // We'll also animate that scroll with requestAnimationFrame:
+  // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    // ScrollTo takes an x and a y coordinate.
+    // Increase the '10' value to get a smoother/slower scroll!
+    window.scrollTo(0, c - c / 15);
+  }
+};
 
   // // GENERIC PIE CHART
   // function makePieChart(chartLabel, dataLabel, values) {
