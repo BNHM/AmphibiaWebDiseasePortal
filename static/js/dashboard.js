@@ -269,7 +269,7 @@ async function buildTaxonomyList() {
     if (name.startsWith('A') === true) {
       li.innerHTML = `
         ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        `
       aNames.appendChild(li)
     } else if (name.startsWith('B') === true) {
       li.innerHTML = `
@@ -1146,7 +1146,7 @@ const scrollToTop = () => {
   if (c > 0) {
     window.requestAnimationFrame(scrollToTop);
     // ScrollTo takes an x and a y coordinate.
-    // Increase the '10' value to get a smoother/slower scroll!
+    // Increase the '10' value to get a smoother/slower scroll
     window.scrollTo(0, c - c / 15);
   }
 };
