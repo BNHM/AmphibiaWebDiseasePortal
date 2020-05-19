@@ -8,7 +8,7 @@ let bigdatafile
 const apiBaseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
 
 function byProjectId(id) {
-  fetch(`${apiBaseURL}scientificName_projectID_${id}.json`)
+  fetch(`${apiBaseURL}scientificName_projectId_${id}.json`)
   .then(res => res.json())
   .then(function(data) {
 
