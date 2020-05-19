@@ -102,18 +102,30 @@ select {
 
 /* TOP TEN DATA TABLE */
 
+#topten-table-label {
+    margin-top: 20px;
+}
+
 #topten-data-table-container {
     padding: 10px;
     margin: auto;
-    margin-top: 20px;
-    width: 60%;
+    margin-top: 10px;
+    width: 70%;
     display: flex;
 }
 
-#country-table, #species-table {
+#country-table {
     justify-content: flex-start;
     border: 1px solid lightgray;
-    margin: 10px;
+    margin: auto;
+    width: 40%;
+}
+
+#species-table {
+    justify-content: flex-start;
+    border: 1px solid lightgray;
+    margin: auto;
+    width: 50%;
 }
 
 #country-table tr, th, td {
