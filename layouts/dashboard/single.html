@@ -22,7 +22,7 @@
 </div>
 
 <!-- TABLE TAB -->
-<div id="table-tab" class="tabcontent" style="display: block;">
+<div id="table-tab" class="tabcontent">
   <div id="summary-table-data-container">
     <table id="summary-data-table">
       <tr>
@@ -63,7 +63,7 @@
 
 </div>
 
-<div id="chart-tab" class="tabcontent">
+<div id="chart-tab" class="tabcontent" style="display:block;">
   <h4>Select a Chart:</h4>
 
   <div id="dash-form-container">
@@ -96,14 +96,13 @@
       <option value="bothGenusStacked">Both Stacked Genus</option>
       <option value="bdScientificName">Bd Scientific Name</option>
       <option value="bsalScientificName">Bsal Scientific Name</option>
-      <option value="bothScientificName">Both Scientific Name</option>
       <option value="bothScientificNameStacked">Both Stacked Scientific Name</option>
     </select>
 
   </div> <!-- container for selects-->
 
-  <div id="chart-container" >
-    <canvas id="dashboardChart" height="600px" width="1000px" style="margin: auto;"></canvas>
+  <div id="chart-container">
+    <canvas id="dashboardChart" height="500px" width="1000px" style="margin: auto;"></canvas>
  </div>  <!-- canvas container-->
 
   <div id="modal-container" style='display: none;'>
@@ -112,7 +111,7 @@
       <p id="insert-label"></p>
 
       <div id="modal-chart-container">
-        <canvas id="modalChart" height="500px" width="300px" style="margin: auto;"></canvas>
+        <canvas id="modalChart" height="1000px" width="300px" style="margin: auto;"></canvas>
       </div>
 
     </div>

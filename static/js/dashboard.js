@@ -81,8 +81,6 @@ class Dashboard{
         bdScientificName()
       } else if (this.value == 'bsalScientificName') {
         bsalScientificName()
-      } else if (this.value == 'bothScientificName') {
-        bothScientificName()
       } else if (this.value == 'bothScientificNameStacked') {
         bothScientificNameStacked()
       }
@@ -534,13 +532,6 @@ async function getBothScientificNameData() {
     value.push(entry.value)
   })
   return { scientificName, value, nameAndValue }
-}
-
-
-// CHART
-async function bothScientificName() {
-  const data = await getBothScientificNameData()
-  makeBarChart(data.scientificName, 'Both by Scientific Name', data.value, bsalColor)
 }
 
 // FETCH
