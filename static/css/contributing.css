@@ -6,6 +6,10 @@
     margin-top: 10px;
 }
 
+.contribute-instruction ol {
+    list-style-type: none;
+}
+
 .contribute-imgs {
     border: 1px solid grey;
     margin: 20px auto;
