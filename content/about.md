@@ -13,12 +13,12 @@ In this rapidly developing area of science, making information more quickly and 
 This project launched with seed funding from the USDA Forest Service ([Dede Olson](https://www.fs.fed.us/pnw/lwm/aem/people/olson.html), Pacific Northwest Research Station) and AmphibiaWeb (Michelle Koo, Museum of Vertebrate Zoology), who both head the North American Bsal Task Force Data Management Team. Read more about the [Bsal Task Force here](http://www.salamanderfungus.org/task-force/). Development was guided and shaped with input from the Bsal Task Force, particularly the Surveillance and Monitoring Group.
 
 Other individuals critical to the initial portal's development (alphabetically):
- * Alessandro Catenazzi, AmphibiaWeb Steering Committee
- * John Deck, Berkeley Natural History Museums Developer, FIMS and GEOME architect
- * Philip Kahn, Applications Developer, original architect
- * Vance Vredenburg, AmphibiaWeb Steering Committee
- * David Wake, AmphibiaWeb director
- * Tiffany Yap, Conservation Biologist
+ -Alessandro Catenazzi, AmphibiaWeb Steering Committee
+ -John Deck, Berkeley Natural History Museums Developer, FIMS and GEOME architect
+ -Philip Kahn, Applications Developer, original architect
+ -Vance Vredenburg, AmphibiaWeb Steering Committee
+ -David Wake, AmphibiaWeb director
+ -Tiffany Yap, Conservation Biologist
 
 
 **References:**    
