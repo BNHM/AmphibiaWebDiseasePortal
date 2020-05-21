@@ -192,11 +192,13 @@ function displayProjects() {
         // Check if date data last modified is null.
         let checkForModificationDate = () => {
           let modificationDate = local.latestDataModification
+          let date = new Date(modificationDate).toDateString()
 
           if (modificationDate == null) {
             return 'Data Last Modified: Unavailable'
           } else {
-            return `Data Last Modified: ${modificationDate}`
+            return `Data Last Modified: ${date}`
+            
           }
         }
         
