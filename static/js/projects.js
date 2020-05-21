@@ -4,6 +4,25 @@ const baseURL = 'https://api.geome-db.org/projects/stats?'
 // Initialize local storage variable
 let bigdatafile
 
+// API URL
+const apiBaseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
+
+function byProjectId(id) {
+  fetch(`${apiBaseURL}scientificName_projectId_${id}.json`)
+  .then(res => res.json())
+  .then(function(data) {
+
+    let scientificName = []
+    let value = []
+    
+    data.forEach(entry => {
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)
+    })
+    return makeBarChart(scientificName, 'Samples Collected', value)
+  })
+}
+
 // Recovers link from the fetch using the project id, creates an anchor for it and clicks it.
 function downloadDataFile(id) {
   fetch (`https://api.geome-db.org/records/Sample/excel?networkId=1&q=_projects_:${id}`)
@@ -32,15 +51,17 @@ function findMatches(wordToMatch, projectData) {
       // Checks to see which radio button is selected to do the search
       const radioPI = document.getElementById('rad-proj-pi').checked
       const radioName = document.getElementById('rad-proj-name').checked
+      const radioAffiliation = document.getElementById('rad-proj-affiliation').checked
       
-      //TODO: Fix when PI and Affiliation are null. 
-      //Still need to be able to search by title if PI is null!
+      //TODO: Needs handling if PI and affiliation are null but there is a title
 
-      // Checks for which radio button is selected, if PI is null, excludes from search
-      if (radioPI == true && radioName == false && project.principalInvestigator != null) {
+      // Checks for which radio button is selected, if PI or Affiliation is null, excludes from search
+      if (radioPI == true && radioName == false && radioAffiliation == false && project.principalInvestigator != null) {
           return project.principalInvestigator.match(regex)
-      } if (radioName == true && radioPI == false) {
+      } if (radioName == true && radioPI == false && radioAffiliation == false) {
         return project.projectTitle.match(regex)
+      } if (radioAffiliation == true && radioPI == false && radioName == false && project.principalInvestigatorAffiliation != null) {
+        return project.principalInvestigatorAffiliation.match(regex)
       }
     }
   })
@@ -57,15 +78,17 @@ function displayMatches() {
 
   const html = matchArray.map(project => {
       const regex = new RegExp(this.value, 'gi')
-      const projName = project.projectTitle.replace(regex, `<span class="hl">${this.value}</span>`);
-      const projPI = project.principalInvestigator.replace(regex, `<span class="hl">${this.value}</span>`)
+      const projName = project.projectTitle == null ? 'None Found' : project.projectTitle.replace(regex, `<span class="hl">${this.value}</span>`);
+      const projPI = project.principalInvestigator == null ? 'None Found': project.principalInvestigator.replace(regex, `<span class="hl">${this.value}</span>`)
+      const projAffiliation = project.principalInvestigatorAffiliation == null ? 'None Found' : project.principalInvestigatorAffiliation.replace(regex, `<span class="hl">${this.value}</span>`)
+
 
       return tr.innerHTML = `
       <tr>
       <td> <i id="pubglobe" class="fa fa-globe"></i> </td>
       <td> ${projName} </td>
       <td> ${projPI} </td>
-      <td> ${project.principalInvestigatorAffiliation} </td>
+      <td> ${projAffiliation} </td>
       <td><button onclick="window.location.href = '/projects/?id=${project.projectId}'" class="detailsBtn" 
           id='project${project.projectId}'
           >Details</button></td>
@@ -76,23 +99,7 @@ function displayMatches() {
   allProjTable.appendChild(tr)
   allProjTable.innerHTML = html
   } 
-
-  // Displays "Loading Data..." while it is being fetched
-  function showLoader() {
-    const p = document.createElement('p')
-    const searchDiv = document.getElementById('search-container')
-
-    p.innerHTML = `Loading Data.....`
-    p.setAttribute('id', 'loader')
-    searchDiv.appendChild(p)
-  }
-  // Hides "Loading Data..." after data has been fetched.
-  function hideLoader() {
-    const p = document.getElementById('loader')
-    p.style.display = 'none'
-  }
   
-
   // FETCH ALL PROJECT DATA AND STORE LOCALLY WITH EXPIRY
   function fetchProjectsStoreLocally() {
 
@@ -102,7 +109,7 @@ function displayMatches() {
       showLoader()
       // Setting local storage to expire in 24 hrs (approx)
       // Could be more precise but I don't think it really matters here 
-      // as long as the data is refreshed once a day.
+      // as long as the data is refreshed about once a day.
       let oneDay = 1000 * 60 * 60 * 24
       bigdatafile = data
       setWithExpiry('bigdatafile', bigdatafile, oneDay)
@@ -129,39 +136,6 @@ function displayMatches() {
 
   checkLocalStorage()
 
-// SET LOCALSTORAGE WITH TIME LIMIT
-  function setWithExpiry(key, value, ttl) {
-    const now = new Date()
-
-    // `item` is an object which contains the original value
-    // as well as the time when it's supposed to expire
-    const item = {
-      value: value,
-      expiry: now.getTime() + ttl
-    }
-    localStorage.setItem(key, JSON.stringify(item))
-  }
-
-// GET FROM LOCAL STORAGE
-  function getWithExpiry(key) {
-    const itemStr = localStorage.getItem(key)
-
-    // if the item doesn't exist, return null
-    if (!itemStr) {
-      return null
-    }
-    const item = JSON.parse(itemStr)
-    const now = new Date()
-
-    // compare the expiry time of the item with the current time
-    if (now.getTime() > item.expiry) {
-      // If the item is expired, delete the item from storage
-      // and return null
-      localStorage.removeItem(key)
-      return null
-    }
-    return item.value
-  }
 
 // Displays the data in a table.
 function displayProjects() {
@@ -195,8 +169,7 @@ function displayProjects() {
                     >Details</button></td>
                 `
               allProjTable.appendChild(tr)
-              document.getElementById(`project${project.projectId}`).addEventListener('click', function(e) {
-                //console.log(e)
+              document.getElementById(`project${project.projectId}`).addEventListener('click', function() {
                 window.location.href = `/projects/?id=${project.projectId}`
                 // console.log(`This button's ID: ${project.projectId}`)
               })
@@ -215,14 +188,26 @@ function displayProjects() {
         let div = document.getElementById('project')
         let p = document.createElement('p')
         let sampleData = local.entityStats
-        let today = new Date().toDateString() 
+
+        // Check if date data last modified is null.
+        let checkForModificationDate = () => {
+          let modificationDate = local.latestDataModification
+          let date = new Date(modificationDate).toDateString()
+
+          if (modificationDate == null) {
+            return 'Data Last Modified: Unavailable'
+          } else {
+            return `Data Last Modified: ${date}`
+            
+          }
+        }
         
         // Check if dataset DOI is null.
         let checkForDataDoi =  () => {
           if (local.projectDataGuid == null) {
             return 'None Available'
           } else {
-            return `<a href="${local.projectDataGuid}">${local.projectDataGuid}</a> `
+            return `<a href="${local.projectDataGuid}" target="_blank">${local.projectDataGuid}</a> `
           }
         } 
 
@@ -231,22 +216,28 @@ function displayProjects() {
           if (local.publicationGuid == null) {
             return 'None Available'
           } else {
-            return `<a href="${local.publicationGuid}">${local.publicationGuid}</a>`
+            return `<a href="${local.publicationGuid}" target="_blank">${local.publicationGuid}</a>`
           }
         }
         
 
-        // Checks to see if there is event data
+        // Checks to see if there is event & sample data
         let handleSamples = () => {
           if (sampleData.EventCount == 0 || sampleData.EventCount == null) {
             return `No Sample Data Available<br>`
           } else {
+            byProjectId(local.projectId)
+
             return `
             Events: ${sampleData.EventCount} || 
             Samples Collected: ${sampleData.SampleCount} 
             <br>
-    
-            <button id="data-btn" onclick="location.href='https://geome-db.org/query?q=_projects_:${local.projectId}'">Query Dataset in GEOME <i class="fa fa-external-link"></i></button>
+            <div id="sample-chart" >
+            <canvas id="sampleChart" height="600px" width="1000px" style="margin: auto;"></canvas>
+            </div> 
+            <br>
+
+            <button id="data-btn" onclick="window.open('https://geome-db.org/query?q=_projects_:${local.projectId}')" target="_blank">Query Dataset in GEOME <i class="fa fa-external-link"></i></button>
             <button id="download-btn" onclick="downloadDataFile(${local.projectId})"><i class="fa fa-download"></i>Download Newest Datafile</button>
     
             `
@@ -256,7 +247,7 @@ function displayProjects() {
         p.innerHTML = `
         <h2>${local.projectTitle}</h2>
         <h6 style="font-size:12px;">Recommended Citation: </h6>
-        <h6 id="date">${local.recommendedCitation == null ? 'No Citation Available' : local.recommendedCitation} ${today}</h6>
+        <h6 id="date">${local.recommendedCitation == null ? 'No Citation Available.' : local.recommendedCitation} <br> ${checkForModificationDate()}</h6>
 
         
         <h3>Project Description</h3>
@@ -266,7 +257,7 @@ function displayProjects() {
         <h3>Information</h3>
         <hr>
         Project PI: ${local.principalInvestigator == null ? 'None' : local.principalInvestigator} <br>
-        Project Contact: ${local.projectContact} <a href="mailto:${local.projectContactEmail}"><i class="fa fa-envelope"></i> </a><br>
+        Project Contact: ${local.projectContact} <a href="mailto:${local.projectContactEmail}" target="_blank"><i class="fa fa-envelope"></i> </a><br>
         Dataset DOI: ${checkForDataDoi()}
         
         <br>
@@ -276,7 +267,7 @@ function displayProjects() {
         <hr>
         ${handleSamples()}
 
-        <button id="view-btn" onclick="location.href='https://geome-db.org/workbench/overview?projectId=${local.projectId}'">View Project in GEOME <i class="fa fa-external-link"></i></button>
+        <button id="view-btn" onclick="window.open('https://geome-db.org/workbench/project-overview?projectId=${local.projectId}')">View Project in GEOME <i class="fa fa-external-link"></i></button>
 
         <button id="back-btn" onclick="location.href='/projects'">Back to Projects</button>
 
@@ -290,6 +281,56 @@ function displayProjects() {
     //console.log("fetching project at id " + projectId)
   }
 }
+
+  // Displays "Loading Data..." while it is being fetched
+  function showLoader() {
+    const p = document.createElement('p')
+    const searchDiv = document.getElementById('search-container')
+
+    p.innerHTML = `Loading Data.....`
+    p.setAttribute('id', 'loader')
+    searchDiv.appendChild(p)
+  }
+  // Hides "Loading Data..." after data has been fetched.
+  function hideLoader() {
+    const p = document.getElementById('loader')
+    p.style.display = 'none'
+  }
+
+// SET LOCALSTORAGE WITH TIME LIMIT
+function setWithExpiry(key, value, ttl) {
+  const now = new Date()
+
+  // `item` is an object which contains the original value
+  // as well as the time when it's supposed to expire
+  const item = {
+    value: value,
+    expiry: now.getTime() + ttl
+  }
+  localStorage.setItem(key, JSON.stringify(item))
+}
+
+// GET FROM LOCAL STORAGE
+function getWithExpiry(key) {
+  const itemStr = localStorage.getItem(key)
+
+  // if the item doesn't exist, return null
+  if (!itemStr) {
+    return null
+  }
+  const item = JSON.parse(itemStr)
+  const now = new Date()
+
+  // compare the expiry time of the item with the current time
+  if (now.getTime() > item.expiry) {
+    // If the item is expired, delete the item from storage
+    // and return null
+    localStorage.removeItem(key)
+    return null
+  }
+  return item.value
+}
+
 
 function getUrlVars() {
   var vars = {};
@@ -311,3 +352,26 @@ function hideDetailTable() {
   container.style.display = "none"
 }
 
+function makeBarChart(xLabel, dataLabel, values) {
+  let ctx = document.getElementById('sampleChart').getContext('2d');
+
+   return new Chart(ctx, {
+    type: "bar",
+    options: {
+      maintainAspectRatio: false,
+      legend: {
+        display: true
+      }
+    },
+    data: {
+      labels: xLabel,
+      datasets: [
+        {
+          label: dataLabel,
+          data: values,
+          backgroundColor: '#b3cde3'
+        }
+      ]
+    }
+  });
+}

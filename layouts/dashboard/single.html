@@ -4,21 +4,182 @@
 {{ define "main" }}
 
 {{ range  $.Params.js }}
-<script src="{{ . }}"></script>
+	<script type="text/javascript" src="{{ . }}"></script>
 {{ end }}
 {{ range  $.Params.css }}
-<script src="{{ . }}"></script>
+<link rel="stylesheet" href="{{ . }}" | relURL/>
 {{ end }}
-
+<body>
 <div id="hero" class="wrap">
   <h2>{{.Title }}</h2>
   {{ .Content }}
+
+  <!-- Tab links -->
+<div class="tab">
+  <button class="tablinks" onclick="toggleData(event, 'table-tab')">Tables</button>
+  <button class="tablinks" onclick="toggleData(event, 'chart-tab')">Charts</button>
+  <button class="tablinks" onclick="toggleData(event, 'list-tab')">List by Species</button>
 </div>
 
-<ul id="posts">
-  <form id="dashboardForm"></form>
-  <canvas id="dashboardChart" height="400px;"></canvas>
-</ul>
+<!-- TABLE TAB -->
+<div id="table-tab" class="tabcontent" style="display:block;">
+  <div id="summary-table-data-container">
+    <table id="summary-data-table">
+      <tr>
+        <th>Total Samples</th>
+        <th>Number of Species</th>
+        <th>Number of Countries</th>
+      </tr>
+    </table>
+  </div>
+
+  <div id="pathogen-summary-container">
+    <table id="pathogen-summary-table">
+      <tr>
+        <th>Pathogen</th>
+        <th>Total Sample Count</th>
+        <th>Tested Positive</th>
+        <th>Tested Negative</th>
+      </tr>
+    </table>
+  </div>
+
+  <h5 id='topten-table-label'>Top Ten By Country and Species</h5>
+  <div id="topten-data-table-container">
+    <table id="country-table">
+      <tr>
+        <th>Country</th>
+        <th>Sample Count</th>
+      </tr>
+    </table>
+
+    <table id="species-table">
+      <tr>
+        <th>Species</th>
+        <th>Sample Count</th>
+      </tr>
+    </table>
+</div>
+
+</div>
+
+<div id="chart-tab" class="tabcontent">
+  <h4>Select a Chart:</h4>
+
+  <div id="dash-form-container">
+
+    <select id="result-select">
+      <option value="">Result</option>
+      <option value="bdDetectedByCountry">Bd Detected By Country</option>
+      <option value="bsalDetectedByCountry">Bsal Detected By Country</option>
+      <option value="bdDetectedByGenus"> Bd Detected by Genus</option>
+      <option value="bsalDetectedByGenus"> Bsal Detected by Genus</option>
+      <option value="bdDetectedByScientificName">Bd Detected By Scientific Name</option>
+      <option value="bsalDetectedByScientificName">Bsal Detected By Scientific Name</option>
+    </select>
+
+    <select id="by-year-select">
+      <option value="">Year Collected</option>
+      <option value="bdDetectedByYear">Bd Disease Detected By Year</option>
+      <option value="bsalDetectedByYear">Bsal Disease Detected By Year</option>
+    </select>
+
+    <select id="by-species-select">
+      <option value="">Genus and Scientific Name</option>
+      <option value="bdGenus">Bd Genus</option>
+      <option value="bsalGenus">Bsal Genus</option>
+      <option value="bothGenusStacked">Both Stacked Genus</option>
+      <option value="bdScientificName">Bd Scientific Name</option>
+      <option value="bsalScientificName">Bsal Scientific Name</option>
+      <option value="bothScientificNameStacked">Both Stacked Scientific Name</option>
+    </select>
+
+  </div> <!-- container for selects-->
+
+  <div id="chart-container">
+    <canvas id="dashboardChart" height="500px" width="1000px" style="margin: auto;"></canvas>
+ </div>  <!-- canvas container-->
+
+  <div id="modal-container" style='display: none;'>
+    <div class="modal-content">
+      <span class="close"> &times;</span>
+      <p id="insert-label"></p>
+
+      <div id="modal-chart-container">
+        <canvas id="modalChart" height="1000px" width="300px" style="margin: auto;"></canvas>
+      </div>
+
+    </div>
+   </div> <!--modal container-->
+
+</div> <!--chart tab container-->
+
+<div id="list-tab" class="tabcontent">
+  
+  <div id="list-nav">
+    <a href="#sort-a">A</a> | 
+    <a href="#sort-b">B</a> | 
+    <a href="#sort-c">C</a> | 
+    <a href="#sort-d">D</a> | 
+    <a href="#sort-e">E</a> | 
+    <a href="#sort-f">F</a> | 
+    <a href="#sort-g">G</a> | 
+    <a href="#sort-h">H</a> | 
+    <a href="#sort-i">I</a> | 
+    <a href="#sort-j">J</a> | 
+    <a href="#sort-k">K</a> | 
+    <a href="#sort-l">L</a> | 
+    <a href="#sort-m">M</a> | 
+    <a href="#sort-n">N</a> | 
+    <a href="#sort-o">O</a> | 
+    <a href="#sort-p">P</a> | 
+    <a href="#sort-q">Q</a> | 
+    <a href="#sort-r">R</a> | 
+    <a href="#sort-s">S</a> | 
+    <a href="#sort-t">T</a> | 
+    <a href="#sort-u">U</a> | 
+    <a href="#sort-v">V</a> | 
+    <a href="#sort-w">W</a> | 
+    <a href="#sort-x">X</a> | 
+    <a href="#sort-y">Y</a> | 
+    <a href="#sort-z">Z</a>
+  </div>
+
+  <div id="list-container">
+    <div id="sort-a"><h4>A</h4><ul></ul></div>
+    <div id="sort-b"><h4>B</h4><ul></ul></div>
+    <div id="sort-c"><h4>C</h4><ul></ul></div>
+    <div id="sort-d"><h4>D</h4><ul></ul></div>
+    <div id="sort-e"><h4>E</h4><ul></ul></div>
+    <div id="sort-f"><h4>F</h4><ul></ul></div>
+    <div id="sort-g"><h4>G</h4><ul></ul></div>
+    <div id="sort-h"><h4>H</h4><ul></ul></div>
+    <div id="sort-i"><h4>I</h4><ul></ul></div>
+    <div id="sort-j"><h4>J</h4><ul></ul></div>
+    <div id="sort-k"><h4>K</h4><ul></ul></div>
+    <div id="sort-l"><h4>L</h4><ul></ul></div>
+    <div id="sort-m"><h4>M</h4><ul></ul></div>
+    <div id="sort-n"><h4>N</h4><ul></ul></div>
+    <div id="sort-o"><h4>O</h4><ul></ul></div>
+    <div id="sort-p"><h4>P</h4><ul></ul></div>
+    <div id="sort-q"><h4>Q</h4><ul></ul></div>
+    <div id="sort-r"><h4>R</h4><ul></ul></div>
+    <div id="sort-s"><h4>S</h4><ul></ul></div>
+    <div id="sort-t"><h4>T</h4><ul></ul></div>
+    <div id="sort-u"><h4>U</h4><ul></ul></div>
+    <div id="sort-v"><h4>V</h4><ul></ul></div>
+    <div id="sort-w"><h4>W</h4><ul></ul></div>
+    <div id="sort-x"><h4>X</h4><ul></ul></div>
+    <div id="sort-y"><h4>Y</h4><ul></ul></div>
+    <div id="sort-z"><h4>Z</h4><ul></ul></div>
+  </div>
+  <h6 id="backtotop"><a href="#hero" onclick="scrollToTop()">Back to Top</a></h6>
+
+</div>
+
+
+</div>
+</body>
 
 <script>
   dashboard = new Dashboard();

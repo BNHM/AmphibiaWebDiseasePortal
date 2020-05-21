@@ -12,5 +12,4 @@ css:
   - "/css/dashboard.css"
 ---
 
-This page contains a list of charts which can be generated.  All data is dynamically
-pulled from GEOME.
+ Visualize data for all publicly accessible projects.
