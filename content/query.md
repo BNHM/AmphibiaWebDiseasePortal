@@ -12,4 +12,4 @@ css:
   - "/css/query.css"
 ---
 
-Display map of projects
+To view data, enter search terms into the fields below and click Search.

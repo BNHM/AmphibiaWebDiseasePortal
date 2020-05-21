@@ -35,14 +35,10 @@ class Dashboard{
         bdDetectedByCountry()
       } else if (this.value == 'bsalDetectedByCountry') {
         bsalDetectedByCountry()
-      } else if (this.value == 'bothDetectedByCountry') {
-        bothDetectedByCountry()
-      }  else if (this.value == 'bdDetectedByGenus') {
+      } else if (this.value == 'bdDetectedByGenus') {
         bdDetectedByGenus()
       } else if (this.value == 'bsalDetectedByGenus') {
         bsalDetectedByGenus()
-      } else if (this.value == 'bothDetectedByGenus') {
-        bothDetectedByGenus()
       } else if (this.value == 'bdDetectedByScientificName') {
         bdDetectedByScientificName()
       } else if (this.value == 'bsalDetectedByScientificName') {
@@ -73,8 +69,6 @@ class Dashboard{
         bdGenus()
       } else if (this.value == 'bsalGenus') {
         bsalGenus()
-      } else if (this.value == 'bothGenus') {
-        bothGenus()
       } else if (this.value == 'bothGenusStacked') {
         bothStackedGenus()
       } else if (this.value == 'bdScientificName') {
@@ -422,7 +416,7 @@ async function getBdDetectedByScientificName() {
 // CHART Display Bd Detected By Scientific Name
 async function bdDetectedByScientificName() {
   let data = await getBdDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
+  makeStackedBarChart(data.scientificName, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 //FETCH Bsal Detected by Scientific Name
@@ -446,33 +440,9 @@ async function getBsalDetectedByScientificName() {
 // CHART Display Bsal Detected By Scientific Name
 async function bsalDetectedByScientificName() {
   let data = await getBsalDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
+  makeStackedBarChart(data.scientificName, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
-// FETCH Both Detected by Scientific Name
-async function getBothDetectedByScientificName() {
-  const response = await fetch(`${baseURL}scientificName_diseaseDetected_Both.json`)
-  const data = await response.json()
-
-  let scientificName = []
-  let trueValue = []
-  let falseValue = []
-
-  data.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
-  })
-  return { scientificName, trueValue, falseValue }
-
-}
-
-// CHART Display Both Detected by Scientific Name
-async function bothDetectedByScientificName() {
-  let data = await getBothDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
-
-}
 
 // FETCH
 async function getBdScientificNameData() {
@@ -580,7 +550,7 @@ async function bdDetectedByYearData() {
 // CHART
 async function bdDetectedByYear() {
   let data = await bdDetectedByYearData()
-makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
+makeStackedBarChart(data.yearCollected, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 // FETCH
@@ -604,31 +574,7 @@ async function bsalDetectedByYearData() {
 // CHART
 async function bsalDetectedByYear() {
   let data = await bsalDetectedByYearData()
-makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
-}
-
-// FETCH
-async function bothDetectedByYearData() {
-  const response = await fetch(`${baseURL}yearCollected_diseaseDetected_Both.json`)
-  const data = await response.json()
-
-  let yearCollected = []
-  let trueValue = []
-  let falseValue = []
-
-  data.forEach(entry => {
-    yearCollected.push(entry.yearCollected)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
-  })
-
-  return { yearCollected, trueValue, falseValue }
-}
-
-// CHART
-async function bothDetectedByYear() {
-  let data = await bothDetectedByYearData()
-makeStackedBarChart(data.yearCollected, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
+makeStackedBarChart(data.yearCollected, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 // FETCH
@@ -652,7 +598,7 @@ async function bdDetectedByGenusData() {
 // CHART
 async function bdDetectedByGenus() {
   let data = await bdDetectedByGenusData()
-makeStackedBarChart(data.genus, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
+makeStackedBarChart(data.genus, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 // FETCH
@@ -676,31 +622,7 @@ async function bsalDetectedByGenusData() {
 // CHART
 async function bsalDetectedByGenus() {
   let data = await bsalDetectedByGenusData()
-makeStackedBarChart(data.genus, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
-}
-
-// FETCH
-async function bothDetectedByGenusData() {
-  const response = await fetch(`${baseURL}genus_diseaseDetected_Both.json`)
-  const data = await response.json()
-
-  let genus = []
-  let trueValue = []
-  let falseValue = []
-
-  data.forEach(entry => {
-    genus.push(entry.genus)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
-  })
-
-  return { genus, trueValue, falseValue }
-}
-
-// CHART
-async function bothDetectedByGenus() {
-  let data = await bothDetectedByGenusData()
-makeStackedBarChart(data.genus, 'Positive', data.trueValue, posColor, 'Negative', data.falseValue, negColor)
+makeStackedBarChart(data.genus, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 // FETCH
@@ -748,28 +670,6 @@ async function bsalGenus() {
 }
 
 // FETCH
-async function getBothGenusData() {
-  const response = await fetch(`${baseURL}genus_Both.json`)
-  const data = await response.json()
-
-  let genus = []
-  let value = []
-
-  data.forEach(entry => {
-    genus.push(entry.genus)
-    value.push(entry.value)
-  })
-
-  return { genus, value }
-}
- 
-// CHART
-async function bothGenus() {
-  let data = await getBothGenusData()
-  makeBarChart(data.genus, 'Both By Genus', data.value, genericColor)
-}
-
-// FETCH
 async function getBothStackedGenusData() {
   const response = await fetch(`${baseURL}genus_Both_stacked.json`)
   const data = await response.json()
@@ -809,29 +709,6 @@ async function getDiseaseTestedBothData() {
   return { diseaseTested, testedValue }
 }
 
-// Both Detected by country
-async function getBothDetectedByCountryData() {
-  const response = await fetch(`${baseURL}country_diseaseDetected_Both.json`)
-  const data = await response.json()
-  
-  let country = []
-  let trueCount = []
-  let falseCount = []
-
-  data.forEach(entry => {
-    country.push(entry.country)
-    trueCount.push(entry.True)
-    falseCount.push(entry.False)
-  })
-  return { country, trueCount, falseCount }
-}
-
-// Stacked Both by Country Bar Chart
-async function bothDetectedByCountry() {
-  let data = await getBothDetectedByCountryData()
-  makeStackedBarChart(data.country, 'Both Positive', data.trueCount, posColor, 'Both Negative', data.falseCount, negColor)
-}
-
 // Bsal Detected by country
 async function getBsalDetectedByCountryData() {
   const response = await fetch(`${baseURL}country_diseaseDetected_Bsal.json`)
@@ -852,7 +729,7 @@ async function getBsalDetectedByCountryData() {
 // Stacked Bsal by Country Bar Chart
 async function bsalDetectedByCountry() {
   let data = await getBsalDetectedByCountryData()
-  makeStackedBarChart(data.country, 'Bsal Positive', data.trueCount, posColor, 'Bsal Negative', data.falseCount, negColor)
+  makeStackedBarChart(data.country, 'Bsal Negative', data.falseCount, negColor, 'Bsal Positive', data.trueCount, posColor)
 }
 
 // Bd Detected by country
@@ -877,7 +754,7 @@ async function getBdDetectedByCountryData() {
 // Stacked Bd by Country Bar Chart
 async function bdDetectedByCountry() {
   let data = await getBdDetectedByCountryData()
-  makeStackedBarChart(data.country, 'Bd Positive', data.trueCount, posColor, 'Bd Negative', data.falseCount, negColor)
+  makeStackedBarChart(data.country, 'Bd Negative', data.falseCount, negColor, 'Bd Positive', data.trueCount, posColor)
 }
 
 // Fetch data for both detected

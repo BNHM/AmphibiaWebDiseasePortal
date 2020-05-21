@@ -22,7 +22,7 @@
 </div>
 
 <!-- TABLE TAB -->
-<div id="table-tab" class="tabcontent">
+<div id="table-tab" class="tabcontent" style="display:block;">
   <div id="summary-table-data-container">
     <table id="summary-data-table">
       <tr>
@@ -63,7 +63,7 @@
 
 </div>
 
-<div id="chart-tab" class="tabcontent" style="display:block;">
+<div id="chart-tab" class="tabcontent">
   <h4>Select a Chart:</h4>
 
   <div id="dash-form-container">
@@ -72,27 +72,22 @@
       <option value="">Result</option>
       <option value="bdDetectedByCountry">Bd Detected By Country</option>
       <option value="bsalDetectedByCountry">Bsal Detected By Country</option>
-      <option value="bothDetectedByCountry">Both Detected By Country</option>
       <option value="bdDetectedByGenus"> Bd Detected by Genus</option>
       <option value="bsalDetectedByGenus"> Bsal Detected by Genus</option>
-      <option value="bothDetectedByGenus"> Both by Genus</option>
       <option value="bdDetectedByScientificName">Bd Detected By Scientific Name</option>
       <option value="bsalDetectedByScientificName">Bsal Detected By Scientific Name</option>
-      <option value="bothDetectedByScientificName">Both Detected By Scientific Name</option>
     </select>
 
     <select id="by-year-select">
       <option value="">Year Collected</option>
       <option value="bdDetectedByYear">Bd Disease Detected By Year</option>
       <option value="bsalDetectedByYear">Bsal Disease Detected By Year</option>
-      <option value="bothDetectedByYear">Both Diseases Detected By Year</option>
     </select>
 
     <select id="by-species-select">
       <option value="">Genus and Scientific Name</option>
       <option value="bdGenus">Bd Genus</option>
       <option value="bsalGenus">Bsal Genus</option>
-      <option value="bothGenus">Both Genus</option>
       <option value="bothGenusStacked">Both Stacked Genus</option>
       <option value="bdScientificName">Bd Scientific Name</option>
       <option value="bsalScientificName">Bsal Scientific Name</option>
