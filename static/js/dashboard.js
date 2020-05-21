@@ -875,6 +875,7 @@ async function bothPathogens() {
   // GENERIC BAR CHART
   async function makeBarChart(xLabel, dataLabel, values, color) {
     let chartContainer = document.getElementById('chart-container')
+    // Removed the previously existing canvas
     let element = document.getElementById('dashboardChart');
     element.parentNode.removeChild(element)
 
@@ -1019,7 +1020,7 @@ const scrollToTop = () => {
   }
 };
 
-  // // GENERIC PIE CHART
+  // // GENERIC PIE CHART SAVE FOR REFERENCE
   // function makePieChart(chartLabel, dataLabel, values) {
   //   let chartContainer = document.getElementById('chart-container')
 
