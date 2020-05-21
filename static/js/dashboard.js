@@ -427,13 +427,15 @@ async function getBsalDetectedByScientificName() {
   let scientificName = []
   let trueValue = []
   let falseValue = []
+  let bsalObj = []
 
   data.forEach(entry => {
+    bsalObj.push(entry)
     scientificName.push(entry.scientificName)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
   })
-  return { scientificName, trueValue, falseValue }
+  return { scientificName, trueValue, falseValue, bsalObj }
 
 }
 
@@ -909,15 +911,24 @@ async function bothPathogens() {
     const bdData = await getBdDetectedByScientificName()
     const bsalData = await getBsalDetectedByScientificName()
 
-    //Array of scientific names
     let bdObj = bdData.bdObj
+    let bsalObj = bsalData.bsalObj
 
     canvas.addEventListener('click', function(event) {
       let firstPoint = barChart.getElementAtEvent(event)[0]
       if (firstPoint) {
         let label = barChart.data.labels[firstPoint._index];
         // let value = barChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
-    
+        
+        bsalObj.forEach(entry => {
+          if (label == entry.scientificName) {
+            let modalTitle = document.getElementById('insert-label')
+            modalTitle.innerHTML = `${label}`
+
+            displayDataModal('Bsal Detected', 'Bsal Not Detected', entry.True, entry.False)
+          }
+        })
+
         bdObj.forEach(entry => {
           if (label == entry.scientificName) {
             // console.log(label)
