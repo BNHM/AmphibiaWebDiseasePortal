@@ -8,7 +8,7 @@ Develop Branch Status: [![Netlify Status](https://api.netlify.com/api/v1/badges/
 
 New portal design built in Hugo and Javascript with GEOME backend.  Commits to the master and develop branch are watched by netlify and deployed at the following URL addresses:
 
-Master Branch URL: https://amphibiandiseaseportal.netlify.com/
+Master Branch URL: https://amphibiandisease.org
 
 Develop Branch URL: https://amphibiandisease-develop.netlify.com/
 

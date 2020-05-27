@@ -427,13 +427,15 @@ async function getBsalDetectedByScientificName() {
   let scientificName = []
   let trueValue = []
   let falseValue = []
+  let bsalObj = []
 
   data.forEach(entry => {
+    bsalObj.push(entry)
     scientificName.push(entry.scientificName)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
   })
-  return { scientificName, trueValue, falseValue }
+  return { scientificName, trueValue, falseValue, bsalObj }
 
 }
 
@@ -875,6 +877,7 @@ async function bothPathogens() {
   // GENERIC BAR CHART
   async function makeBarChart(xLabel, dataLabel, values, color) {
     let chartContainer = document.getElementById('chart-container')
+    // Removed the previously existing canvas
     let element = document.getElementById('dashboardChart');
     element.parentNode.removeChild(element)
 
@@ -908,15 +911,24 @@ async function bothPathogens() {
     const bdData = await getBdDetectedByScientificName()
     const bsalData = await getBsalDetectedByScientificName()
 
-    //Array of scientific names
     let bdObj = bdData.bdObj
+    let bsalObj = bsalData.bsalObj
 
     canvas.addEventListener('click', function(event) {
       let firstPoint = barChart.getElementAtEvent(event)[0]
       if (firstPoint) {
         let label = barChart.data.labels[firstPoint._index];
         // let value = barChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
-    
+        
+        bsalObj.forEach(entry => {
+          if (label == entry.scientificName) {
+            let modalTitle = document.getElementById('insert-label')
+            modalTitle.innerHTML = `${label}`
+
+            displayDataModal('Bsal Detected', 'Bsal Not Detected', entry.True, entry.False)
+          }
+        })
+
         bdObj.forEach(entry => {
           if (label == entry.scientificName) {
             // console.log(label)
@@ -1019,7 +1031,7 @@ const scrollToTop = () => {
   }
 };
 
-  // // GENERIC PIE CHART
+  // // GENERIC PIE CHART SAVE FOR REFERENCE
   // function makePieChart(chartLabel, dataLabel, values) {
   //   let chartContainer = document.getElementById('chart-container')
 
