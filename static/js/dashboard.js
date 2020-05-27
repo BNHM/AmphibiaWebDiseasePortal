@@ -454,17 +454,22 @@ async function getBdScientificNameData() {
   let scientificName = []
   let value = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     value.push(entry.value)
-  })
+   })
+
   return { scientificName, value }
 }
 
 // CHART
 async function bdScientificName() {
   const data = await getBdScientificNameData()
-makeBarChart(data.scientificName, 'Bd by Scientific Name', data.value, bdColor)
+  makeBarChart(data.scientificName, 'Bd by Scientific Name', data.value, bdColor)
 }
 
 // FETCH
@@ -475,10 +480,15 @@ async function getBsalScientificNameData() {
   let scientificName = []
   let value = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     value.push(entry.value)
-  })
+   })
+
   return { scientificName, value }
 
 }
@@ -635,7 +645,11 @@ async function getBdGenusData() {
   let genus = []
   let value = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a, b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     value.push(entry.value)
   })
@@ -657,7 +671,11 @@ async function getBsalGenusData() {
   let genus = []
   let value = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a, b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     value.push(entry.value)
   })
@@ -824,11 +842,6 @@ async function getDataBothPathogens() {
   })
   return { country, totalSamples, countryAndValue }
   
-}
-
-async function bothPathogens() {
-  let data = await getDataBothPathogens()
-  makeBarChart(data.country, 'Total Bd and Bsal Samples Collected By Country', data.totalSamples, genericColor)
 }
 
   // GENERIC STACKED BAR CHART
