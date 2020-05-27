@@ -260,133 +260,186 @@ async function buildTaxonomyList() {
 
     if (name.startsWith('A') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>
         `
       aNames.appendChild(li)
     } else if (name.startsWith('B') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       bNames.appendChild(li)
     } else if (name.startsWith('C') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       cNames.appendChild(li)
     } else if (name.startsWith('D') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       dNames.appendChild(li)
     } else if (name.startsWith('E') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       eNames.appendChild(li)
     } else if (name.startsWith('F') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       fNames.appendChild(li)
     } else if (name.startsWith('G') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       gNames.appendChild(li)
     } else if (name.startsWith('H') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       hNames.appendChild(li)
     } else if (name.startsWith('I') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       iNames.appendChild(li)
     } else if (name.startsWith('J') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       jNames.appendChild(li)
     } else if (name.startsWith('K') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       kNames.appendChild(li)
     } else if (name.startsWith('L') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       lNames.appendChild(li)
     }else if (name.startsWith('M') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       mNames.appendChild(li)
     } else if (name.startsWith('N') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       nNames.appendChild(li)
     } else if (name.startsWith('O') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       oNames.appendChild(li)
     }else if (name.startsWith('P') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       pNames.appendChild(li)
     } else if (name.startsWith('Q') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       qNames.appendChild(li)
     } else if (name.startsWith('R') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       rNames.appendChild(li)
     } else if (name.startsWith('S') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       sNames.appendChild(li)
     } else if (name.startsWith('T') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       tNames.appendChild(li)
     } else if (name.startsWith('U') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       uNames.appendChild(li)
     } else if (name.startsWith('V') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       vNames.appendChild(li)
     } else if (name.startsWith('W') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       wNames.appendChild(li)
     } else if (name.startsWith('X') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       xNames.appendChild(li)
     } else if (name.startsWith('Y') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       yNames.appendChild(li)
     } else if (name.startsWith('Z') === true) {
       li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
+        <span>${name}</span>
+        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+        <button class="species-btn">Portal Stats</button>
+        <div class="clear"></div>      `
       zNames.appendChild(li)
     }
 
