@@ -19,7 +19,7 @@ Other individuals critical to the initial portal's development (alphabetically):
   <li>Philip Kahn, Applications Developer, original architect</li>
   <li>Vance Vredenburg, AmphibiaWeb Steering Committee</li>
   <li>David Wake, AmphibiaWeb director</li>
-  <li>Tiffany Yap, Conservation Biologist</li>
+  <li>Tiffany Yap, Conservation Biologist* (also the photographer of the home page image!)</li>
 </ul>
 
 **References:**    
