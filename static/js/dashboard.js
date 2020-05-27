@@ -407,10 +407,18 @@ async function getBdDetectedByScientificName() {
 
   data.forEach(entry => {
     bdObj.push(entry)
+  })
+
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
   })
+
   return { scientificName, trueValue, falseValue, bdObj }
 }
 // CHART Display Bd Detected By Scientific Name
@@ -431,6 +439,13 @@ async function getBsalDetectedByScientificName() {
 
   data.forEach(entry => {
     bsalObj.push(entry)
+  })
+
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
@@ -525,13 +540,17 @@ async function getBothScientificNameStackedData() {
   let bdValue = []
   let bsalValue = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.Bd) - parseFloat(a.Bd) || parseFloat(b.Bsal) - parseFloat(a.Bsal)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     bdValue.push(entry.Bd)
     bsalValue.push(entry.Bsal)
   })
-  return { scientificName, bdValue, bsalValue }
 
+  return { scientificName, bdValue, bsalValue }
 }
 
 // CHART
@@ -598,7 +617,11 @@ async function bdDetectedByGenusData() {
   let trueValue = []
   let falseValue = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
@@ -622,7 +645,11 @@ async function bsalDetectedByGenusData() {
   let trueValue = []
   let falseValue = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
@@ -698,7 +725,11 @@ async function getBothStackedGenusData() {
   let bdValue = []
   let bsalValue = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.Bd) - parseFloat(a.Bd) || parseFloat(b.Bsal) - parseFloat(a.Bsal)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     bdValue.push(entry.Bd)
     bsalValue.push(entry.Bsal)
@@ -710,7 +741,7 @@ async function getBothStackedGenusData() {
 // CHART
 async function bothStackedGenus() {
   let data = await getBothStackedGenusData()
-makeStackedBarChart(data.genus, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)
+  makeStackedBarChart(data.genus, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)
   
 }
 
@@ -738,7 +769,11 @@ async function getBsalDetectedByCountryData() {
   let trueCount = []
   let falseCount = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     country.push(entry.country)
     trueCount.push(entry.True)
     falseCount.push(entry.False)
@@ -762,8 +797,11 @@ async function getBdDetectedByCountryData() {
   let falseCount = []
   let countryObj = []
 
-  data.forEach(entry => {
-    countryObj.push(entry)
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     country.push(entry.country)
     trueCount.push(entry.True)
     falseCount.push(entry.False)
