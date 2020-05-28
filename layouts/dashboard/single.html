@@ -15,10 +15,10 @@
   NOTE: This page is a work in progress - some features may not work as expected yet. <br>
   Keep checking back for updates!
 
-  {{ .Content }}
+  <p id="description">Visualize data for all publicly availabe projects.</p>
 
   <!-- Tab links -->
-<div class="tab">
+<div id="tab-nav" class="tab">
   <button class="tablinks" onclick="toggleData(event, 'table-tab')">Tables</button>
   <button class="tablinks" onclick="toggleData(event, 'chart-tab')">Charts</button>
   <button class="tablinks" onclick="toggleData(event, 'list-tab')">List by Species</button>
@@ -178,8 +178,15 @@
   </div>
   <h6 id="backtotop"><a href="#hero" onclick="scrollToTop()">Back to Top</a></h6>
 
+</div> <!--List Tab-->
+
+<div id="species-stats">
+
 </div>
 
+<div id="species-chart-container">
+  <canvas id="species-chart" width="500px" height="500px"></canvas>
+</div>
 
 </div>
 </body>

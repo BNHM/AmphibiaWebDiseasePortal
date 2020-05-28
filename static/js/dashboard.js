@@ -890,22 +890,22 @@ function toggleData(evt, tabType) {
   evt.currentTarget.className += " active";
 }
 
-  // // GENERIC PIE CHART SAVE FOR REFERENCE
-  // function makePieChart(chartLabel, dataLabel, values) {
-  //   let chartContainer = document.getElementById('chart-container')
+  // GENERIC PIE CHART SAVE FOR REFERENCE
+  // function makeSpeciesPieChart(chartLabel, dataLabel, values) {
+  //   let chartContainer = document.getElementById('species-chart-container')
 
   //   // Removes the previously existing canvas
-  //   let element = document.getElementById('dashboardChart');
+  //   let element = document.getElementById('species-chart');
   //   element.parentNode.removeChild(element)
 
   //   // Creates a new canvas
   //   let canvas = document.createElement('canvas')
-  //   canvas.id = 'dashboardChart'
+  //   canvas.id = 'species-chart'
   //   canvas.width = '1000px'
   //   canvas.height = '600px'
   //   chartContainer.appendChild(canvas)
 
-  //   let ctx = document.getElementById('dashboardChart').getContext('2d');
+  //   let ctx = document.getElementById('species-chart').getContext('2d');
       
   //    let pieChart = new Chart(ctx, {
   //     type: 'pie',
@@ -930,76 +930,157 @@ function toggleData(evt, tabType) {
 
   //LIST TAB
 
+  function getUrlVars() {
+    var vars = {};
+    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+  }
+
 // Builds List of species sampled by Scientific Name & organize alphabetically
 async function buildTaxonomyList() {
+  let urlName = getUrlVars().id
+
   const data = await getBothScientificNameStackedData()
-  let names = data.scientificName
+  let listNames = data.scientificName
 
-  names.forEach(name => {
-    let arr = name.split(' ')
-    let genus = arr[0]
-    let species = arr[1]
+  const bdData = await getBdDetectedByScientificName()
+  let bdObj = bdData.bdObj
 
-    const aNames = document.querySelector('#sort-a ul')
-    const bNames = document.querySelector('#sort-b ul')
-    const cNames = document.querySelector('#sort-c ul')
-    const dNames = document.querySelector('#sort-d ul')
-    const eNames = document.querySelector('#sort-e ul')
-    const fNames = document.querySelector('#sort-f ul')
-    const gNames = document.querySelector('#sort-g ul')
-    const hNames = document.querySelector('#sort-h ul')
-    const iNames = document.querySelector('#sort-i ul')
-    const jNames = document.querySelector('#sort-j ul')
-    const kNames = document.querySelector('#sort-k ul')
-    const lNames = document.querySelector('#sort-l ul')
-    const mNames = document.querySelector('#sort-m ul')
-    const nNames = document.querySelector('#sort-n ul')
-    const oNames = document.querySelector('#sort-o ul')
-    const pNames = document.querySelector('#sort-p ul')
-    const qNames = document.querySelector('#sort-q ul')
-    const rNames = document.querySelector('#sort-r ul')
-    const sNames = document.querySelector('#sort-s ul')
-    const tNames = document.querySelector('#sort-t ul')
-    const uNames = document.querySelector('#sort-u ul')
-    const vNames = document.querySelector('#sort-v ul')
-    const wNames = document.querySelector('#sort-w ul')
-    const xNames = document.querySelector('#sort-x ul')
-    const yNames = document.querySelector('#sort-y ul')
-    const zNames = document.querySelector('#sort-z ul')
+  // const bsalData = await getBsalDetectedByScientificName()
+  // let bsalObj = bsalData.bsalObj
 
-    listBuilder(name, 'A', aNames, genus, species)
-    listBuilder(name, 'B', bNames, genus, species)
-    listBuilder(name, 'C', cNames, genus, species)
-    listBuilder(name, 'D', dNames, genus, species)
-    listBuilder(name, 'E', eNames, genus, species)
-    listBuilder(name, 'F', fNames, genus, species)
-    listBuilder(name, 'G', gNames, genus, species)
-    listBuilder(name, 'H', hNames, genus, species)
-    listBuilder(name, 'I', iNames, genus, species)
-    listBuilder(name, 'J', jNames, genus, species)
-    listBuilder(name, 'K', kNames, genus, species)
-    listBuilder(name, 'L', lNames, genus, species)
-    listBuilder(name, 'M', mNames, genus, species)
-    listBuilder(name, 'N', nNames, genus, species)
-    listBuilder(name, 'O', oNames, genus, species)
-    listBuilder(name, 'P', pNames, genus, species)
-    listBuilder(name, 'Q', qNames, genus, species)
-    listBuilder(name, 'R', rNames, genus, species)
-    listBuilder(name, 'S', sNames, genus, species)
-    listBuilder(name, 'T', tNames, genus, species)
-    listBuilder(name, 'U', uNames, genus, species)
-    listBuilder(name, 'V', vNames, genus, species)
-    listBuilder(name, 'W', wNames, genus, species)
-    listBuilder(name, 'X', xNames, genus, species)
-    listBuilder(name, 'Y', yNames, genus, species)
-    listBuilder(name, 'Z', zNames, genus, species)
+  if (urlName === undefined) {
+    listNames.forEach(name => {
+      let arr = name.split(' ')
+      let genus = arr[0]
+      let species = arr[1]
+    
+        const aNames = document.querySelector('#sort-a ul')
+        const bNames = document.querySelector('#sort-b ul')
+        const cNames = document.querySelector('#sort-c ul')
+        const dNames = document.querySelector('#sort-d ul')
+        const eNames = document.querySelector('#sort-e ul')
+        const fNames = document.querySelector('#sort-f ul')
+        const gNames = document.querySelector('#sort-g ul')
+        const hNames = document.querySelector('#sort-h ul')
+        const iNames = document.querySelector('#sort-i ul')
+        const jNames = document.querySelector('#sort-j ul')
+        const kNames = document.querySelector('#sort-k ul')
+        const lNames = document.querySelector('#sort-l ul')
+        const mNames = document.querySelector('#sort-m ul')
+        const nNames = document.querySelector('#sort-n ul')
+        const oNames = document.querySelector('#sort-o ul')
+        const pNames = document.querySelector('#sort-p ul')
+        const qNames = document.querySelector('#sort-q ul')
+        const rNames = document.querySelector('#sort-r ul')
+        const sNames = document.querySelector('#sort-s ul')
+        const tNames = document.querySelector('#sort-t ul')
+        const uNames = document.querySelector('#sort-u ul')
+        const vNames = document.querySelector('#sort-v ul')
+        const wNames = document.querySelector('#sort-w ul')
+        const xNames = document.querySelector('#sort-x ul')
+        const yNames = document.querySelector('#sort-y ul')
+        const zNames = document.querySelector('#sort-z ul')
+    
+        listBuilder(name, 'A', aNames, genus, species)
+        listBuilder(name, 'B', bNames, genus, species)
+        listBuilder(name, 'C', cNames, genus, species)
+        listBuilder(name, 'D', dNames, genus, species)
+        listBuilder(name, 'E', eNames, genus, species)
+        listBuilder(name, 'F', fNames, genus, species)
+        listBuilder(name, 'G', gNames, genus, species)
+        listBuilder(name, 'H', hNames, genus, species)
+        listBuilder(name, 'I', iNames, genus, species)
+        listBuilder(name, 'J', jNames, genus, species)
+        listBuilder(name, 'K', kNames, genus, species)
+        listBuilder(name, 'L', lNames, genus, species)
+        listBuilder(name, 'M', mNames, genus, species)
+        listBuilder(name, 'N', nNames, genus, species)
+        listBuilder(name, 'O', oNames, genus, species)
+        listBuilder(name, 'P', pNames, genus, species)
+        listBuilder(name, 'Q', qNames, genus, species)
+        listBuilder(name, 'R', rNames, genus, species)
+        listBuilder(name, 'S', sNames, genus, species)
+        listBuilder(name, 'T', tNames, genus, species)
+        listBuilder(name, 'U', uNames, genus, species)
+        listBuilder(name, 'V', vNames, genus, species)
+        listBuilder(name, 'W', wNames, genus, species)
+        listBuilder(name, 'X', xNames, genus, species)
+        listBuilder(name, 'Y', yNames, genus, species)
+        listBuilder(name, 'Z', zNames, genus, species)
+      })
+    } else {
+      hideAllTabs()
+      let displayName = urlName.replace('+', ' ')
+      let div = document.getElementById('species-stats')
 
-  })
+      bdObj.forEach(entry => {
+        if(entry.scientificName == displayName) {
+          console.log(entry)
+          let nameArr = entry.scientificName.split(' ')
+          let genus = nameArr[0]
+          let species = nameArr[1]
+
+          div.innerHTML = `
+          <p>More Stats Coming Soon!<br><br>
+          ${displayName}</p>
+          <button class="species-btn" onclick="location.href='/dashboard'">Back to List</button>
+          <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+          `
+          speciesPieChart('Bd Positive', 'Bd Negative', entry.True, entry.False)
+        }
+      })
+    }
 }
 
-function listBuilder(name, startsWith, selector, genus, species) {
+function speciesPieChart(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
+  const container = document.getElementById('species-chart-container')
+
+  let canvas = document.createElement('canvas')
+  canvas.id = 'species-chart'
+  canvas.width = '500px'
+  canvas.height = '300px'
+  container.appendChild(canvas)
+
+  let ctx = document.getElementById('species-chart').getContext('2d')
+  let chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [dataLabel, dataLabelTwo],
+            datasets: [{
+                backgroundColor: [posColor, negColor],
+                data: [valuesOne, valuesTwo]
+            }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          legend: {
+            display: true
+          }
+        }
+    });
+
+}
+
+function hideAllTabs() {
+  let p = document.getElementById('description')
+  let tabNav = document.getElementById('tab-nav')
+  let tableTab = document.getElementById('table-tab')
+  let chartTab = document.getElementById('chart-tab')
+  let listTab = document.getElementById('list-tab')
+
+  p.style.display = 'none'
+  tabNav.style.display = 'none'
+  tableTab.style.display = 'none'
+  chartTab.style.display = 'none'
+  listTab.style.display = 'none'
+}
+
+function listBuilder(name, str, selector, genus, species) {
   let li = document.createElement('li')
-  if (name.startsWith(startsWith) === true) {
+  if (name.startsWith(str) === true) {
     li.innerHTML = `
       <span>${name}</span>
       <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
@@ -1009,7 +1090,7 @@ function listBuilder(name, startsWith, selector, genus, species) {
     selector.appendChild(li)
 
     document.getElementById(`${name}`).addEventListener('click', function() {
-      window.location.href = `/dashboard/?id=${name}`
+      window.location.href = `/dashboard/?id=${genus}+${species}`
     })
   }
 }
