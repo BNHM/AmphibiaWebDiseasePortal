@@ -210,7 +210,10 @@ div ul {
 }
 
 #list-nav a {
-    font-weight: bold;
+    font-weight: bolder;
+    font-size: 17px;
+    padding: 5px;
+    text-decoration: none;
 }
   
 #backtotop {
@@ -223,16 +226,52 @@ div ul {
 
 #backtotop a {
     text-decoration: none;
+    padding: 5px;
 }
 
 #list-container li {
-    margin: 5px auto;
-    border: 1px solid lightgrey;
-    border-radius: 25px;
-    width: 33%;
-    display: flex;
-    padding: 5px;
+    margin: 10px auto;
+    border-bottom: 1px solid lightgrey;
+    border-radius: 20px;
+    width: 50%;
+    padding-top: 10px;
     padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+#list-container span {
+    float: left;
+    margin-left: 5px;
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+.amphibiaweb-btn {
+    margin: auto;
+    padding: 10px;
+    display: inline;
+}
+
+.species-btn {
+    margin-left: 5px;
+    margin-right: 10px;
+    padding: 5px;
+    float: right;
+    border: 1px solid #93c3ec;
+    border-radius: 15px 50px 30px;
+    width: 125px;
+    background-color: white;
+    color: black;
+    font-weight: normal;
+}
+
+.species-btn:hover {
+    background-color: #45bce1;
+    font-weight: bold;
+}
+
+.clear {
+    clear: both;
 }
 
 

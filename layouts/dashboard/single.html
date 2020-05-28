@@ -12,17 +12,20 @@
 <body>
 <div id="hero" class="wrap">
   <h2>{{.Title }}</h2>
-  {{ .Content }}
+  NOTE: This page is a work in progress - some features may not work as expected yet. <br>
+  Keep checking back for updates!
+
+  <p id="description">Visualize data for all publicly availabe projects.</p>
 
   <!-- Tab links -->
-<div class="tab">
+<div id="tab-nav" class="tab">
   <button class="tablinks" onclick="toggleData(event, 'table-tab')">Tables</button>
   <button class="tablinks" onclick="toggleData(event, 'chart-tab')">Charts</button>
   <button class="tablinks" onclick="toggleData(event, 'list-tab')">List by Species</button>
 </div>
 
 <!-- TABLE TAB -->
-<div id="table-tab" class="tabcontent" style="display:block;">
+<div id="table-tab" class="tabcontent">
   <div id="summary-table-data-container">
     <table id="summary-data-table">
       <tr>
@@ -69,7 +72,7 @@
   <div id="dash-form-container">
 
     <select id="result-select">
-      <option value="">Result</option>
+      <option value="">Disease Detected</option>
       <option value="bdDetectedByCountry">Bd Detected By Country</option>
       <option value="bsalDetectedByCountry">Bsal Detected By Country</option>
       <option value="bdDetectedByGenus"> Bd Detected by Genus</option>
@@ -114,7 +117,7 @@
 
 </div> <!--chart tab container-->
 
-<div id="list-tab" class="tabcontent">
+<div id="list-tab" class="tabcontent"  style="display:block;">
   
   <div id="list-nav">
     <a href="#sort-a">A</a> | 
@@ -146,37 +149,44 @@
   </div>
 
   <div id="list-container">
-    <div id="sort-a"><h4>A</h4><ul></ul></div>
-    <div id="sort-b"><h4>B</h4><ul></ul></div>
-    <div id="sort-c"><h4>C</h4><ul></ul></div>
-    <div id="sort-d"><h4>D</h4><ul></ul></div>
-    <div id="sort-e"><h4>E</h4><ul></ul></div>
-    <div id="sort-f"><h4>F</h4><ul></ul></div>
-    <div id="sort-g"><h4>G</h4><ul></ul></div>
-    <div id="sort-h"><h4>H</h4><ul></ul></div>
-    <div id="sort-i"><h4>I</h4><ul></ul></div>
-    <div id="sort-j"><h4>J</h4><ul></ul></div>
-    <div id="sort-k"><h4>K</h4><ul></ul></div>
-    <div id="sort-l"><h4>L</h4><ul></ul></div>
-    <div id="sort-m"><h4>M</h4><ul></ul></div>
-    <div id="sort-n"><h4>N</h4><ul></ul></div>
-    <div id="sort-o"><h4>O</h4><ul></ul></div>
-    <div id="sort-p"><h4>P</h4><ul></ul></div>
-    <div id="sort-q"><h4>Q</h4><ul></ul></div>
-    <div id="sort-r"><h4>R</h4><ul></ul></div>
-    <div id="sort-s"><h4>S</h4><ul></ul></div>
-    <div id="sort-t"><h4>T</h4><ul></ul></div>
-    <div id="sort-u"><h4>U</h4><ul></ul></div>
-    <div id="sort-v"><h4>V</h4><ul></ul></div>
-    <div id="sort-w"><h4>W</h4><ul></ul></div>
-    <div id="sort-x"><h4>X</h4><ul></ul></div>
-    <div id="sort-y"><h4>Y</h4><ul></ul></div>
-    <div id="sort-z"><h4>Z</h4><ul></ul></div>
+    <div id="sort-a"><h3>A</h3><ul></ul></div>
+    <div id="sort-b"><h3>B</h3><ul></ul></div>
+    <div id="sort-c"><h3>C</h3><ul></ul></div>
+    <div id="sort-d"><h3>D</h3><ul></ul></div>
+    <div id="sort-e"><h3>E</h3><ul></ul></div>
+    <div id="sort-f"><h3>F</h3><ul></ul></div>
+    <div id="sort-g"><h3>G</h3><ul></ul></div>
+    <div id="sort-h"><h3>H</h3><ul></ul></div>
+    <div id="sort-i"><h3>I</h3><ul></ul></div>
+    <div id="sort-j"><h3>J</h3><ul></ul></div>
+    <div id="sort-k"><h3>K</h3><ul></ul></div>
+    <div id="sort-l"><h3>L</h3><ul></ul></div>
+    <div id="sort-m"><h3>M</h3><ul></ul></div>
+    <div id="sort-n"><h3>N</h3><ul></ul></div>
+    <div id="sort-o"><h3>O</h3><ul></ul></div>
+    <div id="sort-p"><h3>P</h3><ul></ul></div>
+    <div id="sort-q"><h3>Q</h3><ul></ul></div>
+    <div id="sort-r"><h3>R</h3><ul></ul></div>
+    <div id="sort-s"><h3>S</h3><ul></ul></div>
+    <div id="sort-t"><h3>T</h3><ul></ul></div>
+    <div id="sort-u"><h3>U</h3><ul></ul></div>
+    <div id="sort-v"><h3>V</h3><ul></ul></div>
+    <div id="sort-w"><h3>W</h3><ul></ul></div>
+    <div id="sort-x"><h3>X</h3><ul></ul></div>
+    <div id="sort-y"><h3>Y</h3><ul></ul></div>
+    <div id="sort-z"><h3>Z</h3><ul></ul></div>
   </div>
   <h6 id="backtotop"><a href="#hero" onclick="scrollToTop()">Back to Top</a></h6>
 
+</div> <!--List Tab-->
+
+<div id="species-stats">
+
 </div>
 
+<div id="species-chart-container">
+  <canvas id="species-chart" width="500px" height="500px"></canvas>
+</div>
 
 </div>
 </body>

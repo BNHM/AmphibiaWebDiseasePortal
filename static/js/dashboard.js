@@ -217,182 +217,6 @@ async function buildSummaryTable() {
   summaryTable.appendChild(tr)
 }
 
-//LIST TAB
-
-// Builds List of species sampled by Scientific Name & organize alphabetically
-async function buildTaxonomyList() {
-  const data = await getBothScientificNameStackedData()
-  let names = data.scientificName
-
-  names.forEach(name => {
-    let li = document.createElement('li')
-
-    let arr = name.split(' ')
-    let genus = arr[0]
-    let species = arr[1]
-
-    let aNames = document.querySelector('#sort-a ul')
-    let bNames = document.querySelector('#sort-b ul')
-    let cNames = document.querySelector('#sort-c ul')
-    let dNames = document.querySelector('#sort-d ul')
-    let eNames = document.querySelector('#sort-e ul')
-    let fNames = document.querySelector('#sort-f ul')
-    let gNames = document.querySelector('#sort-g ul')
-    let hNames = document.querySelector('#sort-h ul')
-    let iNames = document.querySelector('#sort-i ul')
-    let jNames = document.querySelector('#sort-j ul')
-    let kNames = document.querySelector('#sort-k ul')
-    let lNames = document.querySelector('#sort-l ul')
-    let mNames = document.querySelector('#sort-m ul')
-    let nNames = document.querySelector('#sort-n ul')
-    let oNames = document.querySelector('#sort-o ul')
-    let pNames = document.querySelector('#sort-p ul')
-    let qNames = document.querySelector('#sort-q ul')
-    let rNames = document.querySelector('#sort-r ul')
-    let sNames = document.querySelector('#sort-s ul')
-    let tNames = document.querySelector('#sort-t ul')
-    let uNames = document.querySelector('#sort-u ul')
-    let vNames = document.querySelector('#sort-v ul')
-    let wNames = document.querySelector('#sort-w ul')
-    let xNames = document.querySelector('#sort-x ul')
-    let yNames = document.querySelector('#sort-y ul')
-    let zNames = document.querySelector('#sort-z ul')
-
-    if (name.startsWith('A') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-        `
-      aNames.appendChild(li)
-    } else if (name.startsWith('B') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      bNames.appendChild(li)
-    } else if (name.startsWith('C') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      cNames.appendChild(li)
-    } else if (name.startsWith('D') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      dNames.appendChild(li)
-    } else if (name.startsWith('E') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      eNames.appendChild(li)
-    } else if (name.startsWith('F') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      fNames.appendChild(li)
-    } else if (name.startsWith('G') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      gNames.appendChild(li)
-    } else if (name.startsWith('H') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      hNames.appendChild(li)
-    } else if (name.startsWith('I') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      iNames.appendChild(li)
-    } else if (name.startsWith('J') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      jNames.appendChild(li)
-    } else if (name.startsWith('K') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      kNames.appendChild(li)
-    } else if (name.startsWith('L') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      lNames.appendChild(li)
-    }else if (name.startsWith('M') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      mNames.appendChild(li)
-    } else if (name.startsWith('N') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      nNames.appendChild(li)
-    } else if (name.startsWith('O') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      oNames.appendChild(li)
-    }else if (name.startsWith('P') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      pNames.appendChild(li)
-    } else if (name.startsWith('Q') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      qNames.appendChild(li)
-    } else if (name.startsWith('R') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      rNames.appendChild(li)
-    } else if (name.startsWith('S') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      sNames.appendChild(li)
-    } else if (name.startsWith('T') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      tNames.appendChild(li)
-    } else if (name.startsWith('U') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      uNames.appendChild(li)
-    } else if (name.startsWith('V') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      vNames.appendChild(li)
-    } else if (name.startsWith('W') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      wNames.appendChild(li)
-    } else if (name.startsWith('X') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      xNames.appendChild(li)
-    } else if (name.startsWith('Y') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      yNames.appendChild(li)
-    } else if (name.startsWith('Z') === true) {
-      li.innerHTML = `
-        ${name} <a href="https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}" target="_blank">View in AmphibiaWeb <i class="fa fa-external-link"></i></a>
-      `
-      zNames.appendChild(li)
-    }
-
-  })
-}
-
 //CHARTS TAB
 
 //FETCH Bd Detected by Scientific Name
@@ -407,10 +231,18 @@ async function getBdDetectedByScientificName() {
 
   data.forEach(entry => {
     bdObj.push(entry)
+  })
+
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
   })
+
   return { scientificName, trueValue, falseValue, bdObj }
 }
 // CHART Display Bd Detected By Scientific Name
@@ -431,6 +263,13 @@ async function getBsalDetectedByScientificName() {
 
   data.forEach(entry => {
     bsalObj.push(entry)
+  })
+
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
@@ -454,17 +293,22 @@ async function getBdScientificNameData() {
   let scientificName = []
   let value = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     value.push(entry.value)
-  })
+   })
+
   return { scientificName, value }
 }
 
 // CHART
 async function bdScientificName() {
   const data = await getBdScientificNameData()
-makeBarChart(data.scientificName, 'Bd by Scientific Name', data.value, bdColor)
+  makeBarChart(data.scientificName, 'Bd by Scientific Name', data.value, bdColor)
 }
 
 // FETCH
@@ -475,10 +319,15 @@ async function getBsalScientificNameData() {
   let scientificName = []
   let value = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     value.push(entry.value)
-  })
+   })
+
   return { scientificName, value }
 
 }
@@ -515,13 +364,17 @@ async function getBothScientificNameStackedData() {
   let bdValue = []
   let bsalValue = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.Bd) - parseFloat(a.Bd) || parseFloat(b.Bsal) - parseFloat(a.Bsal)
+  })
+
+  sortedDescending.forEach(entry => {
     scientificName.push(entry.scientificName)
     bdValue.push(entry.Bd)
     bsalValue.push(entry.Bsal)
   })
-  return { scientificName, bdValue, bsalValue }
 
+  return { scientificName, bdValue, bsalValue }
 }
 
 // CHART
@@ -588,7 +441,11 @@ async function bdDetectedByGenusData() {
   let trueValue = []
   let falseValue = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
@@ -612,7 +469,11 @@ async function bsalDetectedByGenusData() {
   let trueValue = []
   let falseValue = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
@@ -635,7 +496,11 @@ async function getBdGenusData() {
   let genus = []
   let value = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a, b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     value.push(entry.value)
   })
@@ -657,7 +522,11 @@ async function getBsalGenusData() {
   let genus = []
   let value = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a, b) {
+    return parseFloat(b.value) - parseFloat(a.value)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     value.push(entry.value)
   })
@@ -680,7 +549,11 @@ async function getBothStackedGenusData() {
   let bdValue = []
   let bsalValue = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.Bd) - parseFloat(a.Bd) || parseFloat(b.Bsal) - parseFloat(a.Bsal)
+  })
+
+  sortedDescending.forEach(entry => {
     genus.push(entry.genus)
     bdValue.push(entry.Bd)
     bsalValue.push(entry.Bsal)
@@ -692,7 +565,7 @@ async function getBothStackedGenusData() {
 // CHART
 async function bothStackedGenus() {
   let data = await getBothStackedGenusData()
-makeStackedBarChart(data.genus, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)
+  makeStackedBarChart(data.genus, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)
   
 }
 
@@ -720,7 +593,11 @@ async function getBsalDetectedByCountryData() {
   let trueCount = []
   let falseCount = []
 
-  data.forEach(entry => {
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     country.push(entry.country)
     trueCount.push(entry.True)
     falseCount.push(entry.False)
@@ -744,8 +621,11 @@ async function getBdDetectedByCountryData() {
   let falseCount = []
   let countryObj = []
 
-  data.forEach(entry => {
-    countryObj.push(entry)
+  let sortedDescending = data.sort(function(a,b) {
+    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+  })
+
+  sortedDescending.forEach(entry => {
     country.push(entry.country)
     trueCount.push(entry.True)
     falseCount.push(entry.False)
@@ -824,11 +704,6 @@ async function getDataBothPathogens() {
   })
   return { country, totalSamples, countryAndValue }
   
-}
-
-async function bothPathogens() {
-  let data = await getDataBothPathogens()
-  makeBarChart(data.country, 'Total Bd and Bsal Samples Collected By Country', data.totalSamples, genericColor)
 }
 
   // GENERIC STACKED BAR CHART
@@ -1015,38 +890,22 @@ function toggleData(evt, tabType) {
   evt.currentTarget.className += " active";
 }
 
-// LIST SCROLL TO TOP 
-const scrollToTop = () => {
-  // variable for the number of pixels we are from the top of the document.
-  const c = document.documentElement.scrollTop || document.body.scrollTop;
-   
-  // If that number is greater than 0, we'll scroll back to 0, or the top of the document.
-  // We'll also animate that scroll with requestAnimationFrame:
-  // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
-  if (c > 0) {
-    window.requestAnimationFrame(scrollToTop);
-    // ScrollTo takes an x and a y coordinate.
-    // Increase the '10' value to get a smoother/slower scroll
-    window.scrollTo(0, c - c / 15);
-  }
-};
-
-  // // GENERIC PIE CHART SAVE FOR REFERENCE
-  // function makePieChart(chartLabel, dataLabel, values) {
-  //   let chartContainer = document.getElementById('chart-container')
+  // GENERIC PIE CHART SAVE FOR REFERENCE
+  // function makeSpeciesPieChart(chartLabel, dataLabel, values) {
+  //   let chartContainer = document.getElementById('species-chart-container')
 
   //   // Removes the previously existing canvas
-  //   let element = document.getElementById('dashboardChart');
+  //   let element = document.getElementById('species-chart');
   //   element.parentNode.removeChild(element)
 
   //   // Creates a new canvas
   //   let canvas = document.createElement('canvas')
-  //   canvas.id = 'dashboardChart'
+  //   canvas.id = 'species-chart'
   //   canvas.width = '1000px'
   //   canvas.height = '600px'
   //   chartContainer.appendChild(canvas)
 
-  //   let ctx = document.getElementById('dashboardChart').getContext('2d');
+  //   let ctx = document.getElementById('species-chart').getContext('2d');
       
   //    let pieChart = new Chart(ctx, {
   //     type: 'pie',
@@ -1068,3 +927,186 @@ const scrollToTop = () => {
   //     }
   //   });
   // }
+
+  //LIST TAB
+
+  function getUrlVars() {
+    var vars = {};
+    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+  }
+
+// Builds List of species sampled by Scientific Name & organize alphabetically
+async function buildTaxonomyList() {
+  let urlName = getUrlVars().id
+
+  const data = await getBothScientificNameStackedData()
+  let listNames = data.scientificName
+
+  const bdData = await getBdDetectedByScientificName()
+  let bdObj = bdData.bdObj
+
+  // const bsalData = await getBsalDetectedByScientificName()
+  // let bsalObj = bsalData.bsalObj
+
+  if (urlName === undefined) {
+    listNames.forEach(name => {
+      let arr = name.split(' ')
+      let genus = arr[0]
+      let species = arr[1]
+    
+        const aNames = document.querySelector('#sort-a ul')
+        const bNames = document.querySelector('#sort-b ul')
+        const cNames = document.querySelector('#sort-c ul')
+        const dNames = document.querySelector('#sort-d ul')
+        const eNames = document.querySelector('#sort-e ul')
+        const fNames = document.querySelector('#sort-f ul')
+        const gNames = document.querySelector('#sort-g ul')
+        const hNames = document.querySelector('#sort-h ul')
+        const iNames = document.querySelector('#sort-i ul')
+        const jNames = document.querySelector('#sort-j ul')
+        const kNames = document.querySelector('#sort-k ul')
+        const lNames = document.querySelector('#sort-l ul')
+        const mNames = document.querySelector('#sort-m ul')
+        const nNames = document.querySelector('#sort-n ul')
+        const oNames = document.querySelector('#sort-o ul')
+        const pNames = document.querySelector('#sort-p ul')
+        const qNames = document.querySelector('#sort-q ul')
+        const rNames = document.querySelector('#sort-r ul')
+        const sNames = document.querySelector('#sort-s ul')
+        const tNames = document.querySelector('#sort-t ul')
+        const uNames = document.querySelector('#sort-u ul')
+        const vNames = document.querySelector('#sort-v ul')
+        const wNames = document.querySelector('#sort-w ul')
+        const xNames = document.querySelector('#sort-x ul')
+        const yNames = document.querySelector('#sort-y ul')
+        const zNames = document.querySelector('#sort-z ul')
+    
+        listBuilder(name, 'A', aNames, genus, species)
+        listBuilder(name, 'B', bNames, genus, species)
+        listBuilder(name, 'C', cNames, genus, species)
+        listBuilder(name, 'D', dNames, genus, species)
+        listBuilder(name, 'E', eNames, genus, species)
+        listBuilder(name, 'F', fNames, genus, species)
+        listBuilder(name, 'G', gNames, genus, species)
+        listBuilder(name, 'H', hNames, genus, species)
+        listBuilder(name, 'I', iNames, genus, species)
+        listBuilder(name, 'J', jNames, genus, species)
+        listBuilder(name, 'K', kNames, genus, species)
+        listBuilder(name, 'L', lNames, genus, species)
+        listBuilder(name, 'M', mNames, genus, species)
+        listBuilder(name, 'N', nNames, genus, species)
+        listBuilder(name, 'O', oNames, genus, species)
+        listBuilder(name, 'P', pNames, genus, species)
+        listBuilder(name, 'Q', qNames, genus, species)
+        listBuilder(name, 'R', rNames, genus, species)
+        listBuilder(name, 'S', sNames, genus, species)
+        listBuilder(name, 'T', tNames, genus, species)
+        listBuilder(name, 'U', uNames, genus, species)
+        listBuilder(name, 'V', vNames, genus, species)
+        listBuilder(name, 'W', wNames, genus, species)
+        listBuilder(name, 'X', xNames, genus, species)
+        listBuilder(name, 'Y', yNames, genus, species)
+        listBuilder(name, 'Z', zNames, genus, species)
+      })
+    } else {
+      hideAllTabs()
+      let displayName = urlName.replace('+', ' ')
+      let div = document.getElementById('species-stats')
+
+      bdObj.forEach(entry => {
+        if(entry.scientificName == displayName) {
+          console.log(entry)
+          let nameArr = entry.scientificName.split(' ')
+          let genus = nameArr[0]
+          let species = nameArr[1]
+
+          div.innerHTML = `
+          <p>More Stats Coming Soon!<br><br>
+          ${displayName}</p>
+          <button class="species-btn" onclick="location.href='/dashboard'">Back to List</button>
+          <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+          `
+          speciesPieChart('Bd Positive', 'Bd Negative', entry.True, entry.False)
+        }
+      })
+    }
+}
+
+function speciesPieChart(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
+  const container = document.getElementById('species-chart-container')
+
+  let canvas = document.createElement('canvas')
+  canvas.id = 'species-chart'
+  canvas.width = '500px'
+  canvas.height = '300px'
+  container.appendChild(canvas)
+
+  let ctx = document.getElementById('species-chart').getContext('2d')
+  let chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [dataLabel, dataLabelTwo],
+            datasets: [{
+                backgroundColor: [posColor, negColor],
+                data: [valuesOne, valuesTwo]
+            }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          legend: {
+            display: true
+          }
+        }
+    });
+
+}
+
+function hideAllTabs() {
+  let p = document.getElementById('description')
+  let tabNav = document.getElementById('tab-nav')
+  let tableTab = document.getElementById('table-tab')
+  let chartTab = document.getElementById('chart-tab')
+  let listTab = document.getElementById('list-tab')
+
+  p.style.display = 'none'
+  tabNav.style.display = 'none'
+  tableTab.style.display = 'none'
+  chartTab.style.display = 'none'
+  listTab.style.display = 'none'
+}
+
+function listBuilder(name, str, selector, genus, species) {
+  let li = document.createElement('li')
+  if (name.startsWith(str) === true) {
+    li.innerHTML = `
+      <span>${name}</span>
+      <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+      <button id="${name}" class="species-btn">Portal Stats</button>
+      <div class="clear"></div>
+      `
+    selector.appendChild(li)
+
+    document.getElementById(`${name}`).addEventListener('click', function() {
+      window.location.href = `/dashboard/?id=${genus}+${species}`
+    })
+  }
+}
+
+// LIST SCROLL TO TOP 
+const scrollToTop = () => {
+  // variable for the number of pixels we are from the top of the document.
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+   
+  // If that number is greater than 0, we'll scroll back to 0, or the top of the document.
+  // We'll also animate that scroll with requestAnimationFrame:
+  // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    // ScrollTo takes an x and a y coordinate.
+    // Increase the '10' value to get a smoother/slower scroll
+    window.scrollTo(0, c - c / 15);
+  }
+};
