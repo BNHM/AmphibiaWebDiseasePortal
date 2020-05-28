@@ -210,7 +210,10 @@ div ul {
 }
 
 #list-nav a {
-    font-weight: bold;
+    font-weight: bolder;
+    font-size: 17px;
+    padding: 5px;
+    text-decoration: none;
 }
   
 #backtotop {
@@ -246,7 +249,7 @@ div ul {
 .amphibiaweb-btn {
     margin: auto;
     padding: 10px;
-    display:inline;
+    display: inline;
 }
 
 .species-btn {
@@ -256,7 +259,7 @@ div ul {
     float: right;
     border: 1px solid #93c3ec;
     border-radius: 15px 50px 30px;
-    width: 120px;
+    width: 125px;
     background-color: white;
     color: black;
     font-weight: normal;
@@ -264,6 +267,7 @@ div ul {
 
 .species-btn:hover {
     background-color: #45bce1;
+    font-weight: bold;
 }
 
 .clear {

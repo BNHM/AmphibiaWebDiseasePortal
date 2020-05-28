@@ -59,6 +59,11 @@ tr:hover {
   font-weight: normal;
 }
 
+.detailsBtn:hover {
+  background-color: #45bce1;
+  font-weight: bold;
+}
+
 /* INDIVIDUAL PROJECT DIV */
 #detail-container {
   display: block;
