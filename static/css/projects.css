@@ -46,6 +46,19 @@ tr:hover {
     background-color: rgb(238,238,238);
 }
 
+.detailsBtn {
+  margin-left: 5px;
+  margin-right: 10px;
+  padding: 5px;
+  float: right;
+  border: 1px solid #93c3ec;
+  border-radius: 15px 50px 30px;
+  width: 120px;
+  background-color: white;
+  color: black;
+  font-weight: normal;
+}
+
 /* INDIVIDUAL PROJECT DIV */
 #detail-container {
   display: block;
