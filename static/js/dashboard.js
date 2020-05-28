@@ -217,235 +217,6 @@ async function buildSummaryTable() {
   summaryTable.appendChild(tr)
 }
 
-//LIST TAB
-
-// Builds List of species sampled by Scientific Name & organize alphabetically
-async function buildTaxonomyList() {
-  const data = await getBothScientificNameStackedData()
-  let names = data.scientificName
-
-  names.forEach(name => {
-    let li = document.createElement('li')
-
-    let arr = name.split(' ')
-    let genus = arr[0]
-    let species = arr[1]
-
-    let aNames = document.querySelector('#sort-a ul')
-    let bNames = document.querySelector('#sort-b ul')
-    let cNames = document.querySelector('#sort-c ul')
-    let dNames = document.querySelector('#sort-d ul')
-    let eNames = document.querySelector('#sort-e ul')
-    let fNames = document.querySelector('#sort-f ul')
-    let gNames = document.querySelector('#sort-g ul')
-    let hNames = document.querySelector('#sort-h ul')
-    let iNames = document.querySelector('#sort-i ul')
-    let jNames = document.querySelector('#sort-j ul')
-    let kNames = document.querySelector('#sort-k ul')
-    let lNames = document.querySelector('#sort-l ul')
-    let mNames = document.querySelector('#sort-m ul')
-    let nNames = document.querySelector('#sort-n ul')
-    let oNames = document.querySelector('#sort-o ul')
-    let pNames = document.querySelector('#sort-p ul')
-    let qNames = document.querySelector('#sort-q ul')
-    let rNames = document.querySelector('#sort-r ul')
-    let sNames = document.querySelector('#sort-s ul')
-    let tNames = document.querySelector('#sort-t ul')
-    let uNames = document.querySelector('#sort-u ul')
-    let vNames = document.querySelector('#sort-v ul')
-    let wNames = document.querySelector('#sort-w ul')
-    let xNames = document.querySelector('#sort-x ul')
-    let yNames = document.querySelector('#sort-y ul')
-    let zNames = document.querySelector('#sort-z ul')
-
-    if (name.startsWith('A') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>
-        `
-      aNames.appendChild(li)
-    } else if (name.startsWith('B') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      bNames.appendChild(li)
-    } else if (name.startsWith('C') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      cNames.appendChild(li)
-    } else if (name.startsWith('D') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      dNames.appendChild(li)
-    } else if (name.startsWith('E') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      eNames.appendChild(li)
-    } else if (name.startsWith('F') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      fNames.appendChild(li)
-    } else if (name.startsWith('G') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      gNames.appendChild(li)
-    } else if (name.startsWith('H') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      hNames.appendChild(li)
-    } else if (name.startsWith('I') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      iNames.appendChild(li)
-    } else if (name.startsWith('J') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      jNames.appendChild(li)
-    } else if (name.startsWith('K') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      kNames.appendChild(li)
-    } else if (name.startsWith('L') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      lNames.appendChild(li)
-    }else if (name.startsWith('M') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      mNames.appendChild(li)
-    } else if (name.startsWith('N') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      nNames.appendChild(li)
-    } else if (name.startsWith('O') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      oNames.appendChild(li)
-    }else if (name.startsWith('P') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      pNames.appendChild(li)
-    } else if (name.startsWith('Q') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      qNames.appendChild(li)
-    } else if (name.startsWith('R') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      rNames.appendChild(li)
-    } else if (name.startsWith('S') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      sNames.appendChild(li)
-    } else if (name.startsWith('T') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      tNames.appendChild(li)
-    } else if (name.startsWith('U') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      uNames.appendChild(li)
-    } else if (name.startsWith('V') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      vNames.appendChild(li)
-    } else if (name.startsWith('W') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      wNames.appendChild(li)
-    } else if (name.startsWith('X') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      xNames.appendChild(li)
-    } else if (name.startsWith('Y') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      yNames.appendChild(li)
-    } else if (name.startsWith('Z') === true) {
-      li.innerHTML = `
-        <span>${name}</span>
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn">Portal Stats</button>
-        <div class="clear"></div>      `
-      zNames.appendChild(li)
-    }
-
-  })
-}
-
 //CHARTS TAB
 
 //FETCH Bd Detected by Scientific Name
@@ -1119,22 +890,6 @@ function toggleData(evt, tabType) {
   evt.currentTarget.className += " active";
 }
 
-// LIST SCROLL TO TOP 
-const scrollToTop = () => {
-  // variable for the number of pixels we are from the top of the document.
-  const c = document.documentElement.scrollTop || document.body.scrollTop;
-   
-  // If that number is greater than 0, we'll scroll back to 0, or the top of the document.
-  // We'll also animate that scroll with requestAnimationFrame:
-  // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
-  if (c > 0) {
-    window.requestAnimationFrame(scrollToTop);
-    // ScrollTo takes an x and a y coordinate.
-    // Increase the '10' value to get a smoother/slower scroll
-    window.scrollTo(0, c - c / 15);
-  }
-};
-
   // // GENERIC PIE CHART SAVE FOR REFERENCE
   // function makePieChart(chartLabel, dataLabel, values) {
   //   let chartContainer = document.getElementById('chart-container')
@@ -1172,3 +927,105 @@ const scrollToTop = () => {
   //     }
   //   });
   // }
+
+  //LIST TAB
+
+// Builds List of species sampled by Scientific Name & organize alphabetically
+async function buildTaxonomyList() {
+  const data = await getBothScientificNameStackedData()
+  let names = data.scientificName
+
+  names.forEach(name => {
+    let arr = name.split(' ')
+    let genus = arr[0]
+    let species = arr[1]
+
+    const aNames = document.querySelector('#sort-a ul')
+    const bNames = document.querySelector('#sort-b ul')
+    const cNames = document.querySelector('#sort-c ul')
+    const dNames = document.querySelector('#sort-d ul')
+    const eNames = document.querySelector('#sort-e ul')
+    const fNames = document.querySelector('#sort-f ul')
+    const gNames = document.querySelector('#sort-g ul')
+    const hNames = document.querySelector('#sort-h ul')
+    const iNames = document.querySelector('#sort-i ul')
+    const jNames = document.querySelector('#sort-j ul')
+    const kNames = document.querySelector('#sort-k ul')
+    const lNames = document.querySelector('#sort-l ul')
+    const mNames = document.querySelector('#sort-m ul')
+    const nNames = document.querySelector('#sort-n ul')
+    const oNames = document.querySelector('#sort-o ul')
+    const pNames = document.querySelector('#sort-p ul')
+    const qNames = document.querySelector('#sort-q ul')
+    const rNames = document.querySelector('#sort-r ul')
+    const sNames = document.querySelector('#sort-s ul')
+    const tNames = document.querySelector('#sort-t ul')
+    const uNames = document.querySelector('#sort-u ul')
+    const vNames = document.querySelector('#sort-v ul')
+    const wNames = document.querySelector('#sort-w ul')
+    const xNames = document.querySelector('#sort-x ul')
+    const yNames = document.querySelector('#sort-y ul')
+    const zNames = document.querySelector('#sort-z ul')
+
+    listBuilder(name, 'A', aNames, genus, species)
+    listBuilder(name, 'B', bNames, genus, species)
+    listBuilder(name, 'C', cNames, genus, species)
+    listBuilder(name, 'D', dNames, genus, species)
+    listBuilder(name, 'E', eNames, genus, species)
+    listBuilder(name, 'F', fNames, genus, species)
+    listBuilder(name, 'G', gNames, genus, species)
+    listBuilder(name, 'H', hNames, genus, species)
+    listBuilder(name, 'I', iNames, genus, species)
+    listBuilder(name, 'J', jNames, genus, species)
+    listBuilder(name, 'K', kNames, genus, species)
+    listBuilder(name, 'L', lNames, genus, species)
+    listBuilder(name, 'M', mNames, genus, species)
+    listBuilder(name, 'N', nNames, genus, species)
+    listBuilder(name, 'O', oNames, genus, species)
+    listBuilder(name, 'P', pNames, genus, species)
+    listBuilder(name, 'Q', qNames, genus, species)
+    listBuilder(name, 'R', rNames, genus, species)
+    listBuilder(name, 'S', sNames, genus, species)
+    listBuilder(name, 'T', tNames, genus, species)
+    listBuilder(name, 'U', uNames, genus, species)
+    listBuilder(name, 'V', vNames, genus, species)
+    listBuilder(name, 'W', wNames, genus, species)
+    listBuilder(name, 'X', xNames, genus, species)
+    listBuilder(name, 'Y', yNames, genus, species)
+    listBuilder(name, 'Z', zNames, genus, species)
+
+  })
+}
+
+function listBuilder(name, startsWith, selector, genus, species) {
+  let li = document.createElement('li')
+  if (name.startsWith(startsWith) === true) {
+    li.innerHTML = `
+      <span>${name}</span>
+      <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+      <button id="${name}" class="species-btn">Portal Stats</button>
+      <div class="clear"></div>
+      `
+    selector.appendChild(li)
+
+    document.getElementById(`${name}`).addEventListener('click', function() {
+      window.location.href = `/dashboard/?id=${name}`
+    })
+  }
+}
+
+// LIST SCROLL TO TOP 
+const scrollToTop = () => {
+  // variable for the number of pixels we are from the top of the document.
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+   
+  // If that number is greater than 0, we'll scroll back to 0, or the top of the document.
+  // We'll also animate that scroll with requestAnimationFrame:
+  // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    // ScrollTo takes an x and a y coordinate.
+    // Increase the '10' value to get a smoother/slower scroll
+    window.scrollTo(0, c - c / 15);
+  }
+};
