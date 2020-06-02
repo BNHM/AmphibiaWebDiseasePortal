@@ -274,5 +274,65 @@ div ul {
     clear: both;
 }
 
+/* SPECIES DETAIL PAGE */
+
+#species-stats h3{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#info-dash {
+    padding: 5px;
+    margin: auto;
+    border: 2px solid rgb(190, 187, 187);
+    display: flex;
+    border-radius: 10px;
+    background-color: rgb(243, 240, 240);
+}
+
+#bsal-chart-container, #bd-chart-container {
+    padding: 10px;
+    margin: 10px;
+    width: 20%;
+    border: 1px solid rgb(192, 189, 189);
+    border-radius: 20px;
+    background-color: white;
+}
+
+#additional-info {
+    margin: auto;
+    padding: 10px;
+    margin: 10px;
+    width: 57%;
+    border: 1px solid rgb(192, 189, 189);
+    border-radius: 20px;
+    background-color: white;
+}
+
+#additional-info button {
+    margin-left: 5px;
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid #93c3ec;
+    border-radius: 15px 50px 30px;
+    width: 150px;
+    background-color: white;
+    color: black;
+    font-weight: normal;
+}
+
+#additional-into button:hover {
+    background-color: #45bce1;
+    font-weight: bold;
+}
+
+#detail-p {
+    font-size: 14px;
+}
+
+#detail-p:before {
+    display: none;
+}
+
 
 
