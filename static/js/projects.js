@@ -232,6 +232,7 @@ function displayProjects() {
             Events: ${sampleData.EventCount} || 
             Samples Collected: ${sampleData.SampleCount} 
             <br>
+            ( Click on each bar for more details )
             <div id="sample-chart" >
             <canvas id="sampleChart" height="600px" width="1000px" style="margin: auto;"></canvas>
             </div> 
@@ -353,9 +354,10 @@ function hideDetailTable() {
 }
 
 function makeBarChart(xLabel, dataLabel, values) {
+  let canvas = document.getElementById('sampleChart')
   let ctx = document.getElementById('sampleChart').getContext('2d');
 
-   return new Chart(ctx, {
+   let samplesChart = new Chart(ctx, {
     type: "bar",
     options: {
       maintainAspectRatio: false,
@@ -374,4 +376,21 @@ function makeBarChart(xLabel, dataLabel, values) {
       ]
     }
   });
+
+  canvas.addEventListener('mouseover', function(e) {
+      e.target.style.cursor = 'pointer'
+  })
+
+  canvas.addEventListener('click', function(event) {
+    let firstPoint = samplesChart.getElementAtEvent(event)[0]
+
+    if(firstPoint) {
+      let label = samplesChart.data.labels[firstPoint._index];
+      let arr = label.split(' ')
+      let genus = arr[0]
+      let species = arr[1]
+
+      window.location.href = `/dashboard/?id=${genus}+${species}`
+    }
+  })
 }

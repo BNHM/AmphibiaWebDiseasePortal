@@ -789,85 +789,85 @@ async function getDataBothPathogens() {
     let bdObj = bdData.bdObj
     let bsalObj = bsalData.bsalObj
 
-    canvas.addEventListener('click', function(event) {
-      let firstPoint = barChart.getElementAtEvent(event)[0]
-      if (firstPoint) {
-        let label = barChart.data.labels[firstPoint._index];
-        // let value = barChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+    // canvas.addEventListener('click', function(event) {
+    //   let firstPoint = barChart.getElementAtEvent(event)[0]
+    //   if (firstPoint) {
+    //     let label = barChart.data.labels[firstPoint._index];
+    //     // let value = barChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
         
-        bsalObj.forEach(entry => {
-          if (label == entry.scientificName) {
-            let modalTitle = document.getElementById('insert-label')
-            modalTitle.innerHTML = `${label}`
+    //     bsalObj.forEach(entry => {
+    //       if (label == entry.scientificName) {
+    //         let modalTitle = document.getElementById('insert-label')
+    //         modalTitle.innerHTML = `${label}`
 
-            displayDataModal('Bsal Detected', 'Bsal Not Detected', entry.True, entry.False)
-          }
-        })
+    //         displayDataModal('Bsal Detected', 'Bsal Not Detected', entry.True, entry.False)
+    //       }
+    //     })
 
-        bdObj.forEach(entry => {
-          if (label == entry.scientificName) {
-            // console.log(label)
-            // console.log(entry)
+    //     bdObj.forEach(entry => {
+    //       if (label == entry.scientificName) {
+    //         // console.log(label)
+    //         // console.log(entry)
 
-            let modalTitle = document.getElementById('insert-label')
-            modalTitle.innerHTML = `${label}`
+    //         let modalTitle = document.getElementById('insert-label')
+    //         modalTitle.innerHTML = `${label}`
 
-            displayDataModal('Bd Detected', 'Bd Not Detected', entry.True, entry.False)
-          }
-        })
+    //         displayDataModal('Bd Detected', 'Bd Not Detected', entry.True, entry.False)
+    //       }
+    //     })
 
-        // console.log('Label: ' + label + "\nValue: " + value);
-      }
-    })
+    //     // console.log('Label: ' + label + "\nValue: " + value);
+    //   }
+    // })
   
   }
 
-  // MODAL WITH PIE CHART
-  function displayDataModal(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
-    let modal = document.getElementById('modal-container')
-    let span = document.getElementsByClassName('close')[0]
+  // // MODAL WITH PIE CHART
+  // function displayDataModal(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
+  //   let modal = document.getElementById('modal-container')
+  //   let span = document.getElementsByClassName('close')[0]
 
-    if (modal.style.display === 'none') {
-      modal.style.display = 'block'
-    }
+  //   if (modal.style.display === 'none') {
+  //     modal.style.display = 'block'
+  //   }
 
-    span.onclick = function() {
-      modal.style.display = 'none'
-    }
+  //   span.onclick = function() {
+  //     modal.style.display = 'none'
+  //   }
 
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = 'none'
-      }
-    }
+  //   window.onclick = function(event) {
+  //     if (event.target == modal) {
+  //       modal.style.display = 'none'
+  //     }
+  //   }
 
-    let modalChartContainer = document.getElementById('modal-chart-container')
+  //   let modalChartContainer = document.getElementById('modal-chart-container')
 
-    let canvas = document.createElement('canvas')
-    canvas.id = 'modalChart'
-    canvas.width = '500px'
-    canvas.height = '300px'
-    modalChartContainer.appendChild(canvas)
+  //   let canvas = document.createElement('canvas')
+  //   canvas.id = 'modalChart'
+  //   canvas.width = '500px'
+  //   canvas.height = '300px'
+  //   modalChartContainer.appendChild(canvas)
   
-    let ctx = document.getElementById('modalChart').getContext('2d')
-    let chart = new Chart(ctx, {
-          type: 'pie',
-          data: {
-              labels: [dataLabel, dataLabelTwo],
-              datasets: [{
-                  backgroundColor: [posColor, negColor],
-                  data: [valuesOne, valuesTwo]
-              }]
-          },
-          options: {
-            maintainAspectRatio: false,
-            legend: {
-              display: true
-            }
-          }
-      });
+  //   let ctx = document.getElementById('modalChart').getContext('2d')
+  //   let chart = new Chart(ctx, {
+  //         type: 'pie',
+  //         data: {
+  //             labels: [dataLabel, dataLabelTwo],
+  //             datasets: [{
+  //                 backgroundColor: [posColor, negColor],
+  //                 data: [valuesOne, valuesTwo]
+  //             }]
+  //         },
+  //         options: {
+  //           maintainAspectRatio: false,
+  //           legend: {
+  //             display: true
+  //           }
+  //         }
+  //     });
 
-  }
+  // }
 
   // TABS
 function toggleData(evt, tabType) {
