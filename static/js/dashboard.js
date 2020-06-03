@@ -912,6 +912,7 @@ async function buildTaxonomyList() {
 
   // If there is no scientific name in URL, load entire list.
   if (urlName === undefined) {
+    hideInfoDash()
     listNames.forEach(name => {
       let arr = name.split(' ')
       let genus = arr[0]
@@ -1128,6 +1129,11 @@ function hideAllTabs() {
   tableTab.style.display = 'none'
   chartTab.style.display = 'none'
   listTab.style.display = 'none'
+}
+
+function hideInfoDash() {
+  const dash = document.getElementById('info-dash')
+  dash.style.display = 'none'
 }
 
 function listBuilder(name, str, selector, genus, species) {
