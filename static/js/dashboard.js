@@ -978,6 +978,9 @@ async function buildTaxonomyList() {
       const bdDiv = document.getElementById('bd-chart-container')
       const bsalDiv = document.getElementById('bsal-chart-container')
       const additionalInfoDiv = document.getElementById('additional-info')
+      const bsalCanvas = document.getElementById('bsal-chart')
+      const bdCanvas = document.getElementById('bd-chart')
+
       // const projectsUl = document.getElementById('associated-projects')
 
       let displayName = urlName.replace('+', ' ')
@@ -987,19 +990,24 @@ async function buildTaxonomyList() {
 
       speciesDiv.innerHTML = `
       <p></p>
-      <h3>${displayName}</h>
+      <h3>${displayName}</h3>
+      <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+      <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to List</button>      
+
       `
 
-      additionalInfoDiv.innerHTML = `
+     additionalInfoDiv.innerHTML = `
       <h5>Associated Projects</h5>
-      <button type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View ${genus} ${species} in AmphibiaWeb</button>
-      <button onclick="location.href='/dashboard'">Back to List</button>      
       `
 
+      // Checks for and displays Bd data
       bdObj.forEach(entry => {
-        if(entry.scientificName == displayName) {
+        if(entry.scientificName === displayName) {
+          // console.log(entry.scientificName, displayName)
+
           //If only False values
           if(entry.True == undefined && entry.False) {
+            bdCanvas.style.display = 'none'
             let p = document.createElement('p')
       
             p.innerHTML = `${entry.False} samples tested for Bd were all found negative`
@@ -1007,36 +1015,46 @@ async function buildTaxonomyList() {
 
             // If both True and False values
           } else {
+            bdCanvas.style.display = 'block'
             bdPieChart('Bd Positive', 'Bd Negative', entry.True, entry.False)
           }
         }
       })
 
-      bsalObj.forEach(entry => {
-        if(entry.scientificName == displayName) {
+      bsalObj.filter(entry => {
+        if (entry.scientificName === displayName) {
+          console.log(entry.scientificName, displayName)
 
-          if(entry.True == undefined && entry.False) {
-            let p = document.createElement('p')
-      
-            p.id = 'detail-p'
-            p.innerHTML = `
-            All ${entry.False} samples tested for Bsal were negative.
-            `
-            
-            let bsalChart = document.getElementById('bsal-chart')
-            bsalChart.style.display = 'none'
-            bsalDiv.appendChild(p)
+          if (entry.True === undefined && entry.False) {
+              let p = document.createElement('p')
+              p.class = 'detail-p'
+              p.innerHTML = `All ${entry.False} samples tested for Bsal were negative.`
+              
+              let bsalChart = document.getElementById('bsal-chart')
+              bsalChart.style.display = 'none'
+              return bsalDiv.appendChild(p) 
 
           } else if (entry.True && entry.False) {
-            const bsalCanvas = document.getElementById('bsal-chart')
-            bsalCanvas.style.display = 'block'
-            bsalPieChart('Bsal Positive', 'Bsal Negative', entry.True, entry.False)
-          } 
-        } else {
+              bsalCanvas.style.display = 'block'
+              return bsalPieChart('Bsal Positive', 'Bsal Negative', entry.True, entry.False)
+          }
+        }
+          //TODO: Fix this. Returns the same value 55 times, idk how to fix this.
+        //  else {
+        //   console.log(entry)
+        //   bsalCanvas.style.display = 'none'
+        //   let p = document.createElement('p')
+        //   p.class = 'detail-p'
+        //   p.innerHTML = `No Bsal Data Available`
+        //   return bsalDiv.appendChild(p)
+        // }
 
-          console.log('No Bsal Data available' )
-      }
+   
+
+        
+
       })
+
     }
 }
 
