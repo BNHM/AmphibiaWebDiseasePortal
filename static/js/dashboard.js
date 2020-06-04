@@ -1008,17 +1008,8 @@ async function buildTaxonomyList() {
       <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
       `
 
-      let samples = []
-      totalData.forEach(entry => {
-        if(entry.scientificName === displayName) {
-          let totalSamples = entry.value
-          return samples.push(totalSamples)          
-        }
-      })
-
       additionalInfoDiv.innerHTML = `
       <h5>Associated Projects</h5>
-      <p>Samples Tested: ${samples}</p>
       `
 
       // Totals div for displaying bd/bsal tested
@@ -1029,37 +1020,39 @@ async function buildTaxonomyList() {
             let p = document.createElement('p')
             p.innerHTML = `All ${x.Bd} samples were tested for Bd only.`
             totalsDiv.appendChild(p)
+
           } else if (x.Bd == undefined && x.Bsal) {
             let p = document.createElement('p')
             p.innerHTML = `All ${x.Bsal} samples were tested for Bsal only.`
             totalsDiv.appendChild(p)
+
           } else {
-            bothPieChart('Bd', 'Bsal', x.Bd, x.Bsal)
+            makePieChart('totals-chart-container', 'both-chart', 'Bd', 'Bsal', x.Bd, x.Bsal, bdColor, bsalColor)
           }
         }        
       })
       
       // Checks for and displays Bd data
-      bdObj.forEach(entry => {
-        if(entry.scientificName === displayName) {
+      bdObj.forEach(x => {
+        if(x.scientificName === displayName) {
           //If only False values
-          if(entry.True == undefined && entry.False) {
+          if(x.True == undefined && x.False) {
             bdCanvas.style.display = 'none'
             let p = document.createElement('p')
-            p.innerHTML = `${entry.False} samples tested for Bd were all found negative`
+            p.innerHTML = `${x.False} samples tested for Bd were all found negative`
             bdDiv.appendChild(p)
 
             // If only True values
-          } else if (entry.False == undefined && entry.True) {
+          } else if (x.False == undefined && x.True) {
             bdCanvas.style.display = 'none'
             let p = document.createElement('p')
-            p.innerHTML = `${entry.True} samples tested for Bd were all found positive`
+            p.innerHTML = `${x.True} samples tested for Bd were all found positive`
             bdDiv.appendChild(p)
 
             // If both True and False values
           } else {
             bdCanvas.style.display = 'block'
-            bdPieChart('Bd Positive', 'Bd Negative', entry.True, entry.False)
+            makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
           }
         } 
       })
@@ -1090,40 +1083,39 @@ async function buildTaxonomyList() {
             // If both True and False values
           } else {
               bsalCanvas.style.display = 'block'
-               bsalPieChart('Bsal Positive', 'Bsal Negative', x.True, x.False)
+              makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
           } 
         }
-
       })
       
       // TODO: Fix this
-      // If no Bsal Data is found, needs to do this:
+      // If no Bsal or Bd Data is found, needs to do this:
      
         // bsalCanvas.style.display = 'none'
         // let p = document.createElement('p')
         // p.class = 'detail-p'
         // p.innerHTML = `No Bsal Data Available for ${displayName}`
         // bsalDiv.appendChild(p)
-        
     }
 }
 
-function bsalPieChart(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
-  const container = document.getElementById('bsal-chart-container')
+// GENERIC PIE CHART
+function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valuesTwo, colorOne, colorTwo) {
+  const container = document.getElementById(containerId)
 
   let canvas = document.createElement('canvas')
-  canvas.id = 'bsal-chart'
+  canvas.id = canvasId
   canvas.width = '300px'
   canvas.height = '300px'
   container.appendChild(canvas)
 
-  let ctx = document.getElementById('bsal-chart').getContext('2d')
-  let chart = new Chart(ctx, {
+  let ctx = document.getElementById(canvasId).getContext('2d')
+  return new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: [dataLabel, dataLabelTwo],
+            labels: [labelOne, labelTwo],
             datasets: [{
-                backgroundColor: [posColor, negColor],
+                backgroundColor: [colorOne, colorTwo],
                 data: [valuesOne, valuesTwo]
             }]
         },
@@ -1134,65 +1126,6 @@ function bsalPieChart(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
           }
         }
     });
-
-}
-
-function bdPieChart(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
-  const container = document.getElementById('bd-chart-container')
-
-  let canvas = document.createElement('canvas')
-  canvas.id = 'bd-chart'
-  canvas.width = '300px'
-  canvas.height = '300px'
-  container.appendChild(canvas)
-
-  let ctx = document.getElementById('bd-chart').getContext('2d')
-  let chart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: [dataLabel, dataLabelTwo],
-            datasets: [{
-                backgroundColor: [posColor, negColor],
-                data: [valuesOne, valuesTwo]
-            }]
-        },
-        options: {
-          maintainAspectRatio: true,
-          legend: {
-            display: true
-          }
-        }
-    });
-
-}
-
-function bothPieChart(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
-  const container = document.getElementById('totals-chart-container')
-
-  let canvas = document.createElement('canvas')
-  canvas.id = 'both-chart'
-  canvas.width = '300px'
-  canvas.height = '300px'
-  container.appendChild(canvas)
-
-  let ctx = document.getElementById('both-chart').getContext('2d')
-  let chart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: [dataLabel, dataLabelTwo],
-            datasets: [{
-                backgroundColor: [bdColor, bsalColor],
-                data: [valuesOne, valuesTwo]
-            }]
-        },
-        options: {
-          maintainAspectRatio: true,
-          legend: {
-            display: true
-          }
-        }
-    });
-
 }
 
 function hideAllTabs() {
