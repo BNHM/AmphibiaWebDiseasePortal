@@ -118,14 +118,14 @@ select {
     justify-content: flex-start;
     border: 1px solid lightgray;
     margin: auto;
-    width: 40%;
+    width: 30%;
 }
 
 #species-table {
     justify-content: flex-start;
     border: 1px solid lightgray;
     margin: auto;
-    width: 50%;
+    width: 60%;
 }
 
 #country-table tr, th, td {
@@ -290,10 +290,10 @@ div ul {
     background-color: rgb(243, 240, 240);
 }
 
-#bsal-chart-container, #bd-chart-container {
+#bsal-chart-container, #bd-chart-container, #totals-chart-container {
     padding: 10px;
     margin: 10px;
-    width: 20%;
+    width: 30%;
     border: 1px solid rgb(192, 189, 189);
     border-radius: 20px;
     background-color: white;
@@ -303,7 +303,7 @@ div ul {
     margin: auto;
     padding: 10px;
     margin: 10px;
-    width: 57%;
+    width: 40%;
     border: 1px solid rgb(192, 189, 189);
     border-radius: 20px;
     background-color: white;
