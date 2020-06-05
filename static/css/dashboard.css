@@ -118,14 +118,14 @@ select {
     justify-content: flex-start;
     border: 1px solid lightgray;
     margin: auto;
-    width: 40%;
+    width: 30%;
 }
 
 #species-table {
     justify-content: flex-start;
     border: 1px solid lightgray;
     margin: auto;
-    width: 50%;
+    width: 60%;
 }
 
 #country-table tr, th, td {
@@ -272,6 +272,67 @@ div ul {
 
 .clear {
     clear: both;
+}
+
+/* SPECIES DETAIL PAGE */
+
+#species-stats h3{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#info-dash {
+    padding: 5px;
+    margin: auto;
+    border: 2px solid rgb(190, 187, 187);
+    display: flex;
+    border-radius: 10px;
+    background-color: rgb(243, 240, 240);
+}
+
+#bsal-chart-container, #bd-chart-container, #totals-chart-container {
+    padding: 10px;
+    margin: 10px;
+    width: 30%;
+    border: 1px solid rgb(192, 189, 189);
+    border-radius: 20px;
+    background-color: white;
+}
+
+#additional-info {
+    margin: auto;
+    padding: 10px;
+    margin: 10px;
+    width: 40%;
+    border: 1px solid rgb(192, 189, 189);
+    border-radius: 20px;
+    background-color: white;
+}
+
+.species-detail-btn {
+    margin-left: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #93c3ec;
+    border-radius: 15px 50px 30px;
+    width: 155px;
+    background-color: white;
+    color: black;
+    font-weight: normal;
+}
+
+.species-detail-btn:hover {
+    background-color: #45bce1;
+    font-weight: bold;
+}
+
+.detail-p {
+    font-size: 14px;
+}
+
+.detail-p:before {
+    display: none;
 }
 
 

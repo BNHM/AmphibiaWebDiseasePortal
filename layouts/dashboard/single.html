@@ -15,7 +15,7 @@
   NOTE: This page is a work in progress - some features may not work as expected yet. <br>
   Keep checking back for updates!
 
-  <p id="description">Visualize data for all publicly availabe projects.</p>
+  <p id="description">Visualize data for all publicly available projects.</p>
 
   <!-- Tab links -->
 <div id="tab-nav" class="tab">
@@ -26,6 +26,7 @@
 
 <!-- TABLE TAB -->
 <div id="table-tab" class="tabcontent">
+  <h4>Summary</h4>
   <div id="summary-table-data-container">
     <table id="summary-data-table">
       <tr>
@@ -49,16 +50,17 @@
 
   <h5 id='topten-table-label'>Top Ten By Country and Species</h5>
   <div id="topten-data-table-container">
-    <table id="country-table">
-      <tr>
-        <th>Country</th>
-        <th>Sample Count</th>
-      </tr>
-    </table>
 
     <table id="species-table">
       <tr>
         <th>Species</th>
+        <th>Sample Count</th>
+      </tr>
+    </table>
+
+    <table id="country-table">
+      <tr>
+        <th>Country</th>
         <th>Sample Count</th>
       </tr>
     </table>
@@ -117,7 +119,7 @@
 
 </div> <!--chart tab container-->
 
-<div id="list-tab" class="tabcontent"  style="display:block;">
+<div id="list-tab" class="tabcontent" style="display:block;">
   
   <div id="list-nav">
     <a href="#sort-a">A</a> | 
@@ -181,12 +183,32 @@
 </div> <!--List Tab-->
 
 <div id="species-stats">
-
 </div>
 
-<div id="species-chart-container">
-  <canvas id="species-chart" width="500px" height="500px"></canvas>
-</div>
+<div id="info-dash">
+
+  <div id="bd-chart-container">
+    <h5>Bd</h5>
+    <canvas id="bd-chart" width="300px" height="300px"></canvas>
+  </div>
+  
+  <div id="bsal-chart-container">
+    <h5>Bsal</h5>
+    <canvas id="bsal-chart" width="300px" height="300px" ></canvas>
+  </div>
+
+  <div id="totals-chart-container">
+    <h5>Total Sampled</h5>
+    <canvas id="both-chart" width="300px" height="300px" ></canvas>
+  </div>
+
+  <div id="additional-info">
+    <ul id="associated-projects"></ul>
+  </div>
+  
+</div><!--info dashboard-->
+
+
 
 </div>
 </body>
