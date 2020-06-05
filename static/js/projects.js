@@ -1,12 +1,12 @@
 // Base URL for fetching all projects from GEOME
 const baseURL = 'https://api.geome-db.org/projects/stats?'
+// API URL
+const apiBaseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
 
 // Initialize local storage variable
 let bigdatafile
 
-// API URL
-const apiBaseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
-
+//Uses the project Id to grab samples for each project and builds a chart.
 function byProjectId(id) {
   fetch(`${apiBaseURL}scientificName_projectId_${id}.json`)
   .then(res => res.json())
@@ -69,7 +69,7 @@ function findMatches(wordToMatch, projectData) {
 
 // Displays Search Results in a table
 function displayMatches() {
-  let allProjTable = document.getElementById('projects-display')
+  const allProjTable = document.getElementById('projects-display')
   let tr = document.createElement('tr') // Table row
 
   bigdatafile = JSON.parse(localStorage.getItem("bigdatafile"))
@@ -82,14 +82,13 @@ function displayMatches() {
       const projPI = project.principalInvestigator == null ? 'None Found': project.principalInvestigator.replace(regex, `<span class="hl">${this.value}</span>`)
       const projAffiliation = project.principalInvestigatorAffiliation == null ? 'None Found' : project.principalInvestigatorAffiliation.replace(regex, `<span class="hl">${this.value}</span>`)
 
-
       return tr.innerHTML = `
       <tr>
       <td> <i id="pubglobe" class="fa fa-globe"></i> </td>
       <td> ${projName} </td>
       <td> ${projPI} </td>
       <td> ${projAffiliation} </td>
-      <td><button onclick="window.location.href = '/projects/?id=${project.projectId}'" class="detailsBtn" 
+      <td><button onclick="window.location.href='/projects/?id=${project.projectId}'" class="detailsBtn" 
           id='project${project.projectId}'
           >Details</button></td>
           </tr>
@@ -171,7 +170,6 @@ function displayProjects() {
               allProjTable.appendChild(tr)
               document.getElementById(`project${project.projectId}`).addEventListener('click', function() {
                 window.location.href = `/projects/?id=${project.projectId}`
-                // console.log(`This button's ID: ${project.projectId}`)
               })
       }
     })
@@ -279,7 +277,6 @@ function displayProjects() {
         console.log(local.entityStats)
       }
     }
-    //console.log("fetching project at id " + projectId)
   }
 }
 
@@ -334,7 +331,7 @@ function getWithExpiry(key) {
 
 
 function getUrlVars() {
-  var vars = {};
+  let vars = {};
   window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
       vars[key] = value;
   });
