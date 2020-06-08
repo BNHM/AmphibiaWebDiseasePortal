@@ -281,14 +281,16 @@ div ul {
     margin: auto;
     border: 2px solid rgb(190, 187, 187);
     display: flex;
+    flex-wrap: wrap;
+    align-content: stretch;
     border-radius: 10px;
     background-color: rgb(243, 240, 240);
 }
 
 #bsal-chart-container, #bd-chart-container, #totals-chart-container {
     padding: 10px;
-    margin: 10px;
-    width: 30%;
+    margin: 15px;
+    width: 31%;
     border: 1px solid rgb(192, 189, 189);
     border-radius: 20px;
     background-color: white;
@@ -298,7 +300,7 @@ div ul {
     margin: auto;
     padding: 10px;
     margin: 10px;
-    width: 40%;
+    width: 100%;
     border: 1px solid rgb(192, 189, 189);
     border-radius: 20px;
     background-color: white;

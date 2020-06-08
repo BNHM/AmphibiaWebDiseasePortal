@@ -1010,6 +1010,7 @@ async function buildTaxonomyList() {
 
       additionalInfoDiv.innerHTML = `
       <h5>Associated Projects</h5>
+      <p>Coming Soon </p>
       `
 
       // Totals div for displaying bd/bsal tested
