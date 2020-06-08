@@ -896,8 +896,9 @@ function toggleData(evt, tabType) {
 
   //LIST TAB
 
+  // Get url variable
   function getUrlVars() {
-    var vars = {};
+    let vars = {};
     window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
         vars[key] = value;
     });
@@ -1018,11 +1019,13 @@ async function buildTaxonomyList() {
           if(x.Bd && x.Bsal == undefined) {
             bothCanvas.style.display = 'none'
             let p = document.createElement('p')
+            p.className = 'detail-p'
             p.innerHTML = `All ${x.Bd} samples were tested for Bd only.`
             totalsDiv.appendChild(p)
 
           } else if (x.Bd == undefined && x.Bsal) {
             let p = document.createElement('p')
+            p.className = 'detail-p'
             p.innerHTML = `All ${x.Bsal} samples were tested for Bsal only.`
             totalsDiv.appendChild(p)
 
@@ -1033,12 +1036,13 @@ async function buildTaxonomyList() {
       })
       
       // Checks for and displays Bd data
-      bdObj.forEach(x => {
+     let checkBd = () => bdObj.map(x => {
         if(x.scientificName === displayName) {
           //If only False values
           if(x.True == undefined && x.False) {
             bdCanvas.style.display = 'none'
             let p = document.createElement('p')
+            p.className = 'detail-p'
             p.innerHTML = `${x.False} samples tested for Bd were all found negative`
             bdDiv.appendChild(p)
 
@@ -1046,6 +1050,7 @@ async function buildTaxonomyList() {
           } else if (x.False == undefined && x.True) {
             bdCanvas.style.display = 'none'
             let p = document.createElement('p')
+            p.className = 'detail-p'
             p.innerHTML = `${x.True} samples tested for Bd were all found positive`
             bdDiv.appendChild(p)
 
@@ -1054,16 +1059,29 @@ async function buildTaxonomyList() {
             bdCanvas.style.display = 'block'
             makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
           }
-        } 
+        } else {
+          return false
+        }
       })
+
+      // Janky fix for displaying 'No Data available'
+      if (!checkBd().includes(undefined)) {
+        bsalCanvas.style.display = 'none'
+        let p = document.createElement('p')
+        p.className = 'detail-p'
+        p.innerHTML = `No Bd Data Available for ${displayName}`
+        bsalDiv.appendChild(p)
+      }
       
-      bsalObj.forEach(x => {
-        if (x.scientificName === displayName) {          
+      // Checks for and displays Bsal Data
+      let checkBsal = () => bsalObj.map(x => {
+        if (x.scientificName === displayName) {  
+          console.log(x.scientificName);
 
           // If only False values
           if (x.True === undefined && x.False) {
               let p = document.createElement('p')
-              p.class = 'detail-p'
+              p.className = 'detail-p'
               p.innerHTML = `All ${x.False} samples tested for Bsal were negative.`
               
               let bsalChart = document.getElementById('bsal-chart')
@@ -1073,7 +1091,7 @@ async function buildTaxonomyList() {
            // If only True Values
           } else if (x.False == undefined && x.True) {
             let p = document.createElement('p')
-            p.class = 'detail-p'
+            p.className = 'detail-p'
             p.innerHTML = `All ${x.True} samples tested for Bsal were positive.`
             
             let bsalChart = document.getElementById('bsal-chart')
@@ -1085,15 +1103,25 @@ async function buildTaxonomyList() {
               bsalCanvas.style.display = 'block'
               makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
           } 
+        } else if (!x.scientificName.includes(displayName)) {          
+          return false
         }
       })
+
+      if (!checkBsal().includes(undefined)) {
+        bsalCanvas.style.display = 'none'
+        let p = document.createElement('p')
+        p.className = 'detail-p'
+        p.innerHTML = `No Bsal Data Available for ${displayName}`
+        bsalDiv.appendChild(p)
+      }
       
       // TODO: Fix this
       // If no Bsal or Bd Data is found, needs to do this:
      
         // bsalCanvas.style.display = 'none'
         // let p = document.createElement('p')
-        // p.class = 'detail-p'
+        // p.className = 'detail-p'
         // p.innerHTML = `No Bsal Data Available for ${displayName}`
         // bsalDiv.appendChild(p)
     }
@@ -1168,7 +1196,7 @@ function listBuilder(name, str, selector, genus, species) {
 const scrollToTop = () => {
   // number of pixels we are from the top of the document.
   const c = document.documentElement.scrollTop || document.body.scrollTop;
-  // If that number is greater than 0, we'll scroll back to 0, or the top of the document.
+  // If that number is greater than 0 - scroll back to 0, or the top of the document.
   // Animate scroll
   if (c > 0) {
     window.requestAnimationFrame(scrollToTop);
