@@ -990,11 +990,10 @@ async function buildTaxonomyList() {
       const bdDiv = document.getElementById('bd-chart-container')
       const bsalDiv = document.getElementById('bsal-chart-container')
       const additionalInfoDiv = document.getElementById('additional-info')
-      const totalsDiv = document.getElementById('totals-chart-container')
       const bsalCanvas = document.getElementById('bsal-chart')
       const bdCanvas = document.getElementById('bd-chart')
-      const bothCanvas = document.getElementById('both-chart')
-
+      // const bothCanvas = document.getElementById('both-chart')
+      // const totalsDiv = document.getElementById('totals-chart-container')
       // const projectsUl = document.getElementById('associated-projects')
 
       let displayName = urlName.replace('+', ' ')
@@ -1016,49 +1015,14 @@ async function buildTaxonomyList() {
       // Totals div for displaying bd/bsal tested
       stackedData.forEach(x => {
         if(x.scientificName === displayName) {
-          if(x.Bd && x.Bsal == undefined) {
-            bothCanvas.style.display = 'none'
-            let p = document.createElement('p')
-            p.className = 'detail-p'
-            p.innerHTML = `All ${x.Bd} samples were tested for Bd only.`
-            totalsDiv.appendChild(p)
-
-          } else if (x.Bd == undefined && x.Bsal) {
-            let p = document.createElement('p')
-            p.className = 'detail-p'
-            p.innerHTML = `All ${x.Bsal} samples were tested for Bsal only.`
-            totalsDiv.appendChild(p)
-
-          } else {
-            makePieChart('totals-chart-container', 'both-chart', 'Bd', 'Bsal', x.Bd, x.Bsal, bdColor, bsalColor)
-          }
+          makePieChart('totals-chart-container', 'both-chart', 'Bd', 'Bsal', x.Bd, x.Bsal, bdColor, bsalColor)
         }        
       })
       
       // Checks for and displays Bd data
      let checkBd = () => bdObj.map(x => {
         if(x.scientificName === displayName) {
-          //If only False values
-          if(x.True == undefined && x.False) {
-            bdCanvas.style.display = 'none'
-            let p = document.createElement('p')
-            p.className = 'detail-p'
-            p.innerHTML = `${x.False} samples tested for Bd were all found negative`
-            bdDiv.appendChild(p)
-
-            // If only True values
-          } else if (x.False == undefined && x.True) {
-            bdCanvas.style.display = 'none'
-            let p = document.createElement('p')
-            p.className = 'detail-p'
-            p.innerHTML = `${x.True} samples tested for Bd were all found positive`
-            bdDiv.appendChild(p)
-
-            // If both True and False values
-          } else {
-            bdCanvas.style.display = 'block'
-            makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
-          }
+          makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
         } else {
           return false
         }
@@ -1066,44 +1030,18 @@ async function buildTaxonomyList() {
 
       // Janky fix for displaying 'No Data available'
       if (!checkBd().includes(undefined)) {
-        bsalCanvas.style.display = 'none'
+        bdCanvas.style.display = 'none'
         let p = document.createElement('p')
         p.className = 'detail-p'
-        p.innerHTML = `No Bd Data Available for ${displayName}`
-        bsalDiv.appendChild(p)
+        p.innerHTML = `No Bd data available for ${displayName}`
+        bdDiv.appendChild(p)
       }
       
       // Checks for and displays Bsal Data
       let checkBsal = () => bsalObj.map(x => {
         if (x.scientificName === displayName) {  
-          console.log(x.scientificName);
-
-          // If only False values
-          if (x.True === undefined && x.False) {
-              let p = document.createElement('p')
-              p.className = 'detail-p'
-              p.innerHTML = `All ${x.False} samples tested for Bsal were negative.`
-              
-              let bsalChart = document.getElementById('bsal-chart')
-              bsalChart.style.display = 'none'
-               bsalDiv.appendChild(p) 
-
-           // If only True Values
-          } else if (x.False == undefined && x.True) {
-            let p = document.createElement('p')
-            p.className = 'detail-p'
-            p.innerHTML = `All ${x.True} samples tested for Bsal were positive.`
-            
-            let bsalChart = document.getElementById('bsal-chart')
-            bsalChart.style.display = 'none'
-             bsalDiv.appendChild(p) 
-          
-            // If both True and False values
-          } else {
-              bsalCanvas.style.display = 'block'
-              makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
-          } 
-        } else if (!x.scientificName.includes(displayName)) {          
+          makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
+        } else {          
           return false
         }
       })
@@ -1112,18 +1050,10 @@ async function buildTaxonomyList() {
         bsalCanvas.style.display = 'none'
         let p = document.createElement('p')
         p.className = 'detail-p'
-        p.innerHTML = `No Bsal Data Available for ${displayName}`
+        p.innerHTML = `No Bsal data available for ${displayName}`
         bsalDiv.appendChild(p)
       }
-      
-      // TODO: Fix this
-      // If no Bsal or Bd Data is found, needs to do this:
-     
-        // bsalCanvas.style.display = 'none'
-        // let p = document.createElement('p')
-        // p.className = 'detail-p'
-        // p.innerHTML = `No Bsal Data Available for ${displayName}`
-        // bsalDiv.appendChild(p)
+  
     }
 }
 
