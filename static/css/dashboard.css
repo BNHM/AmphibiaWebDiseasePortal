@@ -279,6 +279,7 @@ div ul {
 #info-dash {
     padding: 5px;
     margin: auto;
+    width: 80%;
     border: 2px solid rgb(190, 187, 187);
     display: flex;
     flex-wrap: wrap;
@@ -290,7 +291,7 @@ div ul {
 #bsal-chart-container, #bd-chart-container, #totals-chart-container {
     padding: 10px;
     margin: 15px;
-    width: 31%;
+    width: 30%;
     border: 1px solid rgb(192, 189, 189);
     border-radius: 20px;
     background-color: white;
