@@ -64,7 +64,7 @@ select {
 /* SUMMARY DATA TABLE */
 
 #summary-table-data-container, #pathogen-summary-container {
-    width: 40%;
+    width: 70%;
     margin: auto;
     padding: 10px;
 }
@@ -72,6 +72,8 @@ select {
 #summary-data-table, #pathogen-summary-table {
     margin: 10px;
     padding: 10px;
+    margin: 10px auto;
+    width: 50%;
 }
 
 #summary-data-table, #pathogen-summary-table tr {
@@ -110,20 +112,21 @@ select {
     margin-top: 10px;
     width: 70%;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
 }
 
 #country-table {
-    justify-content: flex-start;
     border: 1px solid lightgray;
-    margin: auto;
-    width: 30%;
+    margin: 10px auto;
+    width: 40%;
 }
 
 #species-table {
-    justify-content: flex-start;
     border: 1px solid lightgray;
     margin: auto;
-    width: 60%;
+    width: 40%;
 }
 
 #country-table tr, th, td {

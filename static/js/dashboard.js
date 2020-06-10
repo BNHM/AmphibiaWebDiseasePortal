@@ -100,13 +100,8 @@ async function buildSpeciesTable() {
     let genus = arr[0]
     let species = arr[1]
 
-    // External Link icon
-    //<i class="fa fa-external-link"></i>
-
       tr.innerHTML = `
-        <td>${entry.scientificName}
-        <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
-        <button class="species-btn" onclick="window.location.href='/dashboard/?id=${genus}+${species}'">Portal Stats</button>
+        <td><a href='/dashboard/?id=${genus}+${species}'>${entry.scientificName}</a>
         </td>
         <td>${entry.value} </td>
       `
@@ -116,7 +111,6 @@ async function buildSpeciesTable() {
 
 async function buildCountryTable() {
   let data = await getDataBothPathogens()
-
   let objectArray = data.countryAndValue
 
   let sortedArray = objectArray.sort(function(a, b) {
@@ -691,7 +685,6 @@ async function getBdDetectedData() {
   return { bdResultObj, diseaseDetectedBd, resultValueBd }
 }
 
-
 // Get totals together for both pathogens
 async function getDataBothPathogens() {
   const response = await fetch(`${baseURL}country_Both.json`)
@@ -896,13 +889,16 @@ function toggleData(evt, tabType) {
 
   //LIST TAB
 
-  // Get url variable
-  function getUrlVars() {
-    let vars = {};
-    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
+  async function getSpeciesAssociatedProject() {
+    const response = await fetch(`${baseURL}scientificName_listing.json`)
+    const data = await response.json()
+
+    let obj = []
+    data.forEach(x => {
+      obj.push(x)
+    })
+  
+    return { obj }
   }
 
 // Builds List of species sampled by Scientific Name & organize alphabetically
@@ -911,15 +907,15 @@ async function buildTaxonomyList() {
   const bdData = await getBdDetectedByScientificName()
   const bsalData = await getBsalDetectedByScientificName()
   const allData = await getBothScientificNameData()
+  const projData = await getSpeciesAssociatedProject()
   
   let urlName = getUrlVars().id
   let bdObj = bdData.bdObj
   let bsalObj = bsalData.bsalObj
-  let totalData = allData.nameAndValue
+  // let totalData = allData.nameAndValue
   let names = allData.scientificName
   let stackedData = allStacked.stackedObj
-
-
+  let projects = projData.obj
 
   // If there is no scientific name in URL, load entire list.
   if (urlName === undefined) {
@@ -1008,10 +1004,43 @@ async function buildTaxonomyList() {
       <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
       `
 
-      additionalInfoDiv.innerHTML = `
-      <h5>Associated Projects</h5>
-      <p>Coming Soon </p>
-      `
+      // TODO: Fix this so it can show multiple projects, can currently display one. 
+      let title = []
+      function returnTitle(id) {
+        bigdatafile = JSON.parse(localStorage.getItem("bigdatafile")).value
+
+        for (let i = 0; i < bigdatafile.length; i++) {
+          let local = bigdatafile[i]
+          if(local.projectId == id) {
+            // console.log(local.projectId)
+            // console.log(local.projectTitle)
+            title.push(local.projectTitle)
+          }
+        }
+      }
+
+      let idParam
+      projects.map(x => {
+        if(x.scientificName === displayName) {
+          let projObj = x.associatedProjects
+
+          projObj.forEach(y => {
+            idParam = y.projectId
+          })
+          // console.log(x.scientificName, x.associatedProjects)
+        }
+       })
+
+       returnTitle(idParam)
+
+       for (let i = 0; i < title.length; i++) {
+        additionalInfoDiv.innerHTML = `
+        <h5>Associated Projects</h5>
+        <p>${title[i]}</p>
+        `
+      }
+
+
 
       // Totals div for displaying bd/bsal tested
       stackedData.forEach(x => {
@@ -1136,3 +1165,12 @@ const scrollToTop = () => {
     window.scrollTo(0, c - c / 15);
   }
 };
+
+  // Get url variable
+  function getUrlVars() {
+    let vars = {};
+    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+  }
