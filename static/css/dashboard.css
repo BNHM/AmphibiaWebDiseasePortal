@@ -301,13 +301,28 @@ div ul {
 }
 
 #additional-info {
-    margin: auto;
+    margin: auto 10px;
     padding: 10px;
-    margin: 10px;
+    margin-bottom: 10px;
     width: 100%;
     border: 1px solid rgb(192, 189, 189);
     border-radius: 20px;
     background-color: white;
+}
+
+#additional-info a {
+    text-decoration: none;
+    color: black;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 20px;
+    float: left;
+}
+
+#additional-info a:hover {
+    color: white;
+    background-color: rgb(192, 189, 189);
+    cursor: pointer;
 }
 
 .species-detail-btn {

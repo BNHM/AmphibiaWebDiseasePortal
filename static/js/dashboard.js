@@ -502,7 +502,6 @@ async function getBdGenusData() {
     genus.push(entry.genus)
     value.push(entry.value)
   })
-
   return { genus, value }
 }
 
@@ -528,7 +527,6 @@ async function getBsalGenusData() {
     genus.push(entry.genus)
     value.push(entry.value)
   })
-
   return { genus, value }
 }
 
@@ -556,7 +554,6 @@ async function getBothStackedGenusData() {
     bdValue.push(entry.Bd)
     bsalValue.push(entry.Bsal)
   })
-
   return { genus, bdValue, bsalValue }
 }
 
@@ -564,7 +561,6 @@ async function getBothStackedGenusData() {
 async function bothStackedGenus() {
   let data = await getBothStackedGenusData()
   makeStackedBarChart(data.genus, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)
-  
 }
 
 //Fetch Disease Tested Data
@@ -664,7 +660,6 @@ async function getBsalDetectedData() {
     detectedValue.push(entry.value)
     detectedLabel.push(entry.diseaseDetected)
   })
-
   return { detectedLabel, detectedValue }
 }
 
@@ -700,7 +695,6 @@ async function getDataBothPathogens() {
     totalSamples.push(event.value)
   })
   return { country, totalSamples, countryAndValue }
-  
 }
 
   // GENERIC STACKED BAR CHART
@@ -888,7 +882,6 @@ function toggleData(evt, tabType) {
 }
 
   //LIST TAB
-
   async function getSpeciesAssociatedProject() {
     const response = await fetch(`${baseURL}scientificName_listing.json`)
     const data = await response.json()
@@ -897,7 +890,6 @@ function toggleData(evt, tabType) {
     data.forEach(x => {
       obj.push(x)
     })
-  
     return { obj }
   }
 
@@ -912,7 +904,6 @@ async function buildTaxonomyList() {
   let urlName = getUrlVars().id
   let bdObj = bdData.bdObj
   let bsalObj = bsalData.bsalObj
-  // let totalData = allData.nameAndValue
   let names = allData.scientificName
   let stackedData = allStacked.stackedObj
   let projects = projData.obj
@@ -985,12 +976,9 @@ async function buildTaxonomyList() {
       const speciesDiv = document.getElementById('species-stats')
       const bdDiv = document.getElementById('bd-chart-container')
       const bsalDiv = document.getElementById('bsal-chart-container')
-      const additionalInfoDiv = document.getElementById('additional-info')
       const bsalCanvas = document.getElementById('bsal-chart')
       const bdCanvas = document.getElementById('bd-chart')
-      // const bothCanvas = document.getElementById('both-chart')
-      // const totalsDiv = document.getElementById('totals-chart-container')
-      // const projectsUl = document.getElementById('associated-projects')
+      const projectsUl = document.getElementById('associated-projects')
 
       let displayName = urlName.replace('+', ' ')
       let nameArr = displayName.split(' ')
@@ -1004,44 +992,53 @@ async function buildTaxonomyList() {
       <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
       `
 
-      // TODO: Fix this so it can show multiple projects, can currently display one. 
-      let title = []
+      // For Associated Projects DIV
+      let titles = []
       function returnTitle(id) {
         bigdatafile = JSON.parse(localStorage.getItem("bigdatafile")).value
 
         for (let i = 0; i < bigdatafile.length; i++) {
           let local = bigdatafile[i]
+
           if(local.projectId == id) {
-            // console.log(local.projectId)
-            // console.log(local.projectTitle)
-            title.push(local.projectTitle)
+            titles.push(local.projectTitle)
           }
         }
       }
 
-      let idParam
+      // Stores IDs of each associated project
+      let idParam = []
       projects.map(x => {
         if(x.scientificName === displayName) {
           let projObj = x.associatedProjects
 
           projObj.forEach(y => {
-            idParam = y.projectId
+            idParam.push(y.projectId)
           })
           // console.log(x.scientificName, x.associatedProjects)
         }
        })
 
-       returnTitle(idParam)
+       // Uses the Ids to return titles and links associated with the ID
+       let links = []
+       idParam.forEach(num => {
+        returnTitle(num)
+        links.push(`/projects/?id=${num}`)
+       })
 
-       for (let i = 0; i < title.length; i++) {
-        additionalInfoDiv.innerHTML = `
-        <h5>Associated Projects</h5>
-        <p>${title[i]}</p>
-        `
-      }
+       // Combines ID, title and Link into new arrays
+       let mixed = idParam.map(function(x, i) {
+         return [x, titles[i], links[i]]
+       })
 
+       mixed.forEach(item => {
+        let li = document.createElement('li')
+        li.className = 'li-detail'
+        li.innerHTML = `<td><a href="${item[2]}">${item[1]}</a></td>`
 
-
+        projectsUl.appendChild(li)
+       })
+      
       // Totals div for displaying bd/bsal tested
       stackedData.forEach(x => {
         if(x.scientificName === displayName) {
