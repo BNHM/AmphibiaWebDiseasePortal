@@ -392,9 +392,11 @@ async function bdDetectedByYearData() {
   let falseValue = []
 
   data.forEach(entry => {
-    yearCollected.push(entry.yearCollected)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
+    if (!entry.yearCollected.includes('unknown')) {
+      yearCollected.push(entry.yearCollected)
+      trueValue.push(entry.True)
+      falseValue.push(entry.False)
+    } 
   })
 
   return { yearCollected, trueValue, falseValue }
@@ -416,9 +418,11 @@ async function bsalDetectedByYearData() {
   let falseValue = []
 
   data.forEach(entry => {
+    if (!entry.yearCollected.includes('unknown')) {
     yearCollected.push(entry.yearCollected)
     trueValue.push(entry.True)
     falseValue.push(entry.False)
+    }
   })
 
   return { yearCollected, trueValue, falseValue }

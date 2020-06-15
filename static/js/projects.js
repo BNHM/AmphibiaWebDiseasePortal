@@ -52,16 +52,22 @@ function findMatches(wordToMatch, projectData) {
       const radioPI = document.getElementById('rad-proj-pi').checked
       const radioName = document.getElementById('rad-proj-name').checked
       const radioAffiliation = document.getElementById('rad-proj-affiliation').checked
+      const radioContact = document.getElementById('rad-proj-contact').checked
+      const radioAnyPerson = document.getElementById('any-proj-person').checked
       
       //TODO: Needs handling if PI and affiliation are null but there is a title
 
       // Checks for which radio button is selected, if PI or Affiliation is null, excludes from search
-      if (radioPI == true && radioName == false && radioAffiliation == false && project.principalInvestigator != null) {
+      if (radioPI == true && radioName == false && radioAffiliation == false && radioContact == false && radioAnyPerson == false && project.principalInvestigator != null) {
           return project.principalInvestigator.match(regex)
-      } if (radioName == true && radioPI == false && radioAffiliation == false) {
+      } if (radioName == true && radioPI == false && radioAffiliation == false && radioContact == false && radioAnyPerson == false) {
         return project.projectTitle.match(regex)
-      } if (radioAffiliation == true && radioPI == false && radioName == false && project.principalInvestigatorAffiliation != null) {
+      } if (radioAffiliation == true && radioPI == false && radioName == false && radioContact == false && radioAnyPerson == false && project.principalInvestigatorAffiliation != null) {
         return project.principalInvestigatorAffiliation.match(regex)
+      } if (radioContact == true && radioPI == false && radioName == false && radioAffiliation == false && radioAnyPerson == false && project.projectContact != null) {        
+        return project.projectContact.match(regex)
+      }  if (radioAnyPerson == true && radioContact == false && radioPI == false && radioName == false && radioAffiliation == false && project.projectContact != null && project.principalInvestigator != null) {        
+        return project.projectContact.match(regex) || project.principalInvestigator.match(regex)
       }
     }
   })
@@ -70,7 +76,7 @@ function findMatches(wordToMatch, projectData) {
 // Displays Search Results in a table
 function displayMatches() {
   const allProjTable = document.getElementById('projects-display')
-  let tr = document.createElement('tr') // Table row
+  let tr = document.createElement('tr')
 
   bigdatafile = JSON.parse(localStorage.getItem("bigdatafile"))
 
@@ -81,6 +87,8 @@ function displayMatches() {
       const projName = project.projectTitle == null ? 'None Found' : project.projectTitle.replace(regex, `<span class="hl">${this.value}</span>`);
       const projPI = project.principalInvestigator == null ? 'None Found': project.principalInvestigator.replace(regex, `<span class="hl">${this.value}</span>`)
       const projAffiliation = project.principalInvestigatorAffiliation == null ? 'None Found' : project.principalInvestigatorAffiliation.replace(regex, `<span class="hl">${this.value}</span>`)
+      const projContact = project.projectContact == null ? 'None Found' : project.projectContact.replace(regex, `<span class="hl">${this.value}</span>`)
+
 
       return tr.innerHTML = `
       <tr>
@@ -88,6 +96,7 @@ function displayMatches() {
       <td> ${projName} </td>
       <td> ${projPI} </td>
       <td> ${projAffiliation} </td>
+      <td>${projContact}</td>
       <td><button onclick="window.location.href='/projects/?id=${project.projectId}'" class="detailsBtn" 
           id='project${project.projectId}'
           >Details</button></td>
@@ -163,6 +172,7 @@ function displayProjects() {
                 <td> ${project.projectTitle} </td>
                 <td> ${project.principalInvestigator == null ? 'None Listed' : project.principalInvestigator} </td>
                 <td> ${project.principalInvestigatorAffiliation == null ? 'None Listed' : project.principalInvestigatorAffiliation} </td>
+                <td>${project.projectContact == null ? 'None Listed' : project.projectContact}</td>
                 <td><button class="detailsBtn" data-id='${project.projectId}' 
                     id='project${project.projectId}'
                     >Details</button></td>
