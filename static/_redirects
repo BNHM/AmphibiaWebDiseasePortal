@@ -1,2 +1,5 @@
 # Redirects from what the browser requests to what we serve
 /projects.php	/projects/
+/updates.amphibiandisease.org/maps/   /query/
+/updates.amphibiandisease.org/about/  /about/
+/posts   /blog/
