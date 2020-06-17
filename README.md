@@ -12,7 +12,7 @@ Master Branch URL: https://amphibiandisease.org
 
 Develop Branch URL: https://amphibiandisease-develop.netlify.com/
 
-When this site goes live, we may or may not be using netlify to serve amphibiandisease.org.  Stay tuned.
+Site went live May 28th on Netlify!
 
 # Developers
 
