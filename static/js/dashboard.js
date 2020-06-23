@@ -1112,6 +1112,9 @@ function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valu
           maintainAspectRatio: true,
           legend: {
             display: true
+          },
+          tooltips: {
+            bodyFontSize: 12
           }
         }
     });
