@@ -25,7 +25,7 @@ function byProjectId(id) {
 
 // Recovers link from the fetch using the project id, creates an anchor for it and clicks it.
 function downloadDataFile(id) {
-  fetch (`https://api.geome-db.org/records/Sample/excel?networkId=1&q=_projects_:${id}`)
+  fetch(`https://api.geome-db.org/records/Event/excel?networkId=1&q=_projects_:${id}+_select_:%5BSample,Diagnostics%5D+`)
   .then(res => res.json())
   .then(function(data) {
     let a = document.createElement('a')
