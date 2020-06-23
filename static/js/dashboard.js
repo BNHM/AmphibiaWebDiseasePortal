@@ -1046,18 +1046,14 @@ async function buildTaxonomyList() {
       // Totals div for displaying bd/bsal tested
       stackedData.forEach(x => {
         if(x.scientificName === displayName) {
-          let checkTotalsBd = x.Bd === undefined ? 'Bd' : `Bd: ${x.Bd}`
-          let checkTotalsBsal = x.Bsal === undefined ? 'Bsal' : `Bsal: ${x.Bsal}`
-          makePieChart('totals-chart-container', 'both-chart', checkTotalsBd, checkTotalsBsal, x.Bd, x.Bsal, bdColor, bsalColor)
+          makePieChart('totals-chart-container', 'both-chart', 'Bd', 'Bsal', x.Bd, x.Bsal, bdColor, bsalColor)
         }        
       })
       
       // Checks for and displays Bd data
      let checkBd = () => bdObj.map(x => {
         if(x.scientificName === displayName) {
-          let checkIfTrue = x.True === undefined ? `Bd Positive` : `Bd Positive: ${x.True}`
-          let checkIfFalse = x.False === undefined ? `Bd Negative` : `Bd Negative: ${x.False}`
-          makePieChart('bd-chart-container', 'bd-chart', checkIfTrue, checkIfFalse, x.True, x.False, posColor, negColor)
+          makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
         } else {
           return false
         }
@@ -1075,10 +1071,7 @@ async function buildTaxonomyList() {
       // Checks for and displays Bsal Data
       let checkBsal = () => bsalObj.map(x => {
         if (x.scientificName === displayName) {  
-          let checkIfTrue = x.True === undefined ? `Bsal Positive` : `Bsal Positive: ${x.True}`
-          let checkIfFalse = x.False === undefined ? `Bsal Negative` : `Bsal Negative: ${x.False}`
-
-          makePieChart('bsal-chart-container', 'bsal-chart', checkIfTrue, checkIfFalse, x.True, x.False, posColor, negColor)
+          makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
         } else {          
           return false
         }
