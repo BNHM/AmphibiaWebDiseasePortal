@@ -992,24 +992,20 @@ async function buildTaxonomyList() {
       let species = nameArr[1]
     
       let commonName = []
-      let order = []
-      let family = []
-      
+
+      // TO DO: Sort by order or family. having issues parsing the txt file
       txt.map(item => {
-        console.log(item);
+        console.log(item.order);
         
         if (item.species == species && item.genus == genus) {
           commonName.push(item.common_name)
-          order.push(item.order)
-          family.push(item.family)
         } else {
           return `No info found -- check AmphibiaWeb for more.`
         }
       })
-
+      
       console.log(commonName);
       
-
       speciesDiv.innerHTML = `
       <p></p>
       <h3><em>${displayName}</em></h3>
@@ -1110,24 +1106,25 @@ async function buildTaxonomyList() {
     }
 }
 
+// AmphibiaWeb txt file
 async function getTxtData() {
   const res = await fetch('https://amphibiaweb.org/amphib_names.txt')
   const data = await res.text()
 
   let parsed = Papa.parse(data)
   let arrays = parsed.data
-  let categories = parsed.data[0]
 
+  let categories = parsed.data[0] 
   let newArr = []
-  let dataObj
 
-  for (let y = 0; y < arrays.length; y++) {
-    dataObj = {}
-    for (let i = 0; i < categories.length; i++) {
-      dataObj[categories[i]] = arrays[y][i]
-    }
-    newArr.push(dataObj)
-    }
+  arrays.forEach(arr => {
+    let result = arr.reduce(function(result, field, index) {
+      result[categories[index]] = field
+      return result
+    }, {})
+    newArr.push(result)
+
+  })
   newArr.shift()
   return { newArr }
 }
