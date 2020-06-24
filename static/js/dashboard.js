@@ -904,6 +904,7 @@ async function buildTaxonomyList() {
   const bsalData = await getBsalDetectedByScientificName()
   const allData = await getBothScientificNameData()
   const projData = await getSpeciesAssociatedProject()
+  const txtData = await getTxtData()
   
   let urlName = getUrlVars().id
   let bdObj = bdData.bdObj
@@ -911,6 +912,7 @@ async function buildTaxonomyList() {
   let names = allData.scientificName
   let stackedData = allStacked.stackedObj
   let projects = projData.obj
+  let txt = txtData.newArr
 
   // If there is no scientific name in URL, load entire list.
   if (urlName === undefined) {
@@ -988,10 +990,31 @@ async function buildTaxonomyList() {
       let nameArr = displayName.split(' ')
       let genus = nameArr[0]
       let species = nameArr[1]
+    
+      let commonName = []
+      let order = []
+      let family = []
+      
+      txt.map(item => {
+        console.log(item);
+        
+        if (item.species == species && item.genus == genus) {
+          commonName.push(item.common_name)
+          order.push(item.order)
+          family.push(item.family)
+        } else {
+          return `No info found -- check AmphibiaWeb for more.`
+        }
+      })
+
+      console.log(commonName);
+      
 
       speciesDiv.innerHTML = `
       <p></p>
-      <h3>${displayName}</h3>
+      <h3><em>${displayName}</em></h3>
+      ${commonName} <br> 
+ 
       <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
       <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
       `
@@ -1019,7 +1042,6 @@ async function buildTaxonomyList() {
           projObj.forEach(y => {
             idParam.push(y.projectId)
           })
-          // console.log(x.scientificName, x.associatedProjects)
         }
        })
 
@@ -1084,8 +1106,30 @@ async function buildTaxonomyList() {
         p.innerHTML = `No Bsal data available for ${displayName}`
         bsalDiv.appendChild(p)
       }
-  
+
     }
+}
+
+async function getTxtData() {
+  const res = await fetch('https://amphibiaweb.org/amphib_names.txt')
+  const data = await res.text()
+
+  let parsed = Papa.parse(data)
+  let arrays = parsed.data
+  let categories = parsed.data[0]
+
+  let newArr = []
+  let dataObj
+
+  for (let y = 0; y < arrays.length; y++) {
+    dataObj = {}
+    for (let i = 0; i < categories.length; i++) {
+      dataObj[categories[i]] = arrays[y][i]
+    }
+    newArr.push(dataObj)
+    }
+  newArr.shift()
+  return { newArr }
 }
 
 // GENERIC PIE CHART
