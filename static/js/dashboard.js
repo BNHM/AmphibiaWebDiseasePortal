@@ -992,7 +992,6 @@ async function buildTaxonomyList() {
       let species = nameArr[1]
     
       let commonName = []
-
       // TO DO: Sort by order or family. having issues parsing the txt file
       txt.map(item => {
         console.log(item.order);
