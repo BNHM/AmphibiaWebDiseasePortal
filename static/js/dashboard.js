@@ -101,7 +101,7 @@ async function buildSpeciesTable() {
     let species = arr[1]
 
       tr.innerHTML = `
-        <td><a href='/dashboard/?id=${genus}+${species}'>${entry.scientificName}</a>
+        <td><a href='/dashboard/?id=${genus}+${species}'><em>${entry.scientificName}</em></a>
         </td>
         <td>${entry.value} </td>
       `
@@ -197,11 +197,11 @@ async function buildSummaryTable() {
     return a + b
   }, 0)
 
-  countries.forEach(entry => {
+  countries.forEach(x => {
     countryCount++
   })
 
-  species.forEach(item => {
+  species.forEach(x => {
     speciesCount++
   })
 
@@ -777,92 +777,7 @@ async function getDataBothPathogens() {
         ]
       }
     });
-
-    const bdData = await getBdDetectedByScientificName()
-    const bsalData = await getBsalDetectedByScientificName()
-
-    let bdObj = bdData.bdObj
-    let bsalObj = bsalData.bsalObj
-
-    // canvas.addEventListener('click', function(event) {
-    //   let firstPoint = barChart.getElementAtEvent(event)[0]
-    //   if (firstPoint) {
-    //     let label = barChart.data.labels[firstPoint._index];
-    //     // let value = barChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
-        
-    //     bsalObj.forEach(entry => {
-    //       if (label == entry.scientificName) {
-    //         let modalTitle = document.getElementById('insert-label')
-    //         modalTitle.innerHTML = `${label}`
-
-    //         displayDataModal('Bsal Detected', 'Bsal Not Detected', entry.True, entry.False)
-    //       }
-    //     })
-
-    //     bdObj.forEach(entry => {
-    //       if (label == entry.scientificName) {
-    //         // console.log(label)
-    //         // console.log(entry)
-
-    //         let modalTitle = document.getElementById('insert-label')
-    //         modalTitle.innerHTML = `${label}`
-
-    //         displayDataModal('Bd Detected', 'Bd Not Detected', entry.True, entry.False)
-    //       }
-    //     })
-
-    //     // console.log('Label: ' + label + "\nValue: " + value);
-    //   }
-    // })
-  
   }
-
-  // // MODAL WITH PIE CHART
-  // function displayDataModal(dataLabel, dataLabelTwo, valuesOne, valuesTwo) {
-  //   let modal = document.getElementById('modal-container')
-  //   let span = document.getElementsByClassName('close')[0]
-
-  //   if (modal.style.display === 'none') {
-  //     modal.style.display = 'block'
-  //   }
-
-  //   span.onclick = function() {
-  //     modal.style.display = 'none'
-  //   }
-
-  //   window.onclick = function(event) {
-  //     if (event.target == modal) {
-  //       modal.style.display = 'none'
-  //     }
-  //   }
-
-  //   let modalChartContainer = document.getElementById('modal-chart-container')
-
-  //   let canvas = document.createElement('canvas')
-  //   canvas.id = 'modalChart'
-  //   canvas.width = '500px'
-  //   canvas.height = '300px'
-  //   modalChartContainer.appendChild(canvas)
-  
-  //   let ctx = document.getElementById('modalChart').getContext('2d')
-  //   let chart = new Chart(ctx, {
-  //         type: 'pie',
-  //         data: {
-  //             labels: [dataLabel, dataLabelTwo],
-  //             datasets: [{
-  //                 backgroundColor: [posColor, negColor],
-  //                 data: [valuesOne, valuesTwo]
-  //             }]
-  //         },
-  //         options: {
-  //           maintainAspectRatio: false,
-  //           legend: {
-  //             display: true
-  //           }
-  //         }
-  //     });
-
-  // }
 
   // TABS
 function toggleData(evt, tabType) {
@@ -904,7 +819,7 @@ async function buildTaxonomyList() {
   const bsalData = await getBsalDetectedByScientificName()
   const allData = await getBothScientificNameData()
   const projData = await getSpeciesAssociatedProject()
-  const txtData = await getTxtData()
+  // const txtData = await getTxtData()
   
   let urlName = getUrlVars().id
   let bdObj = bdData.bdObj
@@ -912,7 +827,7 @@ async function buildTaxonomyList() {
   let names = allData.scientificName
   let stackedData = allStacked.stackedObj
   let projects = projData.obj
-  let txt = txtData.newArr
+  // let txt = txtData.newArr
 
   // If there is no scientific name in URL, load entire list.
   if (urlName === undefined) {
@@ -990,27 +905,13 @@ async function buildTaxonomyList() {
       let nameArr = displayName.split(' ')
       let genus = nameArr[0]
       let species = nameArr[1]
-    
-      let commonName = []
-      // TO DO: Sort by order or family. having issues parsing the txt file
-      txt.map(item => {
-        console.log(item.order);
-        
-        if (item.species == species && item.genus == genus) {
-          commonName.push(item.common_name)
-        } else {
-          return `No info found -- check AmphibiaWeb for more.`
-        }
-      })
-      
-      console.log(commonName);
-      
+
+            
       speciesDiv.innerHTML = `
       <p></p>
       <h3><em>${displayName}</em></h3>
-      ${commonName} <br> 
  
-      <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+      <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
       <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
       `
 
@@ -1030,15 +931,18 @@ async function buildTaxonomyList() {
 
       // Stores IDs of each associated project
       let idParam = []
+      let sampleCounts = []
       projects.map(x => {
         if(x.scientificName === displayName) {
           let projObj = x.associatedProjects
 
           projObj.forEach(y => {
+            sampleCounts.push(y.count)
             idParam.push(y.projectId)
           })
         }
        })
+      //  console.log(sampleCounts)
 
        // Uses the Ids to return titles and links associated with the ID
        let links = []
@@ -1049,14 +953,14 @@ async function buildTaxonomyList() {
 
        // Combines ID, title and Link into new arrays
        let mixed = idParam.map(function(x, i) {
-         return [x, titles[i], links[i]]
+         return [x, titles[i], links[i], sampleCounts[i]]
        })
-
+       
        mixed.forEach(item => {
         let li = document.createElement('li')
         li.className = 'li-detail'
-        li.innerHTML = `<td><a href="${item[2]}">${item[1]}</a></td>`
-
+        li.innerHTML = `<td><a href="${item[2]}">${item[1]} (${item[3]} Samples)</a></td>`
+        
         projectsUl.appendChild(li)
        })
       
@@ -1103,29 +1007,6 @@ async function buildTaxonomyList() {
       }
 
     }
-}
-
-// AmphibiaWeb txt file
-async function getTxtData() {
-  const res = await fetch('https://amphibiaweb.org/amphib_names.txt')
-  const data = await res.text()
-
-  let parsed = Papa.parse(data)
-  let arrays = parsed.data
-
-  let categories = parsed.data[0] 
-  let newArr = []
-
-  arrays.forEach(arr => {
-    let result = arr.reduce(function(result, field, index) {
-      result[categories[index]] = field
-      return result
-    }, {})
-    newArr.push(result)
-
-  })
-  newArr.shift()
-  return { newArr }
 }
 
 // GENERIC PIE CHART
@@ -1184,7 +1065,7 @@ function listBuilder(name, str, selector, genus, species) {
   if (name.startsWith(str) === true) {
     li.innerHTML = `
       <span>${name}</span>
-      <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb</button>
+      <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
       <button id="${name}" class="species-btn">Portal Stats</button>
       <div class="clear"></div>
       `
