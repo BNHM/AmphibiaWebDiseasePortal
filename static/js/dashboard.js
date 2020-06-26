@@ -1064,10 +1064,11 @@ function listBuilder(name, str, selector, genus, species) {
   let li = document.createElement('li')
   if (name.startsWith(str) === true) {
     li.innerHTML = `
-      <span>${name}</span>
-      <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
+      <span><em>${name}</em></span>
+      <div id="list-buttons">
       <button id="${name}" class="species-btn">Portal Stats</button>
-      <div class="clear"></div>
+      <button class="species-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
+      </div>
       `
     selector.appendChild(li)
 
