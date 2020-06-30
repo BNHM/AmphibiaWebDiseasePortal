@@ -701,84 +701,6 @@ async function getDataBothPathogens() {
   return { country, totalSamples, countryAndValue }
 }
 
-  // GENERIC STACKED BAR CHART
-  function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
-    let chartContainer = document.getElementById('chart-container')
-    let element = document.getElementById('dashboardChart');
-    chartContainer.removeChild(element)
-
-    let canvas = document.createElement('canvas')
-    canvas.id = 'dashboardChart'
-    canvas.width = '1000px'
-    canvas.height = '600px'
-    chartContainer.appendChild(canvas)
-    let ctx = document.getElementById('dashboardChart').getContext('2d');
-  
-    let dataChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: xLabel,
-        datasets: [
-          {
-            label: valueLabelOne,
-            data: valuesOne,
-            backgroundColor: colorOne,
-          },
-          {
-            label: valueLabelTwo,
-            data: valuesTwo,
-            backgroundColor: colorTwo,
-          }
-        ],
-      },
-      options: {
-        scales: {
-          xAxes: [{ stacked: true }],
-          yAxes: [{ stacked: true }]
-        },
-        maintainAspectRatio: false,
-        legend: {
-          display: true
-        }
-      }
-    });
-  }
-  
-  // GENERIC BAR CHART
-  async function makeBarChart(xLabel, dataLabel, values, color) {
-    let chartContainer = document.getElementById('chart-container')
-    // Removed the previously existing canvas
-    let element = document.getElementById('dashboardChart');
-    element.parentNode.removeChild(element)
-
-    let canvas = document.createElement('canvas')
-    canvas.id = 'dashboardChart'
-    canvas.width = '1000px'
-    canvas.height = '600px'
-    chartContainer.appendChild(canvas)
-    let ctx = document.getElementById('dashboardChart').getContext('2d');
-  
-     let barChart = new Chart(ctx, {
-      type: 'bar',
-      options: {
-        maintainAspectRatio: false,
-        legend: {
-          display: true
-        }
-      },
-      data: {
-        labels: xLabel,
-        datasets: [
-          {
-            label: dataLabel,
-            data: values,
-            backgroundColor: color
-          }
-        ]
-      }
-    });
-  }
-
   // TABS
 function toggleData(evt, tabType) {
   let i, tabcontent, tablinks;
@@ -812,6 +734,12 @@ function toggleData(evt, tabType) {
     return { obj }
   }
 
+  async function getTxtData() {
+    const res = await fetch('https://amphibiaweb.org/amphib_names.json')
+    const data = await res.json()
+    return {data}
+  }
+  
 // Builds List of species sampled by Scientific Name & organize alphabetically
 async function buildTaxonomyList() {
   const allStacked = await getBothScientificNameStackedData()
@@ -819,7 +747,7 @@ async function buildTaxonomyList() {
   const bsalData = await getBsalDetectedByScientificName()
   const allData = await getBothScientificNameData()
   const projData = await getSpeciesAssociatedProject()
-  // const txtData = await getTxtData()
+  const txtData = await getTxtData()
   
   let urlName = getUrlVars().id
   let bdObj = bdData.bdObj
@@ -827,7 +755,7 @@ async function buildTaxonomyList() {
   let names = allData.scientificName
   let stackedData = allStacked.stackedObj
   let projects = projData.obj
-  // let txt = txtData.newArr
+  let amphInfo = txtData.data
 
   // If there is no scientific name in URL, load entire list.
   if (urlName === undefined) {
@@ -906,13 +834,37 @@ async function buildTaxonomyList() {
       let genus = nameArr[0]
       let species = nameArr[1]
 
-            
+      let order = []
+      let family = []
+      let iucn = []
+      let commonName = []
+      amphInfo.map(x => {
+        if (genus == x.genus && species == x.species) {
+          if(x.common_name) {commonName.push(x.common_name)} 
+          if (x.order) {order.push(x.order)}
+          if(x.family) {family.push(x.family)}
+         if (x.iucn) {iucn.push(x.iucn)}}
+      })
+
+      const checkCommonName = commonName.length === 0 ? '<span>Common Name(s): </span> Unavailable' : `<span>Common Name(s): </span> ${commonName}`
+      const checkFamily = family.length === 0 ? '<span>Family: </span> Unavailable' : `<span>Family: </span>${family}`
+      const checkOrder = order.length === 0 ? '<span>Order: </span> Unavailable' : `<span>Order: </span>${order}`
+      const checkIucn = iucn.length === 0 ? '<span>IUCN Status: </span> Unavailable' : `<span>IUCN Status: </span>${iucn}`
+
       speciesDiv.innerHTML = `
       <p></p>
       <h3><em>${displayName}</em></h3>
- 
+
       <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
       <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
+      
+      <ul id="info-stats">
+      <li> ${checkCommonName} </li>
+      <li> ${checkIucn} </li>
+      <li> ${checkOrder} </li>
+      <li> ${checkFamily} </li>
+      </li>
+      </ul>
       `
 
       // For Associated Projects DIV
@@ -923,9 +875,7 @@ async function buildTaxonomyList() {
         for (let i = 0; i < bigdatafile.length; i++) {
           let local = bigdatafile[i]
 
-          if(local.projectId == id) {
-            titles.push(local.projectTitle)
-          }
+          if(local.projectId == id) {titles.push(local.projectTitle)}
         }
       }
 
@@ -942,7 +892,6 @@ async function buildTaxonomyList() {
           })
         }
        })
-      //  console.log(sampleCounts)
 
        // Uses the Ids to return titles and links associated with the ID
        let links = []
@@ -1005,7 +954,6 @@ async function buildTaxonomyList() {
         p.innerHTML = `No Bsal data available for ${displayName}`
         bsalDiv.appendChild(p)
       }
-
     }
 }
 
@@ -1100,3 +1048,81 @@ const scrollToTop = () => {
     });
     return vars;
   }
+
+    // GENERIC STACKED BAR CHART
+    function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
+      let chartContainer = document.getElementById('chart-container')
+      let element = document.getElementById('dashboardChart');
+      chartContainer.removeChild(element)
+  
+      let canvas = document.createElement('canvas')
+      canvas.id = 'dashboardChart'
+      canvas.width = '1000px'
+      canvas.height = '600px'
+      chartContainer.appendChild(canvas)
+      let ctx = document.getElementById('dashboardChart').getContext('2d');
+    
+      let dataChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: xLabel,
+          datasets: [
+            {
+              label: valueLabelOne,
+              data: valuesOne,
+              backgroundColor: colorOne,
+            },
+            {
+              label: valueLabelTwo,
+              data: valuesTwo,
+              backgroundColor: colorTwo,
+            }
+          ],
+        },
+        options: {
+          scales: {
+            xAxes: [{ stacked: true }],
+            yAxes: [{ stacked: true }]
+          },
+          maintainAspectRatio: false,
+          legend: {
+            display: true
+          }
+        }
+      });
+    }
+    
+    // GENERIC BAR CHART
+    async function makeBarChart(xLabel, dataLabel, values, color) {
+      let chartContainer = document.getElementById('chart-container')
+      // Removed the previously existing canvas
+      let element = document.getElementById('dashboardChart');
+      element.parentNode.removeChild(element)
+  
+      let canvas = document.createElement('canvas')
+      canvas.id = 'dashboardChart'
+      canvas.width = '1000px'
+      canvas.height = '600px'
+      chartContainer.appendChild(canvas)
+      let ctx = document.getElementById('dashboardChart').getContext('2d');
+    
+       let barChart = new Chart(ctx, {
+        type: 'bar',
+        options: {
+          maintainAspectRatio: false,
+          legend: {
+            display: true
+          }
+        },
+        data: {
+          labels: xLabel,
+          datasets: [
+            {
+              label: dataLabel,
+              data: values,
+              backgroundColor: color
+            }
+          ]
+        }
+      });
+    }
