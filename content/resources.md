@@ -27,8 +27,9 @@ Learn More about the North American Bsal Task Force at [Salamanderfungus.org](ht
  - [Batrachochytrium Genome Project](https://www.broadinstitute.org/fungal-genome-initiative/batrachochytrium-genome-project)
  - [PARC Disease Briefings](https://parcplace.org/resources/parc-disease-task-team/) (includes Bsal briefing PDF) 
  
- 
- ## Contact     
+--- 
+
+## Contact     
  
  [Email AmphibiaWeb](mailto:amphibiaweb@berkeley.edu)
  
