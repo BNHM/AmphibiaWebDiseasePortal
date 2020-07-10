@@ -194,7 +194,7 @@ div ul {
 #list-container ul {
     margin: 10px auto;
     padding: 5px;
-    width: 50%;
+    width: 55%;
 }
 
 #list-container li {
@@ -203,7 +203,7 @@ div ul {
     border-bottom: 1px solid lightgrey;
     border-radius: 20px;
     width: 100%;
-    padding: 5px;
+    padding: 10px 5px 5px 5px;
 }
 
 #list-container span {
@@ -242,8 +242,6 @@ div ul {
 }
 
 #info-stats {
-    /* border: 1px solid rgb(231, 228, 228);
-    border-radius: 10px; */
     width: 90%;
     margin: 5px auto 5px auto;
     display: flex;
