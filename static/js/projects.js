@@ -102,7 +102,6 @@ function displayMatches() {
           >Details</button></td>
           </tr>
       `
-    
   }).join('')
   allProjTable.appendChild(tr)
   allProjTable.innerHTML = html
@@ -193,13 +192,22 @@ function displayProjects() {
       let local = bigdatafile[i]
       // Makes sure the project is public, is the right team (45), and that the project id matches.
       if (local.projectConfiguration.id == 45 && local.public == true && local.projectId == projectId) {
-        let div = document.getElementById('project')
+        const div = document.getElementById('project')
         let p = document.createElement('p')
         let sampleData = local.entityStats
 
+        // Check if project contact is null
+        let checkForProjectContact = () => {
+          if(local.projectContact == null) {
+            return `None Listed <br>`
+          } else {
+            return `${local.projectContact} <a href="mailto:${local.projectContactEmail}" target="_blank"><i class="fa fa-envelope"></i> </a><br>`
+          }
+        }
+
         // Check if date data last modified is null.
         let checkForModificationDate = () => {
-          let modificationDate = local.latestDataModification
+          const modificationDate = local.latestDataModification
           let date = new Date(modificationDate).toDateString()
 
           if (modificationDate == null) {
@@ -266,7 +274,7 @@ function displayProjects() {
         <h3>Information</h3>
         <hr>
         Project PI: ${local.principalInvestigator == null ? 'None' : local.principalInvestigator} <br>
-        Project Contact: ${local.projectContact} <a href="mailto:${local.projectContactEmail}" target="_blank"><i class="fa fa-envelope"></i> </a><br>
+        Project Contact: ${checkForProjectContact()}
         Dataset DOI: ${checkForDataDoi()}
         
         <br>
@@ -283,8 +291,8 @@ function displayProjects() {
         `
         div.appendChild(p)
 
-        console.log(local)
-        console.log(local.entityStats)
+        // console.log(local)
+        // console.log(local.entityStats)
       }
     }
   }
