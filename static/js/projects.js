@@ -102,7 +102,6 @@ function displayMatches() {
           >Details</button></td>
           </tr>
       `
-    
   }).join('')
   allProjTable.appendChild(tr)
   allProjTable.innerHTML = html
