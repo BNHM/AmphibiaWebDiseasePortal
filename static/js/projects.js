@@ -196,14 +196,12 @@ function displayProjects() {
         let p = document.createElement('p')
         let sampleData = local.entityStats
 
+        // Check if project contact is null
         let checkForProjectContact = () => {
-          const projectContact = local.projectContact
-          const projectContactEmail = local.projectContactEmail
-
-          if(projectContact == null) {
+          if(local.projectContact == null) {
             return `None Listed <br>`
           } else {
-            return `${projectContact} <a href="mailto:${projectContactEmail}" target="_blank"><i class="fa fa-envelope"></i> </a><br>`
+            return `${local.projectContact} <a href="mailto:${local.projectContactEmail}" target="_blank"><i class="fa fa-envelope"></i> </a><br>`
           }
         }
 
@@ -293,8 +291,8 @@ function displayProjects() {
         `
         div.appendChild(p)
 
-        console.log(local)
-        console.log(local.entityStats)
+        // console.log(local)
+        // console.log(local.entityStats)
       }
     }
   }

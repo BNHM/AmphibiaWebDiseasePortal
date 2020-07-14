@@ -43,18 +43,35 @@ label {
 
 /* ALL PROJECTS TABLE */
 #table-container {
-    display: block;
-    margin-left: 20px;
-    margin-right: 20px;
+    width: 100%;
+    padding: 5px;
+    margin: 10px;
     text-align: left;
+}
+
+table {
+  display: block;
+  width: 100%;
+}
+
+th {
+  width: 2%;
+}
+
+.th-resize {
+  width: 15%;
+}
+
+.th-resize-medium {
+  width: 25%;
+}
+
+.th-resize-larger {
+  width: 40%;
 }
 
 td, th, tr {
     padding: 10px;
-}
-
-#pubglobe {
-    float: right;
 }
 
 .no-background:hover {
@@ -69,7 +86,6 @@ tr:hover {
   margin-left: 5px;
   margin-right: 10px;
   padding: 5px;
-  float: right;
   border: 1px solid #93c3ec;
   border-radius: 15px 50px 30px;
   width: 120px;
@@ -122,11 +138,25 @@ tr:hover {
       #radio-div {
         display: flex;
         flex-direction: column;
+        width: 100%;
       }
 
       .align {
         display: flex;
         justify-content: center;
+        width: 100%;
+      }
+    }
+
+@media screen
+    and (min-width: 200px)
+    and (max-width: 678px) {
+
+      #table-container {
+        margin: 0;
+      }
+
+      .detailsBtn {
         width: 100%;
       }
     }
