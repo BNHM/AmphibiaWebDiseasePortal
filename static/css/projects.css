@@ -1,7 +1,9 @@
 
 /* SEARCH BAR */
 #search-container {
-  margin: 20px;
+  margin: 5px;
+  padding: 5px;
+  width: 100%;
 }
 
 #searchbar {
@@ -9,11 +11,28 @@
   border-radius: 25px;
   padding: 30px;
   margin: auto;
-  width: 50%;
+  width: 60%;
+}
+
+#radio-div {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5px;
+  padding: 3px;
+  width: 100%;
+}
+
+.align {
+  display: flex;
 }
 
 .radio-btn {
-  margin: 10px;
+  margin: 13px 5px 5px 15px;
+}
+
+label {
+  margin: 5px;
 }
 
 /* Highlights partial term searches*/

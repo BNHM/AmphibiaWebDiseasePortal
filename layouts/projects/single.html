@@ -14,12 +14,28 @@
 			<p></p>
 			<form id="searchbar">
 				<input class="search" type="text" placeholder="Search Public Projects..." name="search" autofocus autocomplete="off">
-
-				<input id="rad-proj-name" class="radio-btn" type="radio" name="searchby" value="pname" checked="checked"> Project Name
-				<input id="rad-proj-pi" class="radio-btn" type="radio" name="searchby" value="ppi"> Project PI
-				<input id="rad-proj-affiliation" class="radio-btn" type="radio" name="searchby" value="affiliation"> Affiliation
-				<input id="rad-proj-contact" class="radio-btn" type="radio" name="searchby" value="contact"> Project Contact
-				<input id="any-proj-person" class="radio-btn" type="radio" name="searchby" value="any"> Any Project Person
+				<div id="radio-div">
+					<div class="align">
+						<input id="rad-proj-name" class="radio-btn" type="radio" name="searchby" value="pname" checked="checked"> 
+						<label for="rad-proj-name">Project Name</label>
+					</div>
+					<div class="align">
+						<input id="rad-proj-pi" class="radio-btn" type="radio" name="searchby" value="ppi"> 
+						<label for="rad-proj-pi">Project PI</label>
+					</div>
+					<div class="align">
+						<input id="rad-proj-affiliation" class="radio-btn" type="radio" name="searchby" value="affiliation">
+						<label for="rad-proj-affiliation">Affiliation</label>
+					</div>
+					<div class="align">
+						<input id="rad-proj-contact" class="radio-btn" type="radio" name="searchby" value="contact">
+						<label for="rad-proj-contact">Project Contact</label>
+					</div>
+					<div class="align">
+						<input id="any-proj-person" class="radio-btn" type="radio" name="searchby" value="any">	
+						<label for="any-proj-person">Any Project Person</label>
+					</div>
+				</div>
 
 			  </form>
 		</div>
