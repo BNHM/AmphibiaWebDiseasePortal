@@ -55,7 +55,7 @@ table {
   width: 100%;
   height: 60vh;
   overflow: auto;
-  position: relative;
+  /* position: relative; */
   border-collapse: collapse; 
 }
 

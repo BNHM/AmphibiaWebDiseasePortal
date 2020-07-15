@@ -93,11 +93,11 @@ function displayMatches() {
       return tr.innerHTML = `
       <tr>
       <td> <i id="pubglobe" class="fa fa-globe"></i> </td>
-      <td> ${projName} </td>
-      <td> ${projPI} </td>
-      <td> ${projAffiliation} </td>
-      <td>${projContact}</td>
-      <td><button onclick="window.location.href='/projects/?id=${project.projectId}'" class="detailsBtn" 
+      <td class="th-resize-larger"> ${projName} </td>
+      <td class="th-resize"> ${projPI} </td>
+      <td class="th-resize-medium"> ${projAffiliation} </td>
+      <td class="th-resize">${projContact}</td>
+      <td class="th-resize"><button onclick="window.location.href='/projects/?id=${project.projectId}'" class="detailsBtn" 
           id='project${project.projectId}'
           >Details</button></td>
           </tr>
