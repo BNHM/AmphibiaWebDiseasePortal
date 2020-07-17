@@ -703,16 +703,14 @@ async function getDataBothPathogens() {
 
   // TABS
 function toggleData(evt, tabType) {
-  let i, tabcontent, tablinks;
-
   // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
+  let tabcontent = document.getElementsByClassName("tabcontent");
+  for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
   }
 
   // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
+  let tablinks = document.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
@@ -957,38 +955,6 @@ async function buildTaxonomyList() {
     }
 }
 
-// GENERIC PIE CHART
-function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valuesTwo, colorOne, colorTwo) {
-  const container = document.getElementById(containerId)
-
-  let canvas = document.createElement('canvas')
-  canvas.id = canvasId
-  canvas.width = '300px'
-  canvas.height = '300px'
-  container.appendChild(canvas)
-
-  let ctx = document.getElementById(canvasId).getContext('2d')
-  return new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: [labelOne, labelTwo],
-            datasets: [{
-                backgroundColor: [colorOne, colorTwo],
-                data: [valuesOne, valuesTwo]
-            }]
-        },
-        options: {
-          maintainAspectRatio: true,
-          legend: {
-            display: true
-          },
-          tooltips: {
-            bodyFontSize: 12
-          }
-        }
-    });
-}
-
 function hideAllTabs() {
   let p = document.getElementById('description')
   let tabNav = document.getElementById('tab-nav')
@@ -1126,3 +1092,35 @@ const scrollToTop = () => {
         }
       });
     }
+
+// GENERIC PIE CHART
+function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valuesTwo, colorOne, colorTwo) {
+  const container = document.getElementById(containerId)
+
+  let canvas = document.createElement('canvas')
+  canvas.id = canvasId
+  canvas.width = '300px'
+  canvas.height = '300px'
+  container.appendChild(canvas)
+
+  let ctx = document.getElementById(canvasId).getContext('2d')
+  return new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [labelOne, labelTwo],
+            datasets: [{
+                backgroundColor: [colorOne, colorTwo],
+                data: [valuesOne, valuesTwo]
+            }]
+        },
+        options: {
+          maintainAspectRatio: true,
+          legend: {
+            display: true
+          },
+          tooltips: {
+            bodyFontSize: 12
+          }
+        }
+    });
+}

@@ -229,6 +229,7 @@ div ul {
     background-color: white;
     color: black;
     font-weight: normal;
+    transition: 0.5s all ease;
 }
 
 .species-btn:hover {
@@ -319,7 +320,7 @@ div ul {
     background-color: white;
     color: black;
     font-weight: normal;
-    transition: 1s all ease;
+    transition: 0.5s all ease;
 }
 
 .species-detail-btn:hover {
