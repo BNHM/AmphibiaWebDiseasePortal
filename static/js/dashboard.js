@@ -20,6 +20,7 @@ class Dashboard{
     buildCountryTable()
     buildPathogenSummaryTable()
     buildTaxonomyList()
+    buildCountryPage()
 
     const resultSelect = document.getElementById('result-select')
     const byYearSelect = document.getElementById('by-year-select')
@@ -43,6 +44,8 @@ class Dashboard{
         bsalDetectedByScientificName()
       } else if (this.value == 'bothDetectedByScientificName') {
         bothDetectedByScientificName()
+      } else if (this.value == 'bothByCountryStacked') {
+        countriesBothStackedChart()
       }
     })
 
@@ -124,13 +127,12 @@ async function buildCountryTable() {
     let tr = document.createElement('tr')
 
       tr.innerHTML = `
-        <td>${entry.country}</td>
+        <td><a href='/dashboard/?country=${entry.country}'>${entry.country}</a></td>
         <td>${entry.value}</td>
       `
       table.appendChild(tr)
   })
 }
-
 
 async function buildPathogenSummaryTable() {
   const bothTestedData = await getDiseaseTestedBothData()
@@ -212,6 +214,36 @@ async function buildSummaryTable() {
   `
   summaryTable.appendChild(tr)
 }
+
+// PER COUNTRY DETAIL PAGE
+async function buildCountryPage() {
+  const data = await getCountryDataBothStacked() 
+  const allData = data.obj
+  let countryURL = getUrlVars().country
+  const countryDetailDiv = document.getElementById('country-detail-container')
+
+  const checkForSpaces = countryURL && countryURL.includes('%20') ? countryURL.replace('%20', ' ') : countryURL
+
+  allData.forEach(x => {
+
+    if (checkForSpaces == x.country) {
+      hideAllTabs()
+      hideInfoDash()
+
+      const checkBd = x.Bd === undefined ? 'No Bd Samples Were Collected' : x.Bd
+      const checkBsal = x.Bsal === undefined ? 'No Bsal Samples Were Collected' : x.Bsal
+
+      countryDetailDiv.innerHTML = `
+      <p></p>
+      <h3>${x.country}</h3>
+      <button id="backBtn-country" class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
+      <br>
+      <span>Bd Count:</span> ${checkBd} <br>
+      <Span> Bsal Count:</span> ${checkBsal}
+      `
+    }
+  }
+)}
 
 //CHARTS TAB
 
@@ -701,8 +733,36 @@ async function getDataBothPathogens() {
   return { country, totalSamples, countryAndValue }
 }
 
+// Get both pathogens stacked per country
+async function getCountryDataBothStacked() {
+  const res = await fetch(`${baseURL}country_Both_stacked.json`)
+  const data = await res.json()
+
+  let countries = []
+  let bdcounts = []
+  let bsalcounts = []
+  let obj = []
+
+  data.forEach(x => {
+    countries.push(x.country)
+    bdcounts.push(x.Bd)
+    bsalcounts.push(x.Bsal)
+    obj.push(x)
+  })
+  return { countries, bdcounts, bsalcounts, obj }
+}
+
+// CHART
+async function countriesBothStackedChart() {
+  const data = await getCountryDataBothStacked()
+  makeStackedBarChart(data.countries, 'Bd Count', data.bdcounts, bdColor, 'Bsal Count', data.bsalcounts, bsalColor)
+}
+
+
   // TABS
 function toggleData(evt, tabType) {
+  // location.href = `/dashboard/${tabType}`
+
   // Get all elements with class="tabcontent" and hide them
   let tabcontent = document.getElementsByClassName("tabcontent");
   for (let i = 0; i < tabcontent.length; i++) {
@@ -820,6 +880,9 @@ async function buildTaxonomyList() {
       // If there is a name in the URL, load stats for the name
     } else {
       hideAllTabs()
+      const dash = document.getElementById('info-dash')
+      dash.style.display = 'flex'
+
       const speciesDiv = document.getElementById('species-stats')
       const bdDiv = document.getElementById('bd-chart-container')
       const bsalDiv = document.getElementById('bsal-chart-container')
