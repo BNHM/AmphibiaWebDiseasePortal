@@ -762,7 +762,7 @@ async function countriesBothStackedChart() {
   // TABS
 function toggleData(evt, tabType) {
   //TODO: figure out tab URLS
-  
+
   // let tabName = tabType.split('-').shift()
   // location.href = `/dashboard/?tab=${tabName}`
   // let tabURL = getUrlVars().tab
@@ -1053,6 +1053,7 @@ function hideAllTabs() {
   const tabNav = document.getElementById('tab-nav')
   const tableTab = document.getElementById('table-tab')
   const listTab = document.getElementById('list-tab')
+  const chartTab = document.getElementById('charts-tab')
 
   p.style.display = 'none'
   tabNav.style.display = 'none'
