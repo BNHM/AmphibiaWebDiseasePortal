@@ -761,12 +761,43 @@ async function countriesBothStackedChart() {
 
   // TABS
 function toggleData(evt, tabType) {
-  // location.href = `/dashboard/${tabType}`
+  //TODO: figure out tab URLS
+  
+  // let tabName = tabType.split('-').shift()
+  // location.href = `/dashboard/?tab=${tabName}`
+  // let tabURL = getUrlVars().tab
 
+  // Tab links/ Buttons
+  const tableBtn = document.getElementById('table-btn')
+  const chartBtn = document.getElementById('chart-btn')
+  const listBtn = document.getElementById('list-btn')
+
+  //Tab Content
+  const tableTab = document.getElementById('table-tab')
+  const listTab = document.getElementById('list-tab')
+  const chartTab = document.getElementById('charts-tab')
+
+  // if (tabURL == 'table' || tabURL == undefined) {
+  //   listTab.style.display = 'none'
+  //   chartTab.style.display = 'none'
+
+  // } else if (tabURL == 'charts') {
+  //   chartTab.style.display = 'block'
+  //   listTab.style.display = 'none'
+  //   tableTab.style.display = 'none'
+  //   tableBtn.className = tableBtn.className.replace(' active', '')
+
+  // } else if (tabURL == 'list') {
+  //   listTab.style.display = 'block'
+  //   chartTab.style.display = 'none'
+  //   tableTab.style.display = 'none'
+  //   tableBtn.className = tableBtn.className.replace(' active', '')
+  // }
   // Get all elements with class="tabcontent" and hide them
   let tabcontent = document.getElementsByClassName("tabcontent");
   for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
+    console.log(tabcontent[i].id);
   }
 
   // Get all elements with class="tablinks" and remove the class "active"
@@ -924,7 +955,6 @@ async function buildTaxonomyList() {
       <li> ${checkIucn} </li>
       <li> ${checkOrder} </li>
       <li> ${checkFamily} </li>
-      </li>
       </ul>
       `
 
@@ -1019,11 +1049,10 @@ async function buildTaxonomyList() {
 }
 
 function hideAllTabs() {
-  let p = document.getElementById('description')
-  let tabNav = document.getElementById('tab-nav')
-  let tableTab = document.getElementById('table-tab')
-  let chartTab = document.getElementById('chart-tab')
-  let listTab = document.getElementById('list-tab')
+  const p = document.getElementById('description')
+  const tabNav = document.getElementById('tab-nav')
+  const tableTab = document.getElementById('table-tab')
+  const listTab = document.getElementById('list-tab')
 
   p.style.display = 'none'
   tabNav.style.display = 'none'
