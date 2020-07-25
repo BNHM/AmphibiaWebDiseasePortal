@@ -777,27 +777,11 @@ function toggleData(evt, tabType) {
   const listTab = document.getElementById('list-tab')
   const chartTab = document.getElementById('charts-tab')
 
-  // if (tabURL == 'table' || tabURL == undefined) {
-  //   listTab.style.display = 'none'
-  //   chartTab.style.display = 'none'
-
-  // } else if (tabURL == 'charts') {
-  //   chartTab.style.display = 'block'
-  //   listTab.style.display = 'none'
-  //   tableTab.style.display = 'none'
-  //   tableBtn.className = tableBtn.className.replace(' active', '')
-
-  // } else if (tabURL == 'list') {
-  //   listTab.style.display = 'block'
-  //   chartTab.style.display = 'none'
-  //   tableTab.style.display = 'none'
-  //   tableBtn.className = tableBtn.className.replace(' active', '')
-  // }
   // Get all elements with class="tabcontent" and hide them
   let tabcontent = document.getElementsByClassName("tabcontent");
   for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = "none";
-    console.log(tabcontent[i].id);
+    console.log(tabcontent[i])
   }
 
   // Get all elements with class="tablinks" and remove the class "active"
