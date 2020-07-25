@@ -237,6 +237,12 @@ div ul {
     font-weight: bold;
 }
 
+/* COUNTRY DETAIL PAGE */
+
+#backBtn-country {
+    width: 30%;
+}
+
 /* SPECIES DETAIL PAGE */
 #species-stats h3{
     margin-top: 5px;

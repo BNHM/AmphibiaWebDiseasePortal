@@ -150,7 +150,8 @@ function displayProjects() {
   
   // If no project id is defined display project table using local storage
   if (projectId === undefined) { 
-    hideDetailTable()
+    const container = document.getElementById('detail-container')
+    container.style.display = "none"
 
     const searchInput = document.querySelector('.search')
 
@@ -357,15 +358,10 @@ function getUrlVars() {
 }
 
 function hideMainTable() {
-  let container = document.getElementById('table-container')
-  container.style.display = "none"
-  let searchbar = document.getElementById('search-container')
+  const searchbar = document.getElementById('search-container')
   searchbar.style.display = "none"
-}
-
-function hideDetailTable() {
-  let container = document.getElementById('detail-container')
-  container.style.display = "none"
+  const mainTable = document.getElementById('table-container')
+  mainTable.style.display = "none"
 }
 
 function makeBarChart(xLabel, dataLabel, values) {
