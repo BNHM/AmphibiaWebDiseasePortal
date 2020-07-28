@@ -1066,9 +1066,9 @@ function hideInfoDash() {
   dash.style.display = 'none'
 }
 
-function listBuilder(name, str, selector, genus, species) {
+function listBuilder(name, letter, selector, genus, species) {
   let li = document.createElement('li')
-  if (name.startsWith(str) === true) {
+  if (name.startsWith(letter) === true) {
     li.innerHTML = `
       <span><em>${name}</em></span>
       <div id="list-buttons">
@@ -1078,7 +1078,7 @@ function listBuilder(name, str, selector, genus, species) {
       `
     selector.appendChild(li)
 
-    document.getElementById(`${name}`).addEventListener('click', function() {
+    document.getElementById(name).addEventListener('click', function() {
       window.location.href = `/dashboard/?id=${genus}+${species}`
     })
   }
@@ -1094,9 +1094,13 @@ const scrollToTop = () => {
     window.requestAnimationFrame(scrollToTop);
     // ScrollTo takes an x and a y coordinate.
     // Increase the '10' value to get a smoother/slower scroll
-    window.scrollTo(0, c - c / 15);
+    window.scrollTo(0, c - c / 5);
   }
-};
+
+    // location.href = window.location.href.split('#')[0]    
+    // console.log(window.location.href.split('#')[0]);
+  
+}
 
   // Get url variable
   function getUrlVars() {
