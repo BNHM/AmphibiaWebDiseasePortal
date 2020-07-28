@@ -180,16 +180,28 @@ div ul {
 }
   
 #backtotop {
-    margin: auto;
+    margin: 20px;
+    position: fixed;
+    z-index: 99;
+    bottom: 100px;
+    right: 90px;
     padding: 5px;
     border: 2px solid #45bce1;
-    border-radius: 15px;
-    width: 150px;
+    border-radius: 30px;
+    width: 80px;
+    font-size: 26px;
+    background-color: white;
 }
 
 #backtotop a {
     text-decoration: none;
     padding: 5px;
+}
+
+#backtotop:hover {
+    background-color: #45bce1;
+    color: white;
+    cursor: pointer;
 }
 
 #list-container ul {
