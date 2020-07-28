@@ -15,12 +15,45 @@ const genericColor = '#bdbdbd'
 class Dashboard{
   constructor() {
     let mychart = this;
-    buildSummaryTable()
-    buildSpeciesTable()
-    buildCountryTable()
-    buildPathogenSummaryTable()
-    buildTaxonomyList()
     buildCountryPage()
+
+    let urlName = getUrlVars().id
+    let tabLabel = getUrlVars().tab
+
+    const charttab = document.getElementById('charts-tab')
+    const tabletab = document.getElementById('table-tab')
+    const listtab = document.getElementById('list-tab')
+
+    if (urlName != undefined) {
+      buildSpeciesDetail() 
+    }
+
+    if (tabLabel === undefined) {
+      tabletab.style.display = 'none'
+      charttab.style.display = 'none'
+      listtab.style.display = 'none'
+
+    } else if (tabLabel === 'list-tab') {
+      buildSpeciesList()
+      tabletab.style.display = 'none'
+      charttab.style.display = 'none'
+      listtab.style.display = 'block'
+
+    } else if (tabLabel === 'table-tab') {
+      tabletab.className += ' active'
+      tabletab.style.display = 'block'
+      charttab.style.display = 'none'
+      listtab.style.display = 'none'
+
+      buildSummaryTable()
+      buildSpeciesTable()
+      buildCountryTable()
+      buildPathogenSummaryTable()
+
+    } else if (tabLabel === 'charts-tab') {
+      tabletab.style.display = 'none'
+      charttab.style.display = 'block'
+      listtab.style.display = 'none'
 
     const resultSelect = document.getElementById('result-select')
     const byYearSelect = document.getElementById('by-year-select')
@@ -80,6 +113,9 @@ class Dashboard{
         bothScientificNameStacked()
       }
     })
+  } else if (tabLabel === undefined && urlName === undefined) {
+    console.log('tabs undefined')
+  }
   }
 }
 
@@ -759,39 +795,18 @@ async function countriesBothStackedChart() {
 }
 
 
-  // TABS
+  // TABS TOGGLE 
 function toggleData(evt, tabType) {
-  //TODO: figure out tab URLS
-
-  // let tabName = tabType.split('-').shift()
-  // location.href = `/dashboard/?tab=${tabName}`
-  // let tabURL = getUrlVars().tab
-
-  // Tab links/ Buttons
-  const tableBtn = document.getElementById('table-btn')
-  const chartBtn = document.getElementById('chart-btn')
-  const listBtn = document.getElementById('list-btn')
-
-  //Tab Content
-  const tableTab = document.getElementById('table-tab')
-  const listTab = document.getElementById('list-tab')
-  const chartTab = document.getElementById('charts-tab')
-
-  // Get all elements with class="tabcontent" and hide them
-  let tabcontent = document.getElementsByClassName("tabcontent");
-  for (let i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-    console.log(tabcontent[i])
-  }
-
   // Get all elements with class="tablinks" and remove the class "active"
   let tablinks = document.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
+  
+  // Sets URL to either 'table-tab, chart-tab, list-tab'
+  location.href = `/dashboard/?tab=${tabType}`
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabType).style.display = "block";
   evt.currentTarget.className += " active";
 }
 
@@ -812,32 +827,19 @@ function toggleData(evt, tabType) {
     const data = await res.json()
     return {data}
   }
-  
-// Builds List of species sampled by Scientific Name & organize alphabetically
-async function buildTaxonomyList() {
-  const allStacked = await getBothScientificNameStackedData()
-  const bdData = await getBdDetectedByScientificName()
-  const bsalData = await getBsalDetectedByScientificName()
-  const allData = await getBothScientificNameData()
-  const projData = await getSpeciesAssociatedProject()
-  const txtData = await getTxtData()
-  
-  let urlName = getUrlVars().id
-  let bdObj = bdData.bdObj
-  let bsalObj = bsalData.bsalObj
-  let names = allData.scientificName
-  let stackedData = allStacked.stackedObj
-  let projects = projData.obj
-  let amphInfo = txtData.data
 
-  // If there is no scientific name in URL, load entire list.
-  if (urlName === undefined) {
-    hideInfoDash()
-    names.forEach(name => {
-      let arr = name.split(' ')
-      let genus = arr[0]
-      let species = arr[1]
-    
+  async function buildSpeciesList() {
+    const allData = await getBothScientificNameData()
+    let names = allData.scientificName
+
+   // If there is no scientific name in URL, load entire list.
+      hideInfoDash()
+      names.forEach(name => {
+        let arr = name.split(' ')
+        let genus = arr[0]
+        let species = arr[1]
+      
+        // Builds List of species sampled by Scientific Name & organize alphabetically
         const aNames = document.querySelector('#sort-a ul')
         const bNames = document.querySelector('#sort-b ul')
         const cNames = document.querySelector('#sort-c ul')
@@ -864,7 +866,7 @@ async function buildTaxonomyList() {
         const xNames = document.querySelector('#sort-x ul')
         const yNames = document.querySelector('#sort-y ul')
         const zNames = document.querySelector('#sort-z ul')
-    
+      
         listBuilder(name, 'A', aNames, genus, species)
         listBuilder(name, 'B', bNames, genus, species)
         listBuilder(name, 'C', cNames, genus, species)
@@ -891,146 +893,159 @@ async function buildTaxonomyList() {
         listBuilder(name, 'X', xNames, genus, species)
         listBuilder(name, 'Y', yNames, genus, species)
         listBuilder(name, 'Z', zNames, genus, species)
-      })
-      // If there is a name in the URL, load stats for the name
-    } else {
-      hideAllTabs()
-      const dash = document.getElementById('info-dash')
-      dash.style.display = 'flex'
+        })
+}
+  
+async function buildSpeciesDetail() {
+  const allStacked = await getBothScientificNameStackedData()
+  const bdData = await getBdDetectedByScientificName()
+  const bsalData = await getBsalDetectedByScientificName()
+  const projData = await getSpeciesAssociatedProject()
+  const txtData = await getTxtData()
+  
+  let urlName = getUrlVars().id
+  let bdObj = bdData.bdObj
+  let bsalObj = bsalData.bsalObj
+  let stackedData = allStacked.stackedObj
+  let projects = projData.obj
+  let amphInfo = txtData.data
 
-      const speciesDiv = document.getElementById('species-stats')
-      const bdDiv = document.getElementById('bd-chart-container')
-      const bsalDiv = document.getElementById('bsal-chart-container')
-      const bsalCanvas = document.getElementById('bsal-chart')
-      const bdCanvas = document.getElementById('bd-chart')
-      const projectsUl = document.getElementById('associated-projects')
+    hideAllTabs()
+    const dash = document.getElementById('info-dash')
+    dash.style.display = 'flex'
 
-      let displayName = urlName.replace('+', ' ')
-      let nameArr = displayName.split(' ')
-      let genus = nameArr[0]
-      let species = nameArr[1]
+    const speciesDiv = document.getElementById('species-stats')
+    const bdDiv = document.getElementById('bd-chart-container')
+    const bsalDiv = document.getElementById('bsal-chart-container')
+    const bsalCanvas = document.getElementById('bsal-chart')
+    const bdCanvas = document.getElementById('bd-chart')
+    const projectsUl = document.getElementById('associated-projects')
 
-      let order = []
-      let family = []
-      let iucn = []
-      let commonName = []
-      amphInfo.map(x => {
-        if (genus == x.genus && species == x.species) {
-          if(x.common_name) {commonName.push(x.common_name)} 
-          if (x.order) {order.push(x.order)}
-          if(x.family) {family.push(x.family)}
-         if (x.iucn) {iucn.push(x.iucn)}}
-      })
+    let displayName = urlName.replace('+', ' ')
+    let nameArr = displayName.split(' ')
+    let genus = nameArr[0]
+    let species = nameArr[1]
 
-      const checkCommonName = commonName.length === 0 ? '<span>Common Name(s): </span> Unavailable' : `<span>Common Name(s): </span> ${commonName}`
-      const checkFamily = family.length === 0 ? '<span>Family: </span> Unavailable' : `<span>Family: </span>${family}`
-      const checkOrder = order.length === 0 ? '<span>Order: </span> Unavailable' : `<span>Order: </span>${order}`
-      const checkIucn = iucn.length === 0 ? '<span>IUCN Status: </span> Unavailable' : `<span>IUCN Status: </span>${iucn}`
+    let order = []
+    let family = []
+    let iucn = []
+    let commonName = []
+    amphInfo.map(x => {
+      if (genus == x.genus && species == x.species) {
+        if(x.common_name) {commonName.push(x.common_name)} 
+        if (x.order) {order.push(x.order)}
+        if(x.family) {family.push(x.family)}
+       if (x.iucn) {iucn.push(x.iucn)}}
+    })
 
-      speciesDiv.innerHTML = `
-      <p></p>
-      <h3><em>${displayName}</em></h3>
+    const checkCommonName = commonName.length === 0 ? '<span>Common Name(s): </span> Unavailable' : `<span>Common Name(s): </span> ${commonName}`
+    const checkFamily = family.length === 0 ? '<span>Family: </span> Unavailable' : `<span>Family: </span>${family}`
+    const checkOrder = order.length === 0 ? '<span>Order: </span> Unavailable' : `<span>Order: </span>${order}`
+    const checkIucn = iucn.length === 0 ? '<span>IUCN Status: </span> Unavailable' : `<span>IUCN Status: </span>${iucn}`
 
-      <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
-      <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
-      
-      <ul id="info-stats">
-      <li> ${checkCommonName} </li>
-      <li> ${checkIucn} </li>
-      <li> ${checkOrder} </li>
-      <li> ${checkFamily} </li>
-      </ul>
-      `
+    speciesDiv.innerHTML = `
+    <p></p>
+    <h3><em>${displayName}</em></h3>
 
-      // For Associated Projects DIV
-      let titles = []
-      function returnTitle(id) {
-        bigdatafile = JSON.parse(localStorage.getItem("bigdatafile")).value
+    <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
+    <button class="species-detail-btn" onclick="location.href='/dashboard/?tab=list-tab'">Back to Dashboard</button>      
+    
+    <ul id="info-stats">
+    <li> ${checkCommonName} </li>
+    <li> ${checkIucn} </li>
+    <li> ${checkOrder} </li>
+    <li> ${checkFamily} </li>
+    </ul>
+    `
 
-        for (let i = 0; i < bigdatafile.length; i++) {
-          let local = bigdatafile[i]
+    // For Associated Projects DIV
+    let titles = []
+    function returnTitle(id) {
+      bigdatafile = JSON.parse(localStorage.getItem("bigdatafile")).value
 
-          if(local.projectId == id) {titles.push(local.projectTitle)}
-        }
-      }
+      for (let i = 0; i < bigdatafile.length; i++) {
+        let local = bigdatafile[i]
 
-      // Stores IDs of each associated project
-      let idParam = []
-      let sampleCounts = []
-      projects.map(x => {
-        if(x.scientificName === displayName) {
-          let projObj = x.associatedProjects
-
-          projObj.forEach(y => {
-            sampleCounts.push(y.count)
-            idParam.push(y.projectId)
-          })
-        }
-       })
-
-       // Uses the Ids to return titles and links associated with the ID
-       let links = []
-       idParam.forEach(num => {
-        returnTitle(num)
-        links.push(`/projects/?id=${num}`)
-       })
-
-       // Combines ID, title and Link into new arrays
-       let mixed = idParam.map(function(x, i) {
-         return [x, titles[i], links[i], sampleCounts[i]]
-       })
-       
-       mixed.forEach(item => {
-        let li = document.createElement('li')
-        li.className = 'li-detail'
-        li.innerHTML = `<td><a href="${item[2]}">${item[1]} (${item[3]} Samples)</a></td>`
-        
-        projectsUl.appendChild(li)
-       })
-      
-      // Totals div for displaying bd/bsal tested
-      stackedData.forEach(x => {
-        if(x.scientificName === displayName) {
-          makePieChart('totals-chart-container', 'both-chart', 'Bd', 'Bsal', x.Bd, x.Bsal, bdColor, bsalColor)
-        }        
-      })
-      
-      // Checks for and displays Bd data
-     let checkBd = () => bdObj.map(x => {
-        if(x.scientificName === displayName) {
-          makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
-        } else {
-          return false
-        }
-      })
-
-      // Janky fix for displaying 'No Data available'
-      if (!checkBd().includes(undefined)) {
-        bdCanvas.style.display = 'none'
-        let p = document.createElement('p')
-        p.className = 'detail-p'
-        p.innerHTML = `No Bd data available for ${displayName}`
-        bdDiv.appendChild(p)
-      }
-      
-      // Checks for and displays Bsal Data
-      let checkBsal = () => bsalObj.map(x => {
-        if (x.scientificName === displayName) {  
-          makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
-        } else {          
-          return false
-        }
-      })
-
-      if (!checkBsal().includes(undefined)) {
-        bsalCanvas.style.display = 'none'
-        let p = document.createElement('p')
-        p.className = 'detail-p'
-        p.innerHTML = `No Bsal data available for ${displayName}`
-        bsalDiv.appendChild(p)
+        if(local.projectId == id) {titles.push(local.projectTitle)}
       }
     }
-}
+
+    // Stores IDs of each associated project
+    let idParam = []
+    let sampleCounts = []
+    projects.map(x => {
+      if(x.scientificName === displayName) {
+        let projObj = x.associatedProjects
+
+        projObj.forEach(y => {
+          sampleCounts.push(y.count)
+          idParam.push(y.projectId)
+        })
+      }
+     })
+
+     // Uses the Ids to return titles and links associated with the ID
+     let links = []
+     idParam.forEach(num => {
+      returnTitle(num)
+      links.push(`/projects/?id=${num}`)
+     })
+
+     // Combines ID, title and Link into new arrays
+     let mixed = idParam.map(function(x, i) {
+       return [x, titles[i], links[i], sampleCounts[i]]
+     })
+     
+     mixed.forEach(item => {
+      let li = document.createElement('li')
+      li.className = 'li-detail'
+      li.innerHTML = `<td><a href="${item[2]}">${item[1]} (${item[3]} Samples)</a></td>`
+      
+      projectsUl.appendChild(li)
+     })
+    
+    // Totals div for displaying bd/bsal tested
+    stackedData.forEach(x => {
+      if(x.scientificName === displayName) {
+        makePieChart('totals-chart-container', 'both-chart', 'Bd', 'Bsal', x.Bd, x.Bsal, bdColor, bsalColor)
+      }        
+    })
+    
+    // Checks for and displays Bd data
+   let checkBd = () => bdObj.map(x => {
+      if(x.scientificName === displayName) {
+        makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
+      } else {
+        return false
+      }
+    })
+
+    // Janky fix for displaying 'No Data available'
+    if (!checkBd().includes(undefined)) {
+      bdCanvas.style.display = 'none'
+      let p = document.createElement('p')
+      p.className = 'detail-p'
+      p.innerHTML = `No Bd data available for ${displayName}`
+      bdDiv.appendChild(p)
+    }
+    
+    // Checks for and displays Bsal Data
+    let checkBsal = () => bsalObj.map(x => {
+      if (x.scientificName === displayName) {  
+        makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
+      } else {          
+        return false
+      }
+    })
+
+    if (!checkBsal().includes(undefined)) {
+      bsalCanvas.style.display = 'none'
+      let p = document.createElement('p')
+      p.className = 'detail-p'
+      p.innerHTML = `No Bsal data available for ${displayName}`
+      bsalDiv.appendChild(p)
+    }
+  }
 
 function hideAllTabs() {
   const p = document.getElementById('description')
