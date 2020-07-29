@@ -23,28 +23,23 @@ class Dashboard{
     const charttab = document.getElementById('charts-tab')
     const tabletab = document.getElementById('table-tab')
     const listtab = document.getElementById('list-tab')
-    const instructHeading = document.getElementById('instruct')
 
     if (urlName != undefined) {
-      instructHeading.style.display = 'none'
       buildSpeciesDetail() 
     }
 
     if (tabLabel === undefined) {
-      instructHeading.style.display = 'block'
       tabletab.style.display = 'none'
       charttab.style.display = 'none'
       listtab.style.display = 'none'
 
     } else if (tabLabel === 'list-tab') {
-      instructHeading.style.display = 'none'
       buildSpeciesList()
       tabletab.style.display = 'none'
       charttab.style.display = 'none'
       listtab.style.display = 'block'
 
     } else if (tabLabel === 'table-tab') {
-      instructHeading.style.display = 'none'
       tabletab.style.display = 'block'
       charttab.style.display = 'none'
       listtab.style.display = 'none'
@@ -55,7 +50,6 @@ class Dashboard{
       buildPathogenSummaryTable()
 
     } else if (tabLabel === 'charts-tab') {
-      instructHeading.style.display = 'none'
       tabletab.style.display = 'none'
       charttab.style.display = 'block'
       listtab.style.display = 'none'
