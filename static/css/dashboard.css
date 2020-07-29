@@ -21,12 +21,13 @@
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
-    transition: 0.3s;
+    transition: 0.5s;
   }
   
   .tab button:hover {
     background-color: #ddd;
     color: white;
+    font-size: 17px;
   }
   
   /* Create an active/current tablink class */
@@ -179,16 +180,28 @@ div ul {
 }
   
 #backtotop {
-    margin: auto;
+    margin: 20px;
+    position: fixed;
+    z-index: 99;
+    bottom: 100px;
+    right: 90px;
     padding: 5px;
     border: 2px solid #45bce1;
-    border-radius: 15px;
-    width: 150px;
+    border-radius: 30px;
+    width: 80px;
+    font-size: 26px;
+    background-color: white;
 }
 
 #backtotop a {
     text-decoration: none;
     padding: 5px;
+}
+
+#backtotop:hover {
+    background-color: #45bce1;
+    color: white;
+    cursor: pointer;
 }
 
 #list-container ul {
@@ -228,11 +241,18 @@ div ul {
     background-color: white;
     color: black;
     font-weight: normal;
+    transition: 0.5s all ease;
 }
 
 .species-btn:hover {
     background-color: #45bce1;
     font-weight: bold;
+}
+
+/* COUNTRY DETAIL PAGE */
+
+#backBtn-country {
+    width: 30%;
 }
 
 /* SPECIES DETAIL PAGE */
@@ -318,6 +338,7 @@ div ul {
     background-color: white;
     color: black;
     font-weight: normal;
+    transition: 0.5s all ease;
 }
 
 .species-detail-btn:hover {

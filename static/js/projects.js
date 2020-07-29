@@ -93,16 +93,15 @@ function displayMatches() {
       return tr.innerHTML = `
       <tr>
       <td> <i id="pubglobe" class="fa fa-globe"></i> </td>
-      <td> ${projName} </td>
-      <td> ${projPI} </td>
-      <td> ${projAffiliation} </td>
-      <td>${projContact}</td>
-      <td><button onclick="window.location.href='/projects/?id=${project.projectId}'" class="detailsBtn" 
+      <td class="th-resize-larger"> ${projName} </td>
+      <td class="th-resize"> ${projPI} </td>
+      <td class="th-resize-medium"> ${projAffiliation} </td>
+      <td class="th-resize">${projContact}</td>
+      <td class="th-resize"><button onclick="window.location.href='/projects/?id=${project.projectId}'" class="detailsBtn" 
           id='project${project.projectId}'
           >Details</button></td>
           </tr>
       `
-    
   }).join('')
   allProjTable.appendChild(tr)
   allProjTable.innerHTML = html
@@ -151,7 +150,8 @@ function displayProjects() {
   
   // If no project id is defined display project table using local storage
   if (projectId === undefined) { 
-    hideDetailTable()
+    const container = document.getElementById('detail-container')
+    container.style.display = "none"
 
     const searchInput = document.querySelector('.search')
 
@@ -193,13 +193,22 @@ function displayProjects() {
       let local = bigdatafile[i]
       // Makes sure the project is public, is the right team (45), and that the project id matches.
       if (local.projectConfiguration.id == 45 && local.public == true && local.projectId == projectId) {
-        let div = document.getElementById('project')
+        const div = document.getElementById('project')
         let p = document.createElement('p')
         let sampleData = local.entityStats
 
+        // Check if project contact is null
+        let checkForProjectContact = () => {
+          if(local.projectContact == null) {
+            return `None Listed <br>`
+          } else {
+            return `${local.projectContact} <a href="mailto:${local.projectContactEmail}" target="_blank"><i class="fa fa-envelope"></i> </a><br>`
+          }
+        }
+
         // Check if date data last modified is null.
         let checkForModificationDate = () => {
-          let modificationDate = local.latestDataModification
+          const modificationDate = local.latestDataModification
           let date = new Date(modificationDate).toDateString()
 
           if (modificationDate == null) {
@@ -266,7 +275,7 @@ function displayProjects() {
         <h3>Information</h3>
         <hr>
         Project PI: ${local.principalInvestigator == null ? 'None' : local.principalInvestigator} <br>
-        Project Contact: ${local.projectContact} <a href="mailto:${local.projectContactEmail}" target="_blank"><i class="fa fa-envelope"></i> </a><br>
+        Project Contact: ${checkForProjectContact()}
         Dataset DOI: ${checkForDataDoi()}
         
         <br>
@@ -283,8 +292,8 @@ function displayProjects() {
         `
         div.appendChild(p)
 
-        console.log(local)
-        console.log(local.entityStats)
+        // console.log(local)
+        // console.log(local.entityStats)
       }
     }
   }
@@ -349,15 +358,10 @@ function getUrlVars() {
 }
 
 function hideMainTable() {
-  let container = document.getElementById('table-container')
-  container.style.display = "none"
-  let searchbar = document.getElementById('search-container')
+  const searchbar = document.getElementById('search-container')
   searchbar.style.display = "none"
-}
-
-function hideDetailTable() {
-  let container = document.getElementById('detail-container')
-  container.style.display = "none"
+  const mainTable = document.getElementById('table-container')
+  mainTable.style.display = "none"
 }
 
 function makeBarChart(xLabel, dataLabel, values) {

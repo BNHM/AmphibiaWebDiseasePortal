@@ -1,7 +1,9 @@
 
 /* SEARCH BAR */
 #search-container {
-  margin: 20px;
+  margin: 5px;
+  padding: 5px;
+  width: 100%;
 }
 
 #searchbar {
@@ -9,11 +11,28 @@
   border-radius: 25px;
   padding: 30px;
   margin: auto;
-  width: 50%;
+  width: 60%;
+}
+
+#radio-div {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5px;
+  padding: 3px;
+  width: 100%;
+}
+
+.align {
+  display: flex;
 }
 
 .radio-btn {
-  margin: 10px;
+  margin: 13px 5px 5px 15px;
+}
+
+label {
+  margin: 5px;
 }
 
 /* Highlights partial term searches*/
@@ -24,18 +43,43 @@
 
 /* ALL PROJECTS TABLE */
 #table-container {
-    display: block;
-    margin-left: 20px;
-    margin-right: 20px;
+    width: 100%;
+    padding: 5px;
+    margin: 5px;
     text-align: left;
+}
+
+table {
+  border-bottom: 2px solid rgb(247, 242, 242);
+  display: block;
+  width: 100%;
+  height: 60vh;
+  overflow: auto;
+  border-collapse: collapse; 
+}
+
+th {
+  width: 2%;
+  position: sticky;
+  top: 0;
+  background-color: #f2f5f8;
+  color: rgb(8, 8, 8);
+}
+
+.th-resize {
+  width: 15%;
+}
+
+.th-resize-medium {
+  width: 25%;
+}
+
+.th-resize-larger {
+  width: 40%;
 }
 
 td, th, tr {
     padding: 10px;
-}
-
-#pubglobe {
-    float: right;
 }
 
 .no-background:hover {
@@ -43,14 +87,13 @@ td, th, tr {
 }
 
 tr:hover {
-    background-color: rgb(238,238,238);
+    background-color: #f1f2f6;
 }
 
 .detailsBtn {
   margin-left: 5px;
   margin-right: 10px;
   padding: 5px;
-  float: right;
   border: 1px solid #93c3ec;
   border-radius: 15px 50px 30px;
   width: 120px;
@@ -92,3 +135,36 @@ tr:hover {
     margin-top: 20px;
     cursor: pointer;
 }
+
+@media screen 
+    and (min-width: 150px) 
+    and (max-width: 500px) {
+      #searchbar {
+        width: 100%;
+      }
+
+      #radio-div {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .align {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+
+@media screen
+    and (min-width: 200px)
+    and (max-width: 678px) {
+
+      #table-container {
+        margin: 0;
+      }
+
+      .detailsBtn {
+        width: 100%;
+      }
+    }

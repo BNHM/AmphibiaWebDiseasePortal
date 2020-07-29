@@ -15,11 +15,44 @@ const genericColor = '#bdbdbd'
 class Dashboard{
   constructor() {
     let mychart = this;
-    buildSummaryTable()
-    buildSpeciesTable()
-    buildCountryTable()
-    buildPathogenSummaryTable()
-    buildTaxonomyList()
+    buildCountryPage()
+
+    let urlName = getUrlVars().id
+    let tabLabel = getUrlVars().tab
+
+    const charttab = document.getElementById('charts-tab')
+    const tabletab = document.getElementById('table-tab')
+    const listtab = document.getElementById('list-tab')
+
+    if (urlName != undefined) {
+      buildSpeciesDetail() 
+    }
+
+    if (tabLabel === undefined) {
+      tabletab.style.display = 'none'
+      charttab.style.display = 'none'
+      listtab.style.display = 'none'
+
+    } else if (tabLabel === 'list-tab') {
+      buildSpeciesList()
+      tabletab.style.display = 'none'
+      charttab.style.display = 'none'
+      listtab.style.display = 'block'
+
+    } else if (tabLabel === 'table-tab') {
+      tabletab.style.display = 'block'
+      charttab.style.display = 'none'
+      listtab.style.display = 'none'
+
+      buildSummaryTable()
+      buildSpeciesTable()
+      buildCountryTable()
+      buildPathogenSummaryTable()
+
+    } else if (tabLabel === 'charts-tab') {
+      tabletab.style.display = 'none'
+      charttab.style.display = 'block'
+      listtab.style.display = 'none'
 
     const resultSelect = document.getElementById('result-select')
     const byYearSelect = document.getElementById('by-year-select')
@@ -43,6 +76,8 @@ class Dashboard{
         bsalDetectedByScientificName()
       } else if (this.value == 'bothDetectedByScientificName') {
         bothDetectedByScientificName()
+      } else if (this.value == 'bothByCountryStacked') {
+        countriesBothStackedChart()
       }
     })
 
@@ -77,6 +112,9 @@ class Dashboard{
         bothScientificNameStacked()
       }
     })
+  } else if (tabLabel === undefined && urlName === undefined) {
+    console.log('tabs undefined')
+  }
   }
 }
 
@@ -124,13 +162,12 @@ async function buildCountryTable() {
     let tr = document.createElement('tr')
 
       tr.innerHTML = `
-        <td>${entry.country}</td>
+        <td><a href='/dashboard/?country=${entry.country}'>${entry.country}</a></td>
         <td>${entry.value}</td>
       `
       table.appendChild(tr)
   })
 }
-
 
 async function buildPathogenSummaryTable() {
   const bothTestedData = await getDiseaseTestedBothData()
@@ -212,6 +249,37 @@ async function buildSummaryTable() {
   `
   summaryTable.appendChild(tr)
 }
+
+// PER COUNTRY DETAIL PAGE
+async function buildCountryPage() {
+  const data = await getCountryDataBothStacked() 
+  const allData = data.obj
+  let countryURL = getUrlVars().country
+  const countryDetailDiv = document.getElementById('country-detail-container')
+
+  const checkForSpaces = countryURL && countryURL.includes('%20') ? countryURL.replace('%20', ' ') : countryURL
+
+  allData.forEach(x => {
+
+    if (checkForSpaces == x.country) {
+      hideAllTabs()
+      hideInfoDash()
+
+      const checkBd = x.Bd === undefined ? 'No Bd Samples Were Collected' : x.Bd
+      const checkBsal = x.Bsal === undefined ? 'No Bsal Samples Were Collected' : x.Bsal
+
+      countryDetailDiv.innerHTML = `
+      <p></p>
+      <h3>${x.country}</h3>
+      <button id="backBtn-country" class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
+      <br>
+      <span>Bd Count:</span> ${checkBd} <br>
+      <Span> Bsal Count:</span> ${checkBsal}<br>
+      (More Coming Soon)
+      `
+    }
+  }
+)}
 
 //CHARTS TAB
 
@@ -701,24 +769,44 @@ async function getDataBothPathogens() {
   return { country, totalSamples, countryAndValue }
 }
 
-  // TABS
+// Get both pathogens stacked per country
+async function getCountryDataBothStacked() {
+  const res = await fetch(`${baseURL}country_Both_stacked.json`)
+  const data = await res.json()
+
+  let countries = []
+  let bdcounts = []
+  let bsalcounts = []
+  let obj = []
+
+  data.forEach(x => {
+    countries.push(x.country)
+    bdcounts.push(x.Bd)
+    bsalcounts.push(x.Bsal)
+    obj.push(x)
+  })
+  return { countries, bdcounts, bsalcounts, obj }
+}
+
+// CHART
+async function countriesBothStackedChart() {
+  const data = await getCountryDataBothStacked()
+  makeStackedBarChart(data.countries, 'Bd Count', data.bdcounts, bdColor, 'Bsal Count', data.bsalcounts, bsalColor)
+}
+
+
+  // TABS TOGGLE 
 function toggleData(evt, tabType) {
-  let i, tabcontent, tablinks;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
   // Get all elements with class="tablinks" and remove the class "active"
-  tablinks = document.getElementsByClassName("tablinks");
+  let tablinks = document.getElementsByClassName("tablinks");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
+  
+  // Sets URL to either 'table-tab, chart-tab, list-tab'
+  location.href = `/dashboard/?tab=${tabType}`
 
   // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabType).style.display = "block";
   evt.currentTarget.className += " active";
 }
 
@@ -739,32 +827,19 @@ function toggleData(evt, tabType) {
     const data = await res.json()
     return {data}
   }
-  
-// Builds List of species sampled by Scientific Name & organize alphabetically
-async function buildTaxonomyList() {
-  const allStacked = await getBothScientificNameStackedData()
-  const bdData = await getBdDetectedByScientificName()
-  const bsalData = await getBsalDetectedByScientificName()
-  const allData = await getBothScientificNameData()
-  const projData = await getSpeciesAssociatedProject()
-  const txtData = await getTxtData()
-  
-  let urlName = getUrlVars().id
-  let bdObj = bdData.bdObj
-  let bsalObj = bsalData.bsalObj
-  let names = allData.scientificName
-  let stackedData = allStacked.stackedObj
-  let projects = projData.obj
-  let amphInfo = txtData.data
 
-  // If there is no scientific name in URL, load entire list.
-  if (urlName === undefined) {
-    hideInfoDash()
-    names.forEach(name => {
-      let arr = name.split(' ')
-      let genus = arr[0]
-      let species = arr[1]
-    
+  async function buildSpeciesList() {
+    const allData = await getBothScientificNameData()
+    let names = allData.scientificName
+
+   // If there is no scientific name in URL, load entire list.
+      hideInfoDash()
+      names.forEach(name => {
+        let arr = name.split(' ')
+        let genus = arr[0]
+        let species = arr[1]
+      
+        // Builds List of species sampled by Scientific Name & organize alphabetically
         const aNames = document.querySelector('#sort-a ul')
         const bNames = document.querySelector('#sort-b ul')
         const cNames = document.querySelector('#sort-c ul')
@@ -791,7 +866,7 @@ async function buildTaxonomyList() {
         const xNames = document.querySelector('#sort-x ul')
         const yNames = document.querySelector('#sort-y ul')
         const zNames = document.querySelector('#sort-z ul')
-    
+      
         listBuilder(name, 'A', aNames, genus, species)
         listBuilder(name, 'B', bNames, genus, species)
         listBuilder(name, 'C', cNames, genus, species)
@@ -818,183 +893,190 @@ async function buildTaxonomyList() {
         listBuilder(name, 'X', xNames, genus, species)
         listBuilder(name, 'Y', yNames, genus, species)
         listBuilder(name, 'Z', zNames, genus, species)
-      })
-      // If there is a name in the URL, load stats for the name
-    } else {
-      hideAllTabs()
-      const speciesDiv = document.getElementById('species-stats')
-      const bdDiv = document.getElementById('bd-chart-container')
-      const bsalDiv = document.getElementById('bsal-chart-container')
-      const bsalCanvas = document.getElementById('bsal-chart')
-      const bdCanvas = document.getElementById('bd-chart')
-      const projectsUl = document.getElementById('associated-projects')
+        })
+}
 
-      let displayName = urlName.replace('+', ' ')
-      let nameArr = displayName.split(' ')
-      let genus = nameArr[0]
-      let species = nameArr[1]
+// TODO: Find a less clunky solution for this whole process (issues with incognito mode)
+async function fetchProjectData() {
+  const res = await fetch('https://api.geome-db.org/projects/stats?') 
+  const data = await res.json() 
 
-      let order = []
-      let family = []
-      let iucn = []
-      let commonName = []
-      amphInfo.map(x => {
-        if (genus == x.genus && species == x.species) {
-          if(x.common_name) {commonName.push(x.common_name)} 
-          if (x.order) {order.push(x.order)}
-          if(x.family) {family.push(x.family)}
-         if (x.iucn) {iucn.push(x.iucn)}}
-      })
+  let projectStorage = []
+  data.map(item => {
+    projectStorage.push(item)
+  })
+    return {projectStorage}
+}
+  
+async function buildSpeciesDetail() {
+  const allStacked = await getBothScientificNameStackedData()
+  const bdData = await getBdDetectedByScientificName()
+  const bsalData = await getBsalDetectedByScientificName()
+  const projData = await getSpeciesAssociatedProject()
+  const txtData = await getTxtData()
+  const allData = await fetchProjectData()
+  
+  let urlName = getUrlVars().id
+  let bdObj = bdData.bdObj
+  let bsalObj = bsalData.bsalObj
+  let stackedData = allStacked.stackedObj
+  let projects = projData.obj
+  let amphInfo = txtData.data
 
-      const checkCommonName = commonName.length === 0 ? '<span>Common Name(s): </span> Unavailable' : `<span>Common Name(s): </span> ${commonName}`
-      const checkFamily = family.length === 0 ? '<span>Family: </span> Unavailable' : `<span>Family: </span>${family}`
-      const checkOrder = order.length === 0 ? '<span>Order: </span> Unavailable' : `<span>Order: </span>${order}`
-      const checkIucn = iucn.length === 0 ? '<span>IUCN Status: </span> Unavailable' : `<span>IUCN Status: </span>${iucn}`
+    hideAllTabs()
+    const dash = document.getElementById('info-dash')
+    dash.style.display = 'flex'
 
-      speciesDiv.innerHTML = `
-      <p></p>
-      <h3><em>${displayName}</em></h3>
+    const speciesDiv = document.getElementById('species-stats')
+    const bdDiv = document.getElementById('bd-chart-container')
+    const bsalDiv = document.getElementById('bsal-chart-container')
+    const bsalCanvas = document.getElementById('bsal-chart')
+    const bdCanvas = document.getElementById('bd-chart')
+    const projectsUl = document.getElementById('associated-projects')
 
-      <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
-      <button class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
-      
-      <ul id="info-stats">
-      <li> ${checkCommonName} </li>
-      <li> ${checkIucn} </li>
-      <li> ${checkOrder} </li>
-      <li> ${checkFamily} </li>
-      </li>
-      </ul>
-      `
+    let displayName = urlName.replace('+', ' ')
+    let nameArr = displayName.split(' ')
+    let genus = nameArr[0]
+    let species = nameArr[1]
 
-      // For Associated Projects DIV
-      let titles = []
-      function returnTitle(id) {
+    let order = []
+    let family = []
+    let iucn = []
+    let commonName = []
+    amphInfo.map(x => {
+      if (genus == x.genus && species == x.species) {
+        if(x.common_name) {commonName.push(x.common_name)} 
+        if (x.order) {order.push(x.order)}
+        if(x.family) {family.push(x.family)}
+       if (x.iucn) {iucn.push(x.iucn)}}
+    })
+
+    const checkCommonName = commonName.length === 0 ? '<span>Common Name(s): </span> Unavailable' : `<span>Common Name(s): </span> ${commonName}`
+    const checkFamily = family.length === 0 ? '<span>Family: </span> Unavailable' : `<span>Family: </span>${family}`
+    const checkOrder = order.length === 0 ? '<span>Order: </span> Unavailable' : `<span>Order: </span>${order}`
+    const checkIucn = iucn.length === 0 ? '<span>IUCN Status: </span> Unavailable' : `<span>IUCN Status: </span>${iucn}`
+
+    speciesDiv.innerHTML = `
+    <p></p>
+    <h3><em>${displayName}</em></h3>
+
+    <button class="species-detail-btn" type="submit" onclick="location.href='https://amphibiaweb.org/cgi/amphib_query?where-genus=${genus}&where-species=${species}'">View in AmphibiaWeb <i class="fa fa-external-link"></i></button>
+    <button class="species-detail-btn" onclick="location.href='/dashboard/?tab=list-tab'">Back to Dashboard</button>      
+    
+    <ul id="info-stats">
+    <li> ${checkCommonName} </li>
+    <li> ${checkIucn} </li>
+    <li> ${checkOrder} </li>
+    <li> ${checkFamily} </li>
+    </ul>
+    `
+
+    // For Associated Projects DIV
+    let titles = []
+    function returnTitle(id) {
+      if (JSON.parse(localStorage.getItem("bigdatafile")) == null) {
+
+        let titleData = allData.projectStorage
+
+        titleData.forEach(x => {
+          if(x.projectId == id) {
+            titles.push(x.projectTitle)
+          }
+        })
+
+      } else {
         bigdatafile = JSON.parse(localStorage.getItem("bigdatafile")).value
-
         for (let i = 0; i < bigdatafile.length; i++) {
           let local = bigdatafile[i]
-
+  
           if(local.projectId == id) {titles.push(local.projectTitle)}
         }
       }
-
-      // Stores IDs of each associated project
-      let idParam = []
-      let sampleCounts = []
-      projects.map(x => {
-        if(x.scientificName === displayName) {
-          let projObj = x.associatedProjects
-
-          projObj.forEach(y => {
-            sampleCounts.push(y.count)
-            idParam.push(y.projectId)
-          })
-        }
-       })
-
-       // Uses the Ids to return titles and links associated with the ID
-       let links = []
-       idParam.forEach(num => {
-        returnTitle(num)
-        links.push(`/projects/?id=${num}`)
-       })
-
-       // Combines ID, title and Link into new arrays
-       let mixed = idParam.map(function(x, i) {
-         return [x, titles[i], links[i], sampleCounts[i]]
-       })
-       
-       mixed.forEach(item => {
-        let li = document.createElement('li')
-        li.className = 'li-detail'
-        li.innerHTML = `<td><a href="${item[2]}">${item[1]} (${item[3]} Samples)</a></td>`
-        
-        projectsUl.appendChild(li)
-       })
-      
-      // Totals div for displaying bd/bsal tested
-      stackedData.forEach(x => {
-        if(x.scientificName === displayName) {
-          makePieChart('totals-chart-container', 'both-chart', 'Bd', 'Bsal', x.Bd, x.Bsal, bdColor, bsalColor)
-        }        
-      })
-      
-      // Checks for and displays Bd data
-     let checkBd = () => bdObj.map(x => {
-        if(x.scientificName === displayName) {
-          makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
-        } else {
-          return false
-        }
-      })
-
-      // Janky fix for displaying 'No Data available'
-      if (!checkBd().includes(undefined)) {
-        bdCanvas.style.display = 'none'
-        let p = document.createElement('p')
-        p.className = 'detail-p'
-        p.innerHTML = `No Bd data available for ${displayName}`
-        bdDiv.appendChild(p)
-      }
-      
-      // Checks for and displays Bsal Data
-      let checkBsal = () => bsalObj.map(x => {
-        if (x.scientificName === displayName) {  
-          makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
-        } else {          
-          return false
-        }
-      })
-
-      if (!checkBsal().includes(undefined)) {
-        bsalCanvas.style.display = 'none'
-        let p = document.createElement('p')
-        p.className = 'detail-p'
-        p.innerHTML = `No Bsal data available for ${displayName}`
-        bsalDiv.appendChild(p)
-      }
     }
-}
 
-// GENERIC PIE CHART
-function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valuesTwo, colorOne, colorTwo) {
-  const container = document.getElementById(containerId)
+    // Stores IDs of each associated project
+    let idParam = []
+    let sampleCounts = []
+    projects.map(x => {
+      if(x.scientificName === displayName) {
+        let projObj = x.associatedProjects
 
-  let canvas = document.createElement('canvas')
-  canvas.id = canvasId
-  canvas.width = '300px'
-  canvas.height = '300px'
-  container.appendChild(canvas)
+        projObj.forEach(y => {
+          sampleCounts.push(y.count)
+          idParam.push(y.projectId)
+        })
+      }
+     })
 
-  let ctx = document.getElementById(canvasId).getContext('2d')
-  return new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: [labelOne, labelTwo],
-            datasets: [{
-                backgroundColor: [colorOne, colorTwo],
-                data: [valuesOne, valuesTwo]
-            }]
-        },
-        options: {
-          maintainAspectRatio: true,
-          legend: {
-            display: true
-          },
-          tooltips: {
-            bodyFontSize: 12
-          }
-        }
-    });
-}
+     // Uses the Ids to return titles and links associated with the ID
+     let links = []
+     idParam.forEach(num => {
+      returnTitle(num)
+      links.push(`/projects/?id=${num}`)
+     })
+
+     // Combines ID, title and Link into new arrays
+     let mixed = idParam.map(function(x, i) {
+       return [x, titles[i], links[i], sampleCounts[i]]
+     })
+
+     mixed.forEach(item => {
+      let li = document.createElement('li')
+      li.className = 'li-detail'
+      li.innerHTML = `<td><a href="${item[2]}">${item[1]} (${item[3]} Samples)</a></td>`
+      
+      projectsUl.appendChild(li)
+     })
+    
+    // Totals div for displaying bd/bsal tested
+    stackedData.forEach(x => {
+      if(x.scientificName === displayName) {
+        makePieChart('totals-chart-container', 'both-chart', 'Bd', 'Bsal', x.Bd, x.Bsal, bdColor, bsalColor)
+      }        
+    })
+    
+    // Checks for and displays Bd data
+   let checkBd = () => bdObj.map(x => {
+      if(x.scientificName === displayName) {
+        makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
+      } else {
+        return false
+      }
+    })
+
+    // Janky fix for displaying 'No Data available'
+    if (!checkBd().includes(undefined)) {
+      bdCanvas.style.display = 'none'
+      let p = document.createElement('p')
+      p.className = 'detail-p'
+      p.innerHTML = `No Bd data available for ${displayName}`
+      bdDiv.appendChild(p)
+    }
+    
+    // Checks for and displays Bsal Data
+    let checkBsal = () => bsalObj.map(x => {
+      if (x.scientificName === displayName) {  
+        makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
+      } else {          
+        return false
+      }
+    })
+
+    if (!checkBsal().includes(undefined)) {
+      bsalCanvas.style.display = 'none'
+      let p = document.createElement('p')
+      p.className = 'detail-p'
+      p.innerHTML = `No Bsal data available for ${displayName}`
+      bsalDiv.appendChild(p)
+    }
+  }
 
 function hideAllTabs() {
-  let p = document.getElementById('description')
-  let tabNav = document.getElementById('tab-nav')
-  let tableTab = document.getElementById('table-tab')
-  let chartTab = document.getElementById('chart-tab')
-  let listTab = document.getElementById('list-tab')
+  const p = document.getElementById('description')
+  const tabNav = document.getElementById('tab-nav')
+  const tableTab = document.getElementById('table-tab')
+  const listTab = document.getElementById('list-tab')
+  const chartTab = document.getElementById('charts-tab')
 
   p.style.display = 'none'
   tabNav.style.display = 'none'
@@ -1008,9 +1090,9 @@ function hideInfoDash() {
   dash.style.display = 'none'
 }
 
-function listBuilder(name, str, selector, genus, species) {
+function listBuilder(name, letter, selector, genus, species) {
   let li = document.createElement('li')
-  if (name.startsWith(str) === true) {
+  if (name.startsWith(letter) === true) {
     li.innerHTML = `
       <span><em>${name}</em></span>
       <div id="list-buttons">
@@ -1020,7 +1102,7 @@ function listBuilder(name, str, selector, genus, species) {
       `
     selector.appendChild(li)
 
-    document.getElementById(`${name}`).addEventListener('click', function() {
+    document.getElementById(name).addEventListener('click', function() {
       window.location.href = `/dashboard/?id=${genus}+${species}`
     })
   }
@@ -1036,9 +1118,13 @@ const scrollToTop = () => {
     window.requestAnimationFrame(scrollToTop);
     // ScrollTo takes an x and a y coordinate.
     // Increase the '10' value to get a smoother/slower scroll
-    window.scrollTo(0, c - c / 15);
+    window.scrollTo(0, c - c / 5);
   }
-};
+
+    // location.href = window.location.href.split('#')[0]    
+    // console.log(window.location.href.split('#')[0]);
+  
+}
 
   // Get url variable
   function getUrlVars() {
@@ -1126,3 +1212,35 @@ const scrollToTop = () => {
         }
       });
     }
+
+// GENERIC PIE CHART
+function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valuesTwo, colorOne, colorTwo) {
+  const container = document.getElementById(containerId)
+
+  let canvas = document.createElement('canvas')
+  canvas.id = canvasId
+  canvas.width = '300px'
+  canvas.height = '300px'
+  container.appendChild(canvas)
+
+  let ctx = document.getElementById(canvasId).getContext('2d')
+  return new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [labelOne, labelTwo],
+            datasets: [{
+                backgroundColor: [colorOne, colorTwo],
+                data: [valuesOne, valuesTwo]
+            }]
+        },
+        options: {
+          maintainAspectRatio: true,
+          legend: {
+            display: true
+          },
+          tooltips: {
+            bodyFontSize: 12
+          }
+        }
+    });
+}
