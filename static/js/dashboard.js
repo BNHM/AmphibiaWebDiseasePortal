@@ -23,24 +23,28 @@ class Dashboard{
     const charttab = document.getElementById('charts-tab')
     const tabletab = document.getElementById('table-tab')
     const listtab = document.getElementById('list-tab')
+    const instructHeading = document.getElementById('instruct')
 
     if (urlName != undefined) {
+      instructHeading.style.display = 'none'
       buildSpeciesDetail() 
     }
 
     if (tabLabel === undefined) {
+      instructHeading.style.display = 'block'
       tabletab.style.display = 'none'
       charttab.style.display = 'none'
       listtab.style.display = 'none'
 
     } else if (tabLabel === 'list-tab') {
+      instructHeading.style.display = 'none'
       buildSpeciesList()
       tabletab.style.display = 'none'
       charttab.style.display = 'none'
       listtab.style.display = 'block'
 
     } else if (tabLabel === 'table-tab') {
-      tabletab.className += ' active'
+      instructHeading.style.display = 'none'
       tabletab.style.display = 'block'
       charttab.style.display = 'none'
       listtab.style.display = 'none'
@@ -51,6 +55,7 @@ class Dashboard{
       buildPathogenSummaryTable()
 
     } else if (tabLabel === 'charts-tab') {
+      instructHeading.style.display = 'none'
       tabletab.style.display = 'none'
       charttab.style.display = 'block'
       listtab.style.display = 'none'
@@ -275,7 +280,8 @@ async function buildCountryPage() {
       <button id="backBtn-country" class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
       <br>
       <span>Bd Count:</span> ${checkBd} <br>
-      <Span> Bsal Count:</span> ${checkBsal}
+      <Span> Bsal Count:</span> ${checkBsal}<br>
+      (More Coming Soon)
       `
     }
   }
