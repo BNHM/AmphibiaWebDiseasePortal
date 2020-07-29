@@ -895,6 +895,18 @@ function toggleData(evt, tabType) {
         listBuilder(name, 'Z', zNames, genus, species)
         })
 }
+
+// TODO: Find a less clunky solution for this whole process (issues with incognito mode)
+async function fetchProjectData() {
+  const res = await fetch('https://api.geome-db.org/projects/stats?') 
+  const data = await res.json() 
+
+  let projectStorage = []
+  data.map(item => {
+    projectStorage.push(item)
+  })
+    return {projectStorage}
+}
   
 async function buildSpeciesDetail() {
   const allStacked = await getBothScientificNameStackedData()
@@ -902,6 +914,7 @@ async function buildSpeciesDetail() {
   const bsalData = await getBsalDetectedByScientificName()
   const projData = await getSpeciesAssociatedProject()
   const txtData = await getTxtData()
+  const allData = await fetchProjectData()
   
   let urlName = getUrlVars().id
   let bdObj = bdData.bdObj
@@ -961,12 +974,23 @@ async function buildSpeciesDetail() {
     // For Associated Projects DIV
     let titles = []
     function returnTitle(id) {
-      bigdatafile = JSON.parse(localStorage.getItem("bigdatafile")).value
+      if (JSON.parse(localStorage.getItem("bigdatafile")) == null) {
 
-      for (let i = 0; i < bigdatafile.length; i++) {
-        let local = bigdatafile[i]
+        let titleData = allData.projectStorage
 
-        if(local.projectId == id) {titles.push(local.projectTitle)}
+        titleData.forEach(x => {
+          if(x.projectId == id) {
+            titles.push(x.projectTitle)
+          }
+        })
+
+      } else {
+        bigdatafile = JSON.parse(localStorage.getItem("bigdatafile")).value
+        for (let i = 0; i < bigdatafile.length; i++) {
+          let local = bigdatafile[i]
+  
+          if(local.projectId == id) {titles.push(local.projectTitle)}
+        }
       }
     }
 
@@ -995,7 +1019,7 @@ async function buildSpeciesDetail() {
      let mixed = idParam.map(function(x, i) {
        return [x, titles[i], links[i], sampleCounts[i]]
      })
-     
+
      mixed.forEach(item => {
       let li = document.createElement('li')
       li.className = 'li-detail'
