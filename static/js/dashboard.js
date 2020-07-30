@@ -29,9 +29,14 @@ class Dashboard{
     }
 
     if (tabLabel === undefined) {
-      tabletab.style.display = 'none'
+      tabletab.style.display = 'block'
       charttab.style.display = 'none'
       listtab.style.display = 'none'
+
+      buildSummaryTable()
+      buildSpeciesTable()
+      buildCountryTable()
+      buildPathogenSummaryTable()
 
     } else if (tabLabel === 'list-tab') {
       buildSpeciesList()
