@@ -115,6 +115,8 @@ class Dashboard{
         bsalScientificName()
       } else if (this.value == 'bothScientificNameStacked') {
         bothScientificNameStacked()
+      } else if (this.value == 'byOrder') {
+        chartByOrder()
       }
     })
   } else if (tabLabel === undefined && urlName === undefined) {
@@ -827,6 +829,51 @@ function toggleData(evt, tabType) {
     return { obj }
   }
 
+  //TODO: display species by order
+  async function chartByOrder() {
+    const data = await getSpeciesAssociatedProject()
+    let allData = data.obj
+
+    let orders = ['Anura', 'Caudata', 'Gymnophiona']
+    let anuraCount = []
+    let caudataCount = []
+    let gymCount = []
+
+    allData.forEach(x => {
+      let associated = x.associatedProjects
+
+      if (x.order == 'Anura') {
+        associated.forEach(y => {
+          anuraCount.push(y.count)
+        })
+      } else if (x.order == 'Caudata') {
+        associated.forEach(y => {
+          caudataCount.push(y.count)
+        })
+      } else if (x.order == 'Gymnophiona') {
+        associated.forEach(y => {
+          gymCount.push(y.count)
+        })
+      }
+    })
+
+    let anuraSum = anuraCount.reduce(function(a,b) {
+      return a + b
+    }, 0)
+
+    let caudataSum = caudataCount.reduce(function(a,b) {
+      return a + b
+    }, 0)   
+    
+    let gymSum = gymCount.reduce(function(a,b) {
+      return a + b
+    }, 0)
+
+    let totalCounts = [anuraSum, caudataSum, gymSum]
+
+    makeBarChart(orders, 'Total Samples By Order', totalCounts, genericColor)
+  }
+
   async function getTxtData() {
     const res = await fetch('https://amphibiaweb.org/amphib_names.json')
     const data = await res.json()
@@ -908,7 +955,9 @@ async function fetchProjectData() {
 
   let projectStorage = []
   data.map(item => {
-    projectStorage.push(item)
+    if(item.projectConfiguration.id == 45) {
+      projectStorage.push(item)
+    }
   })
     return {projectStorage}
 }
@@ -980,7 +1029,6 @@ async function buildSpeciesDetail() {
     let titles = []
     function returnTitle(id) {
       if (JSON.parse(localStorage.getItem("bigdatafile")) == null) {
-
         let titleData = allData.projectStorage
 
         titleData.forEach(x => {

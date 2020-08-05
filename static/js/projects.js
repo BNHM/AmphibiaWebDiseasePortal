@@ -181,6 +181,8 @@ function displayProjects() {
               document.getElementById(`project${project.projectId}`).addEventListener('click', function() {
                 window.location.href = `/projects/?id=${project.projectId}`
               })
+      } else if (project.projectConfiguration.id == 45 && project.discoverable == true && project.public == false) {
+        console.log(project)
       }
     })
 
