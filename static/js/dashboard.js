@@ -886,7 +886,7 @@ function toggleData(evt, tabType) {
     filter = input.value.toUpperCase();
     li = select.getElementsByTagName('li');
   
-    // Loop through all list items, and hide those who don't match the search query
+    // Loop through all list items, and hide those which don't match the search query
     for (i = 0; i < li.length; i++) {
       txtValue = li[i].innerText
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -901,7 +901,6 @@ function toggleData(evt, tabType) {
   async function buildSpeciesList() {
     const allData = await getBothScientificNameData()
     let names = allData.scientificName
-    const searchInput = document.querySelector('.search')
     
    // If there is no scientific name in URL, load entire list.
       hideInfoDash()
@@ -965,9 +964,6 @@ function toggleData(evt, tabType) {
         listBuilder(name, 'Y', yNames, genus, species)
         listBuilder(name, 'Z', zNames, genus, species)
         })
-
-        // searchInput.addEventListener('keyup', searchSpecies)
-
 }
 
 // TODO: Find a less clunky solution for this whole process (issues with incognito mode)
