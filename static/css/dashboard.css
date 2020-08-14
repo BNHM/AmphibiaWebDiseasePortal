@@ -162,6 +162,23 @@ tr:nth-child(even) {
 }
 
 
+/* SPECIES LIST */
+
+/* Species searchbar */
+#species-search-container {
+    margin: 5px;
+    padding: 5px;
+    width: 100%;
+}
+
+#species-searchbar {
+    border: 1px solid grey;
+    border-radius: 25px;
+    padding: 30px;
+    margin: auto;
+    width: 60%;
+}
+
 /* LIST */
 div ul {
     list-style-type: none;

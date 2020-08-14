@@ -880,10 +880,29 @@ function toggleData(evt, tabType) {
     return {data}
   }
 
+  function searchSpecies(select) {
+    let input, filter, li, i, txtValue;
+    input = document.getElementById('species-input');
+    filter = input.value.toUpperCase();
+    li = select.getElementsByTagName('li');
+  
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+      txtValue = li[i].innerText
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
+
+
   async function buildSpeciesList() {
     const allData = await getBothScientificNameData()
     let names = allData.scientificName
-
+    const searchInput = document.querySelector('.search')
+    
    // If there is no scientific name in URL, load entire list.
       hideInfoDash()
       names.forEach(name => {
@@ -946,6 +965,9 @@ function toggleData(evt, tabType) {
         listBuilder(name, 'Y', yNames, genus, species)
         listBuilder(name, 'Z', zNames, genus, species)
         })
+
+        // searchInput.addEventListener('keyup', searchSpecies)
+
 }
 
 // TODO: Find a less clunky solution for this whole process (issues with incognito mode)
@@ -1145,6 +1167,7 @@ function hideInfoDash() {
 
 function listBuilder(name, letter, selector, genus, species) {
   let li = document.createElement('li')
+  const searchInput = document.getElementById('species-input')
   if (name.startsWith(letter) === true) {
     li.innerHTML = `
       <span><em>${name}</em></span>
@@ -1157,6 +1180,10 @@ function listBuilder(name, letter, selector, genus, species) {
 
     document.getElementById(name).addEventListener('click', function() {
       window.location.href = `/dashboard/?id=${genus}+${species}`
+    })
+
+    searchInput.addEventListener('keyup', function() {
+      searchSpecies(selector)
     })
   }
 }
