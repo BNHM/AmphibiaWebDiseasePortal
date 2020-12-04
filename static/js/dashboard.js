@@ -188,8 +188,6 @@ async function buildPathogenSummaryTable() {
  let bsalDetectedValue = bsalData.detectedValue
  let bothDetectedValue = bothDetectedData.detectedValue
 
- let checkBsalCounts = bsalDetectedValue[1] === undefined ? 0 : bsalDetectedValue[1]
-
  let table = document.getElementById('pathogen-summary-table')
  let trOne = document.createElement('tr')  
  let trTwo = document.createElement('tr')
