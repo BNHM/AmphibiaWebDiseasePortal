@@ -194,23 +194,35 @@ async function buildPathogenSummaryTable() {
  let trOne = document.createElement('tr')  
  let trTwo = document.createElement('tr')
  let trThree = document.createElement('tr')
+ let trFour = document.createElement('tr')
 
+//  BD table row
  trOne.innerHTML = `
  <td>${diseaseTested[0]}</td>
  <td>${testedValue[0]}</td>
  <td>${bdDetectedValue[1]}</td>
  <td>${bdDetectedValue[0]}</td>
  `
- 
+
+//  Bsal table row
  trTwo.innerHTML = `
+ <td>${diseaseTested[2]}</td>
+ <td>${testedValue[2]}</td>
+ <td>${bsalDetectedValue[1]}</td>
+ <td>${bsalDetectedValue[0]}</td>
+ `
+ 
+//  Bd+Bsal table row
+ trThree.innerHTML = `
  <td>${diseaseTested[1]}</td>
  <td>${testedValue[1]}</td>
- <td>${checkBsalCounts}</td>
- <td>${bsalDetectedValue}</td>
+ <td>No Data Yet</td>
+ <td>No Data Yet</td>
  `
 
- trThree.innerHTML = `
- <td>Both</td>
+//  Both table row
+ trFour.innerHTML = `
+ <td>Both Total</td>
  <td>${bothDetectedValue[0] + bothDetectedValue[1]}</td>
  <td>${bothDetectedValue[1]}</td>
  <td>${bothDetectedValue[0]}</td>
@@ -218,6 +230,8 @@ async function buildPathogenSummaryTable() {
 table.appendChild(trOne)
 table.appendChild(trTwo)
 table.appendChild(trThree)
+table.appendChild(trFour)
+
 }
 
 async function buildSummaryTable() {
