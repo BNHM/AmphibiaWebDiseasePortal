@@ -115,6 +115,8 @@ class Dashboard{
         bsalScientificName()
       } else if (this.value == 'bothScientificNameStacked') {
         bothScientificNameStacked()
+      } else if (this.value == 'byOrder') {
+        chartByOrder()
       }
     })
   } else if (tabLabel === undefined && urlName === undefined) {
@@ -186,29 +188,39 @@ async function buildPathogenSummaryTable() {
  let bsalDetectedValue = bsalData.detectedValue
  let bothDetectedValue = bothDetectedData.detectedValue
 
- let checkBsalCounts = bsalDetectedValue[1] === undefined ? 0 : bsalDetectedValue[1]
-
  let table = document.getElementById('pathogen-summary-table')
  let trOne = document.createElement('tr')  
  let trTwo = document.createElement('tr')
  let trThree = document.createElement('tr')
+ let trFour = document.createElement('tr')
 
+//  BD table row
  trOne.innerHTML = `
  <td>${diseaseTested[0]}</td>
  <td>${testedValue[0]}</td>
  <td>${bdDetectedValue[1]}</td>
  <td>${bdDetectedValue[0]}</td>
  `
- 
+
+//  Bsal table row
  trTwo.innerHTML = `
+ <td>${diseaseTested[2]}</td>
+ <td>${testedValue[2]}</td>
+ <td>${bsalDetectedValue[1]}</td>
+ <td>${bsalDetectedValue[0]}</td>
+ `
+ 
+//  Bd+Bsal table row
+ trThree.innerHTML = `
  <td>${diseaseTested[1]}</td>
  <td>${testedValue[1]}</td>
- <td>${checkBsalCounts}</td>
- <td>${bsalDetectedValue}</td>
+ <td>No Data Yet</td>
+ <td>No Data Yet</td>
  `
 
- trThree.innerHTML = `
- <td>Both</td>
+//  Both table row
+ trFour.innerHTML = `
+ <td>Both Total</td>
  <td>${bothDetectedValue[0] + bothDetectedValue[1]}</td>
  <td>${bothDetectedValue[1]}</td>
  <td>${bothDetectedValue[0]}</td>
@@ -216,6 +228,8 @@ async function buildPathogenSummaryTable() {
 table.appendChild(trOne)
 table.appendChild(trTwo)
 table.appendChild(trThree)
+table.appendChild(trFour)
+
 }
 
 async function buildSummaryTable() {
@@ -827,16 +841,79 @@ function toggleData(evt, tabType) {
     return { obj }
   }
 
+  //TODO: display species by order
+  async function chartByOrder() {
+    const data = await getSpeciesAssociatedProject()
+    let allData = data.obj
+
+    let orders = ['Anura', 'Caudata', 'Gymnophiona']
+    let anuraCount = []
+    let caudataCount = []
+    let gymCount = []
+
+    allData.forEach(x => {
+      let associated = x.associatedProjects
+
+      if (x.order == 'Anura') {
+        associated.forEach(y => {
+          anuraCount.push(y.count)
+        })
+      } else if (x.order == 'Caudata') {
+        associated.forEach(y => {
+          caudataCount.push(y.count)
+        })
+      } else if (x.order == 'Gymnophiona') {
+        associated.forEach(y => {
+          gymCount.push(y.count)
+        })
+      }
+    })
+
+    let anuraSum = anuraCount.reduce(function(a,b) {
+      return a + b
+    }, 0)
+
+    let caudataSum = caudataCount.reduce(function(a,b) {
+      return a + b
+    }, 0)   
+    
+    let gymSum = gymCount.reduce(function(a,b) {
+      return a + b
+    }, 0)
+
+    let totalCounts = [anuraSum, caudataSum, gymSum]
+
+    makeBarChart(orders, 'Total Samples By Order', totalCounts, genericColor)
+  }
+
   async function getTxtData() {
     const res = await fetch('https://amphibiaweb.org/amphib_names.json')
     const data = await res.json()
     return {data}
   }
 
+  function searchSpecies(select) {
+    let input, filter, li, i, txtValue;
+    input = document.getElementById('species-input');
+    filter = input.value.toUpperCase();
+    li = select.getElementsByTagName('li');
+  
+    // Loop through all list items, and hide those which don't match the search query
+    for (i = 0; i < li.length; i++) {
+      txtValue = li[i].innerText
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
+
+
   async function buildSpeciesList() {
     const allData = await getBothScientificNameData()
     let names = allData.scientificName
-
+    
    // If there is no scientific name in URL, load entire list.
       hideInfoDash()
       names.forEach(name => {
@@ -908,7 +985,9 @@ async function fetchProjectData() {
 
   let projectStorage = []
   data.map(item => {
-    projectStorage.push(item)
+    if(item.projectConfiguration.id == 45) {
+      projectStorage.push(item)
+    }
   })
     return {projectStorage}
 }
@@ -980,7 +1059,6 @@ async function buildSpeciesDetail() {
     let titles = []
     function returnTitle(id) {
       if (JSON.parse(localStorage.getItem("bigdatafile")) == null) {
-
         let titleData = allData.projectStorage
 
         titleData.forEach(x => {
@@ -1097,6 +1175,7 @@ function hideInfoDash() {
 
 function listBuilder(name, letter, selector, genus, species) {
   let li = document.createElement('li')
+  const searchInput = document.getElementById('species-input')
   if (name.startsWith(letter) === true) {
     li.innerHTML = `
       <span><em>${name}</em></span>
@@ -1109,6 +1188,10 @@ function listBuilder(name, letter, selector, genus, species) {
 
     document.getElementById(name).addEventListener('click', function() {
       window.location.href = `/dashboard/?id=${genus}+${species}`
+    })
+
+    searchInput.addEventListener('keyup', function() {
+      searchSpecies(selector)
     })
   }
 }
