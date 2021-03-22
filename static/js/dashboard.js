@@ -897,7 +897,6 @@ function toggleData(evt, tabType) {
     makeBarChart(orders, 'Total Samples By Order', totalCounts, genericColor)
   }
 
-  // THROWS AN ERROR, json needs to be updated.
   async function getTxtData() {
     const res = await fetch('https://amphibiaweb.org/amphib_names.json')
     const data = await res.json()
@@ -1011,7 +1010,7 @@ async function buildSpeciesDetail() {
   const bdData = await getBdDetectedByScientificName()
   const bsalData = await getBsalDetectedByScientificName()
   const projData = await getSpeciesAssociatedProject()
-  // const txtData = await getTxtData()
+  const txtData = await getTxtData()
   const allData = await fetchProjectData()
   
   let urlName = getUrlVars().id
@@ -1019,7 +1018,7 @@ async function buildSpeciesDetail() {
   let bsalObj = bsalData.bsalObj
   let stackedData = allStacked.stackedObj
   let projects = projData.obj
-  // let amphInfo = txtData.data
+  let amphInfo = txtData.data
 
     hideAllTabs()
     const dash = document.getElementById('info-dash')
@@ -1041,18 +1040,19 @@ async function buildSpeciesDetail() {
     let family = []
     let iucn = []
     let commonName = []
-    // amphInfo.map(x => {
-    //   if (genus == x.genus && species == x.species) {
-    //     if(x.common_name) {commonName.push(x.common_name)} 
-    //     if (x.order) {order.push(x.order)}
-    //     if(x.family) {family.push(x.family)}
-    //    if (x.iucn) {iucn.push(x.iucn)}}
-    // })
+    amphInfo.map(x => {
+      if (genus == x.genus && species == x.species) {
+        if(x.common_name) {commonName.push(x.common_name)} 
+        if (x.order) {order.push(x.order)}
+        if(x.family) {family.push(x.family)}
+       if (x.iucn) {iucn.push(x.iucn)}}
+    })
 
-    // const checkCommonName = commonName.length === 0 ? '<span>Common Name(s): </span> Unavailable' : `<span>Common Name(s): </span> ${commonName}`
-    // const checkFamily = family.length === 0 ? '<span>Family: </span> Unavailable' : `<span>Family: </span>${family}`
-    // const checkOrder = order.length === 0 ? '<span>Order: </span> Unavailable' : `<span>Order: </span>${order}`
-    // const checkIucn = iucn.length === 0 ? '<span>IUCN Status: </span> Unavailable' : `<span>IUCN Status: </span>${iucn}`
+    // Displays common name, family, order and iucn status
+    const checkCommonName = commonName.length === 0 ? '<span>Common Name(s): </span> Unavailable' : `<span>Common Name(s): </span> ${commonName}`
+    const checkFamily = family.length === 0 ? '<span>Family: </span> Unavailable' : `<span>Family: </span>${family}`
+    const checkOrder = order.length === 0 ? '<span>Order: </span> Unavailable' : `<span>Order: </span>${order}`
+    const checkIucn = iucn.length === 0 ? '<span>IUCN Status: </span> Unavailable' : `<span>IUCN Status: </span>${iucn}`
 
     speciesDiv.innerHTML = `
     <p></p>
@@ -1062,10 +1062,10 @@ async function buildSpeciesDetail() {
     <button class="species-detail-btn" onclick="location.href='/dashboard/?tab=list-tab'">Back to Dashboard</button>      
     
     <ul id="info-stats">
-    <li> Common Name </li>
-    <li> Iucn </li>
-    <li> Order </li>
-    <li> Family </li>
+    <li> ${checkCommonName} </li>
+    <li> ${checkIucn} </li>
+    <li> ${checkOrder} </li>
+    <li> ${checkFamily} </li>
     </ul>
     `
 
