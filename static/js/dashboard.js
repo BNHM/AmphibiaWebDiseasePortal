@@ -913,10 +913,14 @@ function toggleData(evt, tabType) {
     for (i = 0; i < li.length; i++) {
       txtValue = li[i].innerText
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
+        li[i].style.display = ""
       } else {
-        li[i].style.display = "none";
+        li[i].style.display = "none"
       }
+    }
+
+    for (let el of document.querySelectorAll('.hide-on-search')) {
+      el.style.display = 'none'
     }
   }
 
