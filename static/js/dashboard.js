@@ -222,15 +222,15 @@ async function buildPathogenSummaryTable() {
  `
  
 //  Bd+Bsal table row
- trThree.innerHTML = `
- <td>${diseaseTested[1]}</td>
- <td>${testedValue[1]}</td>
- <td>No Data Yet</td>
- <td>No Data Yet</td>
- `
+//  trFour.innerHTML = `
+//  <td>${diseaseTested[1]}</td>
+//  <td>${testedValue[1]}</td>
+//  <td>No Data Yet</td>
+//  <td>No Data Yet</td>
+//  `
 
 //  Both table row
- trFour.innerHTML = `
+ trThree.innerHTML = `
  <td>Both Total</td>
  <td>${bothDetectedValue[0] + bothDetectedValue[1]}</td>
  <td>${bothDetectedValue[1]}</td>
