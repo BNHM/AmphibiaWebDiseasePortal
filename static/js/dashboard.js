@@ -1,16 +1,5 @@
 const baseURL = 'https://raw.githubusercontent.com/BNHM/AmphibiaWebDiseasePortalAPI/master/data/'
 
-// TESTING FETCH
-// fetch(`https://amphibiaweb.org/amphib_names.json`).then(async response => {
-//   try {
-//     const data = await response.json()
-//     console.log('response data?', data)
-//   } catch(error) {
-//     console.log('Error happened here')
-//     console.error(error)
-//   }
-// })
-
 // Colors to use in building charts based on what data is used.
 // Orange
 const bdColor = '#feb24c'
@@ -222,15 +211,16 @@ async function buildPathogenSummaryTable() {
  `
  
 //  Bd+Bsal table row
- trThree.innerHTML = `
- <td>${diseaseTested[1]}</td>
- <td>${testedValue[1]}</td>
- <td>No Data Yet</td>
- <td>No Data Yet</td>
- `
+// Comment out util data is available.
+//  trFour.innerHTML = `
+//  <td>${diseaseTested[1]}</td>
+//  <td>${testedValue[1]}</td>
+//  <td>No Data Yet</td>
+//  <td>No Data Yet</td>
+//  `
 
 //  Both table row
- trFour.innerHTML = `
+ trThree.innerHTML = `
  <td>Both Total</td>
  <td>${bothDetectedValue[0] + bothDetectedValue[1]}</td>
  <td>${bothDetectedValue[1]}</td>
@@ -285,7 +275,7 @@ async function buildCountryPage() {
   const data = await getCountryDataBothStacked() 
   const allData = data.obj
   let countryURL = getUrlVars().country
-  const countryDetailDiv = document.getElementById('country-detail-container')
+  const countryDetailDiv = document.getElementById('country-detail-info')
 
   const checkForSpaces = countryURL && countryURL.includes('%20') ? countryURL.replace('%20', ' ') : countryURL
 
@@ -299,17 +289,124 @@ async function buildCountryPage() {
       const checkBsal = x.Bsal === undefined ? 'No Bsal Samples Were Collected' : x.Bsal
 
       countryDetailDiv.innerHTML = `
-      <p></p>
-      <h3>${x.country}</h3>
-      <button id="backBtn-country" class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
-      <br>
-      <span>Bd Count:</span> ${checkBd} <br>
-      <Span> Bsal Count:</span> ${checkBsal}<br>
-      (More Coming Soon)
+        <p></p>
+        <h3>${x.country}</h3>
+        <button id="backBtn-country" class="species-detail-btn" onclick="location.href='/dashboard'">Back to Dashboard</button>      
+        <br>
+        <span>Bd Count:</span> ${checkBd} <br>
+        <span> Bsal Count:</span> ${checkBsal}<br>
+        (More Coming Soon)
       `
     }
   }
-)}
+)
+
+  countryMap()
+
+}
+
+// TODO: cloropleth map, find a way to use real data and hide when not on country page
+function countryMap() {
+  fetch('https://raw.githubusercontent.com/birbjam/states-data-json/main/us-states.json')
+  .then(res => res.json())
+  .then(data => {
+    let statesData = data
+
+      // Build map
+    var mapboxAccessToken = 'pk.eyJ1IjoiZGlhbmFsb3ZldHRlIiwiYSI6ImNrcGhpbTl3eDAwaG8ydnIxNDhuMGRlMmMifQ.DtDAU1SlLQ5-ZDXqvxgXIw'
+    var map = L.map('mapId').setView([37.8, -96], 4);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
+        id: 'mapbox/light-v9',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(map);
+    
+    L.geoJson(statesData).addTo(map);
+
+    function getColor(d) {
+      return d > 1000 ? '#800026' :
+             d > 500  ? '#BD0026' :
+             d > 200  ? '#E31A1C' :
+             d > 100  ? '#FC4E2A' :
+             d > 50   ? '#FD8D3C' :
+             d > 20   ? '#FEB24C' :
+             d > 10   ? '#FED976' :
+                        '#FFEDA0';
+    }
+  
+    function style(feature) {
+      return {
+          fillColor: getColor(feature.properties.density),
+          weight: 2,
+          opacity: 1,
+          color: 'white',
+          dashArray: '3',
+          fillOpacity: 0.7
+      };
+    }
+  
+  
+    L.geoJson(statesData, {style: style}).addTo(map);
+  
+    function highlightFeature(e) {
+      var layer = e.target;
+
+      layer.setStyle({
+          weight: 5,
+          color: '#666',
+          dashArray: '',
+          fillOpacity: 0.7
+      });
+
+      if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+          layer.bringToFront();
+      }
+
+      info.update(layer.feature.properties);
+    }
+
+    function resetHighlight(e) {
+      geojson.resetStyle(e.target);
+      info.update()
+    }
+
+    function zoomToFeature(e) {
+      map.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+      layer.on({
+          mouseover: highlightFeature,
+          mouseout: resetHighlight,
+          click: zoomToFeature
+      });
+  }
+  
+    geojson = L.geoJson(statesData, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
+
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+
+    // method that we will use to update the control based on feature properties passed
+    info.update = function (props) {
+        this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
+            '<b>' + props.name + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
+            : 'Hover over a state');
+    };
+
+    info.addTo(map);
+  
+  })
+}
 
 //CHARTS TAB
 
@@ -919,9 +1016,10 @@ function toggleData(evt, tabType) {
       }
     }
 
-    for (let el of document.querySelectorAll('.hide-on-search')) {
-      el.style.display = 'none'
-    }
+    // TODO: hide letters on search but also the divs of li items that are not relevant to the search?
+    // for (let el of document.querySelectorAll('.hide-on-search')) {
+    //   el.style.display = 'none'
+    // }
   }
 
 
