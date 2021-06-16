@@ -222,15 +222,15 @@ async function buildPathogenSummaryTable() {
  `
  
 //  Bd+Bsal table row
- trThree.innerHTML = `
- <td>${diseaseTested[1]}</td>
- <td>${testedValue[1]}</td>
- <td>No Data Yet</td>
- <td>No Data Yet</td>
- `
+//  trFour.innerHTML = `
+//  <td>${diseaseTested[1]}</td>
+//  <td>${testedValue[1]}</td>
+//  <td>No Data Yet</td>
+//  <td>No Data Yet</td>
+//  `
 
 //  Both table row
- trFour.innerHTML = `
+ trThree.innerHTML = `
  <td>Both Total</td>
  <td>${bothDetectedValue[0] + bothDetectedValue[1]}</td>
  <td>${bothDetectedValue[1]}</td>
@@ -311,6 +311,37 @@ async function buildCountryPage() {
   }
 )}
 
+// CHECK OBJECTS FOR CASE
+function whichFalseBooleanCase(object) {
+  if (object.False) {
+    // console.log('key is False')
+    return object.False
+  }
+  if (object.FALSE) {
+    // console.log('key is FALSE')
+    return object.FALSE
+  }
+  if (object.false) {
+    // console.log('key is false')
+    return object.false
+  }
+}
+
+function whichTrueBooleanCase(object) {
+  if (object.True) {
+    // console.log('key is True')
+    return object.True
+  }
+  if (object.TRUE) {
+    // console.log('key is TRUE')
+    return object.TRUE
+  }
+  if (object.true) {
+    // console.log('key is true')
+    return object.true
+  }
+}
+
 //CHARTS TAB
 
 //FETCH Bd Detected by Scientific Name
@@ -328,17 +359,21 @@ async function getBdDetectedByScientificName() {
   })
 
   let sortedDescending = data.sort(function(a,b) {
-    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+    return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
+    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+      scientificName.push(entry.scientificName)  
+      trueValue.push(whichTrueBooleanCase(entry))
+      falseValue.push(whichFalseBooleanCase(entry))
+  
+    }
   })
 
   return { scientificName, trueValue, falseValue, bdObj }
 }
+
 // CHART Display Bd Detected By Scientific Name
 async function bdDetectedByScientificName() {
   let data = await getBdDetectedByScientificName()
@@ -360,14 +395,18 @@ async function getBsalDetectedByScientificName() {
   })
 
   let sortedDescending = data.sort(function(a,b) {
-    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+    return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
+    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+      scientificName.push(entry.scientificName)  
+      trueValue.push(whichTrueBooleanCase(entry))
+      falseValue.push(whichFalseBooleanCase(entry))
+  
+    }
   })
+
   return { scientificName, trueValue, falseValue, bsalObj }
 
 }
@@ -492,8 +531,8 @@ async function bdDetectedByYearData() {
   data.forEach(entry => {
     if (!entry.yearCollected.includes('unknown')) {
       yearCollected.push(entry.yearCollected)
-      trueValue.push(entry.True)
-      falseValue.push(entry.False)
+      trueValue.push(whichTrueBooleanCase(entry))
+      falseValue.push(whichFalseBooleanCase(entry))
     } 
   })
 
@@ -518,9 +557,9 @@ async function bsalDetectedByYearData() {
   data.forEach(entry => {
     if (!entry.yearCollected.includes('unknown')) {
     yearCollected.push(entry.yearCollected)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
-    }
+    trueValue.push(whichTrueBooleanCase(entry))
+    falseValue.push(whichFalseBooleanCase(entry))
+  }
   })
 
   return { yearCollected, trueValue, falseValue }
@@ -542,13 +581,16 @@ async function bdDetectedByGenusData() {
   let falseValue = []
 
   let sortedDescending = data.sort(function(a,b) {
-    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+    return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
+    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+      genus.push(entry.genus)  
+      trueValue.push(whichTrueBooleanCase(entry))
+      falseValue.push(whichFalseBooleanCase(entry))
+  
+    }
   })
 
   return { genus, trueValue, falseValue }
@@ -557,7 +599,7 @@ async function bdDetectedByGenusData() {
 // CHART
 async function bdDetectedByGenus() {
   let data = await bdDetectedByGenusData()
-makeStackedBarChart(data.genus, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
+  makeStackedBarChart(data.genus, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 // FETCH
@@ -570,13 +612,15 @@ async function bsalDetectedByGenusData() {
   let falseValue = []
 
   let sortedDescending = data.sort(function(a,b) {
-    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+    return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    trueValue.push(entry.True)
-    falseValue.push(entry.False)
+    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+      genus.push(entry.genus)  
+      trueValue.push(whichTrueBooleanCase(entry))
+      falseValue.push(whichFalseBooleanCase(entry))
+    }
   })
 
   return { genus, trueValue, falseValue }
@@ -686,25 +730,30 @@ async function getBsalDetectedByCountryData() {
   const data = await response.json()
   
   let country = []
-  let trueCount = []
-  let falseCount = []
+  let trueValue = []
+  let falseValue = []
 
   let sortedDescending = data.sort(function(a,b) {
-    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+    return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
 
   sortedDescending.forEach(entry => {
-    country.push(entry.country)
-    trueCount.push(entry.True)
-    falseCount.push(entry.False)
+    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+      console.log(entry)
+      country.push(entry.country)  
+      trueValue.push(whichTrueBooleanCase(entry))
+      falseValue.push(whichFalseBooleanCase(entry))
+  
+    }
   })
-  return { country, trueCount, falseCount }
+
+  return { country, trueValue, falseValue }
 }
 
 // Stacked Bsal by Country Bar Chart
 async function bsalDetectedByCountry() {
   let data = await getBsalDetectedByCountryData()
-  makeStackedBarChart(data.country, 'Bsal Negative', data.falseCount, negColor, 'Bsal Positive', data.trueCount, posColor)
+  makeStackedBarChart(data.country, 'Bsal Negative', data.falseValue, negColor, 'Bsal Positive', data.trueValue, posColor)
 }
 
 // Bd Detected by country
@@ -713,26 +762,29 @@ async function getBdDetectedByCountryData() {
   const data = await response.json()
   
   let country = []
-  let trueCount = []
-  let falseCount = []
+  let trueValue = []
+  let falseValue = []
   let countryObj = []
 
   let sortedDescending = data.sort(function(a,b) {
-    return parseFloat(b.True) - parseFloat(a.True) || parseFloat(b.False) - parseFloat(a.False)
+    return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
 
   sortedDescending.forEach(entry => {
-    country.push(entry.country)
-    trueCount.push(entry.True)
-    falseCount.push(entry.False)
+    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+      country.push(entry.country)  
+      trueValue.push(whichTrueBooleanCase(entry))
+      falseValue.push(whichFalseBooleanCase(entry))
+    }
   })
-  return { country, trueCount, falseCount, countryObj }
+
+  return { country, trueValue, falseValue, countryObj }
 }
 
 // Stacked Bd by Country Bar Chart
 async function bdDetectedByCountry() {
   let data = await getBdDetectedByCountryData()
-  makeStackedBarChart(data.country, 'Bd Negative', data.falseCount, negColor, 'Bd Positive', data.trueCount, posColor)
+  makeStackedBarChart(data.country, 'Bd Negative', data.falseValue, negColor, 'Bd Positive', data.trueValue, posColor)
 }
 
 // Fetch data for both detected
@@ -913,11 +965,16 @@ function toggleData(evt, tabType) {
     for (i = 0; i < li.length; i++) {
       txtValue = li[i].innerText
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
+        li[i].style.display = ""
       } else {
-        li[i].style.display = "none";
+        li[i].style.display = "none"
       }
     }
+
+    // TODO: hide letters on search
+    // for (let el of document.querySelectorAll('.hide-on-search')) {
+    //   el.style.display = 'none'
+    // }
   }
 
 
@@ -1239,6 +1296,8 @@ const scrollToTop = () => {
 
     // GENERIC STACKED BAR CHART
     function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
+      console.log(valuesOne, ' VALUES ONE')
+      console.log(valuesTwo, ' VALUES TWO')
       let chartContainer = document.getElementById('chart-container')
       let element = document.getElementById('dashboardChart');
       chartContainer.removeChild(element)
