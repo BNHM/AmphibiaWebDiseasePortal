@@ -1192,7 +1192,7 @@ async function buildSpeciesDetail() {
     // Checks for and displays Bd data
    let checkBd = () => bdObj.map(x => {
       if(x.scientificName === displayName) {
-        makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', x.True, x.False, posColor, negColor)
+        makePieChart('bd-chart-container', 'bd-chart', 'Bd Positive', 'Bd Negative', whichTrueBooleanCase(x), whichFalseBooleanCase(x), posColor, negColor)
       } else {
         return false
       }
@@ -1210,7 +1210,7 @@ async function buildSpeciesDetail() {
     // Checks for and displays Bsal Data
     let checkBsal = () => bsalObj.map(x => {
       if (x.scientificName === displayName) {  
-        makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', x.True, x.False, posColor, negColor)
+        makePieChart('bsal-chart-container', 'bsal-chart', 'Bsal Positive', 'Bsal Negative', whichTrueBooleanCase(x), whichFalseBooleanCase(x), posColor, negColor)
       } else {          
         return false
       }
