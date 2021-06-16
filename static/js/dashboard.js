@@ -80,6 +80,7 @@ class Dashboard{
 
      if (this.value == 'bdDetectedByCountry') {
         bdDetectedByCountry()
+        chartPagination()
       } else if (this.value == 'bsalDetectedByCountry') {
         bsalDetectedByCountry()
       } else if (this.value == 'bdDetectedByGenus') {
@@ -1296,8 +1297,6 @@ const scrollToTop = () => {
 
     // GENERIC STACKED BAR CHART
     function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
-      console.log(valuesOne, ' VALUES ONE')
-      console.log(valuesTwo, ' VALUES TWO')
       let chartContainer = document.getElementById('chart-container')
       let element = document.getElementById('dashboardChart');
       chartContainer.removeChild(element)
@@ -1373,6 +1372,59 @@ const scrollToTop = () => {
         }
       });
     }
+
+function chartPagination() {
+  var lbl = [];
+  var dt = [];
+  for (var i = 1; i <= 100; i++) {
+      lbl.push("this_is_my_lable_name_" + i);
+  }
+  for (var i = 1; i <= 100; i++) {
+      dt.push(Math.floor((Math.random() * 100) + 1));
+  }
+  
+var ctx = document.getElementById("myChart").getContext("2d");
+
+  var chart = {
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+  xAxes:[{
+    ticks: {
+        autoSkip: false,
+        maxRotation: 90,
+        minRotation: 90
+      },
+  barThickness : 30
+}]
+},
+    animation: {
+              
+              onComplete: function(animation) {
+                  var sourceCanvas = myLiveChart.chart.canvas;
+                  var copyWidth = myLiveChart.scales['y-axis-0'].width - 10;
+                  var copyHeight = myLiveChart.scales['y-axis-0'].height + myLiveChart.scales['y-axis-0'].top + 10;
+                  var targetCtx = document.getElementById("myChartAxis").getContext("2d");
+                  targetCtx.canvas.width = copyWidth;
+          targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight);
+              }
+          }
+},
+  type: 'bar',
+  data: {
+           labels: lbl,
+  datasets: [{
+      label: '# of Votes',
+      data: dt}]
+  }
+  };
+
+var newwidth = (lbl.length * 30) + 100//50 padding
+console.log(newwidth)
+document.querySelector('.chartAreaWrapper2').width = newwidth
+var myLiveChart = new Chart(ctx, chart);
+}
 
 // GENERIC PIE CHART
 function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valuesTwo, colorOne, colorTwo) {

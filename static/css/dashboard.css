@@ -372,6 +372,29 @@ div ul {
     display: none;
 }
 
+/* CHART PAGINATION TEST */
+.chartWrapper {
+    position: relative;
+}
+
+.chartWrapper > canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events:none;
+}
+.chartAreaWrapper {
+  overflow-x: scroll;
+    position: relative;
+    width: 100%;
+}
+
+.chartAreaWrapper2 {
+  
+    position: relative;
+    height: 600px;
+}
+
 /* For Chart Selects */
 @media screen 
     and (min-width:300px) 
