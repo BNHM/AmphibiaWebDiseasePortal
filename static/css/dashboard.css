@@ -373,27 +373,27 @@ div ul {
 }
 
 /* CHART PAGINATION TEST */
-.chartWrapper {
-    position: relative;
-}
 
-.chartWrapper > canvas {
-    position: absolute;
-    left: 0;
-    top: 0;
-    pointer-events:none;
-}
-.chartAreaWrapper {
-  overflow-x: scroll;
-    position: relative;
-    width: 100%;
-}
+  .wrapper {
+    width: 95%;
+    height: 972px;
+    border: 1px solid #ccc;
+    overflow-x: scroll;
+  }
+  #chart-container {
+    width: 8000px;
+  }
 
-.chartAreaWrapper2 {
-  
-    position: relative;
+  .horizontal-wrapper {
+    width: 95%;
     height: 600px;
-}
+    border: 1px solid #ccc;
+    overflow-x: scroll;
+  }
+
+  #horizontal-chart-container {
+    width: 8000px;
+  }
 
 /* For Chart Selects */
 @media screen 

@@ -80,7 +80,6 @@ class Dashboard{
 
      if (this.value == 'bdDetectedByCountry') {
         bdDetectedByCountry()
-        chartPagination()
       } else if (this.value == 'bsalDetectedByCountry') {
         bsalDetectedByCountry()
       } else if (this.value == 'bdDetectedByGenus') {
@@ -365,9 +364,11 @@ async function getBdDetectedByScientificName() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      scientificName.push(entry.scientificName)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+      if (entry.scientificName != 'Unknown') {
+        scientificName.push(entry.scientificName)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+      }
   
     }
   })
@@ -378,7 +379,7 @@ async function getBdDetectedByScientificName() {
 // CHART Display Bd Detected By Scientific Name
 async function bdDetectedByScientificName() {
   let data = await getBdDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
+  makeHorizontalStackedBarChart(data.scientificName, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 //FETCH Bsal Detected by Scientific Name
@@ -401,9 +402,11 @@ async function getBsalDetectedByScientificName() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      scientificName.push(entry.scientificName)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+      if (entry.scientificName != 'Unknown') {
+        scientificName.push(entry.scientificName)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))  
+      }
   
     }
   })
@@ -1297,6 +1300,13 @@ const scrollToTop = () => {
 
     // GENERIC STACKED BAR CHART
     function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
+      let dashChart = document.querySelector('.toggle-chart')
+      let horizontalDashChart = document.querySelector('.toggle-horizontal-chart')
+      if(dashChart.style.display == 'none' && horizontalDashChart.style.display == 'block') {
+        horizontalDashChart.style.display = 'none'
+        dashChart.style.display = 'block'
+      }
+
       let chartContainer = document.getElementById('chart-container')
       let element = document.getElementById('dashboardChart');
       chartContainer.removeChild(element)
@@ -1327,10 +1337,19 @@ const scrollToTop = () => {
         },
         options: {
           scales: {
-            xAxes: [{ stacked: true }],
-            yAxes: [{ stacked: true }]
+            xAxes: [{ 
+              stacked: true,
+              ticks: {
+                autoSkip: false,
+                // maxRotation: 90,
+                // minRotation: 90
+              }
+             }],
+            yAxes: [{ stacked: true }],
+            barThickness : 30,
           },
-          maintainAspectRatio: false,
+          responsive: true,
+          maintainAspectRatio: true,
           legend: {
             display: true
           }
@@ -1373,57 +1392,62 @@ const scrollToTop = () => {
       });
     }
 
-function chartPagination() {
-  var lbl = [];
-  var dt = [];
-  for (var i = 1; i <= 100; i++) {
-      lbl.push("this_is_my_lable_name_" + i);
-  }
-  for (var i = 1; i <= 100; i++) {
-      dt.push(Math.floor((Math.random() * 100) + 1));
+// GENERIC HORIZONTAL BAR CHART
+function makeHorizontalStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
+  let dashChart = document.querySelector('.toggle-chart')
+  let horizontalDashChart = document.querySelector('.toggle-horizontal-chart')
+  if(dashChart.style.display == 'block' && horizontalDashChart.style.display == 'none') {
+    horizontalDashChart.style.display = 'block'
+    dashChart.style.display = 'none'
   }
   
-var ctx = document.getElementById("myChart").getContext("2d");
+  let chartContainer = document.getElementById('horizontal-chart-container')
 
-  var chart = {
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-  xAxes:[{
-    ticks: {
-        autoSkip: false,
-        maxRotation: 90,
-        minRotation: 90
-      },
-  barThickness : 30
-}]
-},
-    animation: {
-              
-              onComplete: function(animation) {
-                  var sourceCanvas = myLiveChart.chart.canvas;
-                  var copyWidth = myLiveChart.scales['y-axis-0'].width - 10;
-                  var copyHeight = myLiveChart.scales['y-axis-0'].height + myLiveChart.scales['y-axis-0'].top + 10;
-                  var targetCtx = document.getElementById("myChartAxis").getContext("2d");
-                  targetCtx.canvas.width = copyWidth;
-          targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight);
-              }
+  let canvas = document.createElement('canvas')
+  canvas.id = 'dashboardHorizontalChart'
+  canvas.width = '1000px'
+  canvas.height = '1000px'
+  chartContainer.appendChild(canvas)
+  let ctx = document.getElementById('dashboardHorizontalChart').getContext('2d');
+
+  let dataChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: xLabel,
+      datasets: [
+        {
+          label: valueLabelOne,
+          data: valuesOne,
+          backgroundColor: colorOne,
+        },
+        {
+          label: valueLabelTwo,
+          data: valuesTwo,
+          backgroundColor: colorTwo,
+        }
+      ],
+    },
+    options: {
+      animation: false,
+      scales: {
+        xAxes: [{ 
+          stacked: true,
+          ticks: {
+            autoSkip: false,
+            maxRotation: 90,
+            minRotation: 90
           }
-},
-  type: 'bar',
-  data: {
-           labels: lbl,
-  datasets: [{
-      label: '# of Votes',
-      data: dt}]
-  }
-  };
-
-var newwidth = (lbl.length * 30) + 100//50 padding
-console.log(newwidth)
-document.querySelector('.chartAreaWrapper2').width = newwidth
-var myLiveChart = new Chart(ctx, chart);
+         }],
+        yAxes: [{ stacked: true }],
+        barThickness : 30,
+      },
+      responsive: true,
+      maintainAspectRatio: true,
+      legend: {
+        display: true
+      }
+    }
+  });
 }
 
 // GENERIC PIE CHART
