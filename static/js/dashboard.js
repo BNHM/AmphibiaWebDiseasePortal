@@ -364,9 +364,11 @@ async function getBdDetectedByScientificName() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      scientificName.push(entry.scientificName)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+      if (entry.scientificName != 'Unknown') {
+        scientificName.push(entry.scientificName)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+      }
   
     }
   })
@@ -377,7 +379,7 @@ async function getBdDetectedByScientificName() {
 // CHART Display Bd Detected By Scientific Name
 async function bdDetectedByScientificName() {
   let data = await getBdDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
+  makeHorizontalStackedBarChart(data.scientificName, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 //FETCH Bsal Detected by Scientific Name
@@ -400,9 +402,11 @@ async function getBsalDetectedByScientificName() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      scientificName.push(entry.scientificName)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+      if (entry.scientificName != 'Unknown') {
+        scientificName.push(entry.scientificName)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))  
+      }
   
     }
   })
@@ -1296,8 +1300,13 @@ const scrollToTop = () => {
 
     // GENERIC STACKED BAR CHART
     function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
-      console.log(valuesOne, ' VALUES ONE')
-      console.log(valuesTwo, ' VALUES TWO')
+      let dashChart = document.querySelector('.toggle-chart')
+      let horizontalDashChart = document.querySelector('.toggle-horizontal-chart')
+      if(dashChart.style.display == 'none' && horizontalDashChart.style.display == 'block') {
+        horizontalDashChart.style.display = 'none'
+        dashChart.style.display = 'block'
+      }
+
       let chartContainer = document.getElementById('chart-container')
       let element = document.getElementById('dashboardChart');
       chartContainer.removeChild(element)
@@ -1328,10 +1337,19 @@ const scrollToTop = () => {
         },
         options: {
           scales: {
-            xAxes: [{ stacked: true }],
-            yAxes: [{ stacked: true }]
+            xAxes: [{ 
+              stacked: true,
+              ticks: {
+                autoSkip: false,
+                // maxRotation: 90,
+                // minRotation: 90
+              }
+             }],
+            yAxes: [{ stacked: true }],
+            barThickness : 30,
           },
-          maintainAspectRatio: false,
+          responsive: true,
+          maintainAspectRatio: true,
           legend: {
             display: true
           }
@@ -1373,6 +1391,64 @@ const scrollToTop = () => {
         }
       });
     }
+
+// GENERIC HORIZONTAL BAR CHART
+function makeHorizontalStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
+  let dashChart = document.querySelector('.toggle-chart')
+  let horizontalDashChart = document.querySelector('.toggle-horizontal-chart')
+  if(dashChart.style.display == 'block' && horizontalDashChart.style.display == 'none') {
+    horizontalDashChart.style.display = 'block'
+    dashChart.style.display = 'none'
+  }
+  
+  let chartContainer = document.getElementById('horizontal-chart-container')
+
+  let canvas = document.createElement('canvas')
+  canvas.id = 'dashboardHorizontalChart'
+  canvas.width = '1000px'
+  canvas.height = '1000px'
+  chartContainer.appendChild(canvas)
+  let ctx = document.getElementById('dashboardHorizontalChart').getContext('2d');
+
+  let dataChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: xLabel,
+      datasets: [
+        {
+          label: valueLabelOne,
+          data: valuesOne,
+          backgroundColor: colorOne,
+        },
+        {
+          label: valueLabelTwo,
+          data: valuesTwo,
+          backgroundColor: colorTwo,
+        }
+      ],
+    },
+    options: {
+      animation: false,
+      scales: {
+        xAxes: [{ 
+          stacked: true,
+          ticks: {
+            autoSkip: false,
+            maxRotation: 90,
+            minRotation: 90
+          }
+         }],
+        yAxes: [{ stacked: true }],
+        barThickness : 30,
+      },
+      responsive: true,
+      maintainAspectRatio: true,
+      legend: {
+        display: true
+      }
+    }
+  });
+}
 
 // GENERIC PIE CHART
 function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valuesTwo, colorOne, colorTwo) {

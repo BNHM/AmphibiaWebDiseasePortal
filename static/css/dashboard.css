@@ -372,6 +372,29 @@ div ul {
     display: none;
 }
 
+/* CHART PAGINATION TEST */
+
+  .wrapper {
+    width: 95%;
+    height: 972px;
+    border: 1px solid #ccc;
+    overflow-x: scroll;
+  }
+  #chart-container {
+    width: 8000px;
+  }
+
+  .horizontal-wrapper {
+    width: 95%;
+    height: 600px;
+    border: 1px solid #ccc;
+    overflow-x: scroll;
+  }
+
+  #horizontal-chart-container {
+    width: 8000px;
+  }
+
 /* For Chart Selects */
 @media screen 
     and (min-width:300px) 
