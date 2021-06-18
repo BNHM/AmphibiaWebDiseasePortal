@@ -27,7 +27,7 @@ function byProjectId(id) {
 }
 
 function buildChartAdjustedWidth(dataLength, scientificName, value) {
-  console.log(dataLength)
+  // console.log(dataLength)
   let chartWrapper = document.querySelector('.sample-chart-wrapper')
   let canvas = document.getElementById('sampleChart')
   let chartContainer = document.getElementById('sample-chart-container')

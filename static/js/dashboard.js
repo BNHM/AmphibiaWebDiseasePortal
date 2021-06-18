@@ -395,7 +395,7 @@ async function getBsalDetectedByScientificName() {
   data.forEach(entry => {
     bsalObj.push(entry)
   })
-
+  
   let sortedDescending = data.sort(function(a,b) {
     return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
@@ -1396,6 +1396,7 @@ const scrollToTop = () => {
 function makeHorizontalStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
   let dashChart = document.querySelector('.toggle-chart')
   let horizontalDashChart = document.querySelector('.toggle-horizontal-chart')
+
   if(dashChart.style.display == 'block' && horizontalDashChart.style.display == 'none') {
     horizontalDashChart.style.display = 'block'
     dashChart.style.display = 'none'
