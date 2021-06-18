@@ -46,7 +46,7 @@ function buildChartAdjustedWidth(dataLength, scientificName, value) {
     // make two charts here? one with value less than 500 and one with over 500??
     newWidth = '4000px' 
     canvas.style.height = '61000px'
-    chartWrapper.style.height = '900px'
+    chartWrapper.style.height = '800px'
     barType = 'horizontalBar'
     rotation = 90
   } else {
