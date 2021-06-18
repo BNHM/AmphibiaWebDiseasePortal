@@ -16,11 +16,45 @@ function byProjectId(id) {
     let value = []
     
     data.forEach(entry => {
-      scientificName.push(entry.scientificName)
-      value.push(entry.value)
+      // Exclude Unknown from charts
+      if (entry.scientificName != 'Unknown') {
+        scientificName.push(entry.scientificName)
+        value.push(entry.value)
+      }
     })
-    return makeBarChart(scientificName, 'Samples Collected', value)
+    buildChartAdjustedWidth(data.length, scientificName, value)
   })
+}
+
+function buildChartAdjustedWidth(dataLength, scientificName, value) {
+  // console.log(dataLength)
+  let chartWrapper = document.querySelector('.sample-chart-wrapper')
+  let canvas = document.getElementById('sampleChart')
+  let chartContainer = document.getElementById('sample-chart-container')
+  let barType = 'bar'
+  let rotation = 60
+
+  if (dataLength <= 21) { // Less than 21
+    newWidth = '100%' 
+  } else if (dataLength > 21 && dataLength <= 50) { // more than 21 less than 50
+    newWidth = '2000px'
+  } else if (dataLength >= 51 && dataLength <= 99) { //More than 51 less than 99
+    newWidth = '3000px'
+  } else if (100 <= dataLength && dataLength <= 200) { // More than 100 less than 200
+    newWidth = '6000px'  
+  } else if (dataLength >= 2000 ) { // more than 2000
+    // make two charts here? one with value less than 500 and one with over 500??
+    newWidth = '4000px' 
+    canvas.style.height = '61000px'
+    chartWrapper.style.height = '800px'
+    barType = 'horizontalBar'
+    rotation = 90
+  } else {
+    newWidth = '3000px'
+  }
+
+  chartContainer.style.width = newWidth
+  return makeBarChart(scientificName, 'Samples Collected', value, barType, rotation)
 }
 
 // Recovers link from the fetch using the project id, creates an anchor for it and clicks it.
@@ -251,10 +285,14 @@ function displayProjects() {
             Events: ${sampleData.EventCount} || 
             Samples Collected: ${sampleData.SampleCount} 
             <br>
-            ( Click on each bar for more details )
-            <div id="sample-chart" >
-            <canvas id="sampleChart" height="600px" width="1000px" style="margin: auto;"></canvas>
-            </div> 
+            <small> Click on each bar for more details. For larger datasets, chart scrolling is enabled.</small>
+
+            <div class="sample-chart-wrapper"  style="margin: auto;">
+              <div id="sample-chart-container">
+                <canvas id="sampleChart" height="600px"></canvas>
+              </div>
+            </div>
+
             <br>
 
             <button id="data-btn" onclick="window.open('https://geome-db.org/query?q=_projects_:${local.projectId}')" target="_blank">Map Dataset in GEOME <i class="fa fa-external-link"></i></button>
@@ -366,16 +404,27 @@ function hideMainTable() {
   mainTable.style.display = "none"
 }
 
-function makeBarChart(xLabel, dataLabel, values) {
+// add attrs: type, rotation # 90 or 60
+function makeBarChart(xLabel, dataLabel, values, type, rotationInt) {
   let canvas = document.getElementById('sampleChart')
   let ctx = document.getElementById('sampleChart').getContext('2d');
 
    let samplesChart = new Chart(ctx, {
-    type: "bar",
+    type: type,
     options: {
+      animation: false,
       maintainAspectRatio: false,
       legend: {
         display: true
+      },
+      scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false,
+            maxRotation: rotationInt,
+            minRotation: rotationInt
+          }
+        }]
       }
     },
     data: {
