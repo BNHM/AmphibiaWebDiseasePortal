@@ -1433,9 +1433,9 @@ function makeHorizontalStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOn
   let chartContainer = document.getElementById('horizontal-chart-container')
 
   let canvas = document.createElement('canvas')
-  canvas.id = 'dashboardHorizontalChart'
+  canvas.id = 'dashboardHorizontalChart2'
   canvas.width = '1000px'
-  canvas.height = '1000px'
+  canvas.height = '61000px'
   chartContainer.appendChild(canvas)
   let ctx = document.getElementById('dashboardHorizontalChart').getContext('2d');
 

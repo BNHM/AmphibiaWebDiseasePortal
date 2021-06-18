@@ -394,9 +394,13 @@ div ul {
     border-radius: 5px;
   }
 
-  #horizontal-chart-container {
+  /* #horizontal-chart-container {
     width: 8000px;
-  }
+  } */
+
+#horizontal-chart-container {
+    width: 4000px;
+}
 
 /* For Chart Selects */
 @media screen 
