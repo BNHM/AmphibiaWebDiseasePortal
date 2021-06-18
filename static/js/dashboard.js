@@ -395,7 +395,7 @@ async function getBsalDetectedByScientificName() {
   data.forEach(entry => {
     bsalObj.push(entry)
   })
-  
+
   let sortedDescending = data.sort(function(a,b) {
     return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
@@ -435,8 +435,10 @@ async function getBdScientificNameData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)  
+    }
    })
 
   return { scientificName, value }
@@ -461,8 +463,10 @@ async function getBsalScientificNameData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)  
+    }
    })
 
   return { scientificName, value }
@@ -485,9 +489,11 @@ async function getBothScientificNameData() {
   let nameAndValue = []
 
   data.forEach(entry => {
-    nameAndValue.push(entry)
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      nameAndValue.push(entry)
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)
+    }
   })
   return { scientificName, value, nameAndValue }
 }
@@ -507,10 +513,12 @@ async function getBothScientificNameStackedData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    bdValue.push(entry.Bd)
-    bsalValue.push(entry.Bsal)
-    stackedObj.push(entry)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      bdValue.push(entry.Bd)
+      bsalValue.push(entry.Bsal)
+      stackedObj.push(entry)  
+    }
   })
 
   return { scientificName, bdValue, bsalValue, stackedObj }
@@ -589,12 +597,15 @@ async function bdDetectedByGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      genus.push(entry.genus)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
-  
+    if (entry.genus != 'Unknown') {
+      if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+        genus.push(entry.genus)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+    
+      }
     }
+
   })
 
   return { genus, trueValue, falseValue }
@@ -620,10 +631,12 @@ async function bsalDetectedByGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      genus.push(entry.genus)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+    if (entry.genus != 'Unknown') {
+      if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+        genus.push(entry.genus)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+      }
     }
   })
 
@@ -649,8 +662,10 @@ async function getBdGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    value.push(entry.value)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      value.push(entry.value)  
+    }
   })
   return { genus, value }
 }
@@ -658,7 +673,7 @@ async function getBdGenusData() {
 // CHART
 async function bdGenus() {
   let data = await getBdGenusData()
-makeBarChart(data.genus, 'Bd By Genus', data.value, bdColor)
+  makeBarChart(data.genus, 'Bd By Genus', data.value, bdColor)
 }
 
 // FETCH
@@ -674,8 +689,10 @@ async function getBsalGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    value.push(entry.value)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      value.push(entry.value)
+    }
   })
   return { genus, value }
 }
@@ -700,9 +717,11 @@ async function getBothStackedGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    bdValue.push(entry.Bd)
-    bsalValue.push(entry.Bsal)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      bdValue.push(entry.Bd)
+      bsalValue.push(entry.Bsal)
+    }
   })
   return { genus, bdValue, bsalValue }
 }
@@ -732,6 +751,9 @@ async function getDiseaseTestedBothData() {
 async function getBsalDetectedByCountryData() {
   const response = await fetch(`${baseURL}country_diseaseDetected_Bsal.json`)
   const data = await response.json()
+
+  console.log(data.length)
+
   
   let country = []
   let trueValue = []
@@ -743,11 +765,9 @@ async function getBsalDetectedByCountryData() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      console.log(entry)
       country.push(entry.country)  
       trueValue.push(whichTrueBooleanCase(entry))
       falseValue.push(whichFalseBooleanCase(entry))
-  
     }
   })
 
