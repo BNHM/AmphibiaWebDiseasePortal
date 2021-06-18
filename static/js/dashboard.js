@@ -527,8 +527,7 @@ async function getBothScientificNameStackedData() {
 // CHART
 async function bothScientificNameStacked() {
   const data = await getBothScientificNameStackedData()
-makeStackedBarChart(data.scientificName, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)  
-  
+  makeHorizontalStackedBarChart(data.scientificName, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)  
 }
 
 // FETCH
@@ -1336,6 +1335,10 @@ const scrollToTop = () => {
       canvas.width = '1000px'
       canvas.height = '600px'
       chartContainer.appendChild(canvas)
+
+      let wrap = document.querySelector('.wrapper')
+      adjustChartSize(xLabel.length, chartContainer, wrap)
+
       let ctx = document.getElementById('dashboardChart').getContext('2d');
     
       let dataChart = new Chart(ctx, {
@@ -1389,6 +1392,10 @@ const scrollToTop = () => {
       canvas.width = '1000px'
       canvas.height = '600px'
       chartContainer.appendChild(canvas)
+
+      let wrap = document.querySelector('.wrapper')
+      adjustChartSize(xLabel.length, chartContainer, wrap, canvas)
+
       let ctx = document.getElementById('dashboardChart').getContext('2d');
     
        let barChart = new Chart(ctx, {
@@ -1411,6 +1418,7 @@ const scrollToTop = () => {
         }
       });
     }
+    
 
 // GENERIC HORIZONTAL BAR CHART
 function makeHorizontalStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
@@ -1501,4 +1509,27 @@ function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valu
           }
         }
     });
+}
+
+function adjustChartSize(datasize, containerEl, wrapperEl) {
+
+  // console.log(datasize, ' DATASIZE')
+  // console.log(containerEl, ' CONTAINER')
+  // console.log(wrapperEl, ' WRAPPER')
+
+  if (datasize <= 20) {
+    newWidth = '100%'
+    // containerEl.style.border = '1px solid red'
+
+  } else if (501 <= datasize <= 1000) {
+
+    newWidth = '6000px'
+    // containerEl.style.border = '1px solid lime'
+
+  } else if (500 >= dataset >= 100) {
+
+    newWidth = '5000px'
+    // containerEl.style.border = '1px solid purple'
+  }
+  containerEl.style.width = newWidth
 }
