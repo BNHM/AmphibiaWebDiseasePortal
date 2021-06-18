@@ -364,9 +364,11 @@ async function getBdDetectedByScientificName() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      scientificName.push(entry.scientificName)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+      if (entry.scientificName != 'Unknown') {
+        scientificName.push(entry.scientificName)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+      }
   
     }
   })
@@ -377,7 +379,7 @@ async function getBdDetectedByScientificName() {
 // CHART Display Bd Detected By Scientific Name
 async function bdDetectedByScientificName() {
   let data = await getBdDetectedByScientificName()
-  makeStackedBarChart(data.scientificName, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
+  makeHorizontalStackedBarChart(data.scientificName, 'Negative', data.falseValue, negColor, 'Positive', data.trueValue, posColor)
 }
 
 //FETCH Bsal Detected by Scientific Name
@@ -400,9 +402,11 @@ async function getBsalDetectedByScientificName() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      scientificName.push(entry.scientificName)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+      if (entry.scientificName != 'Unknown') {
+        scientificName.push(entry.scientificName)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))  
+      }
   
     }
   })
@@ -431,8 +435,10 @@ async function getBdScientificNameData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)  
+    }
    })
 
   return { scientificName, value }
@@ -457,8 +463,10 @@ async function getBsalScientificNameData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)  
+    }
    })
 
   return { scientificName, value }
@@ -481,9 +489,11 @@ async function getBothScientificNameData() {
   let nameAndValue = []
 
   data.forEach(entry => {
-    nameAndValue.push(entry)
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      nameAndValue.push(entry)
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)
+    }
   })
   return { scientificName, value, nameAndValue }
 }
@@ -503,10 +513,12 @@ async function getBothScientificNameStackedData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    bdValue.push(entry.Bd)
-    bsalValue.push(entry.Bsal)
-    stackedObj.push(entry)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      bdValue.push(entry.Bd)
+      bsalValue.push(entry.Bsal)
+      stackedObj.push(entry)  
+    }
   })
 
   return { scientificName, bdValue, bsalValue, stackedObj }
@@ -515,8 +527,7 @@ async function getBothScientificNameStackedData() {
 // CHART
 async function bothScientificNameStacked() {
   const data = await getBothScientificNameStackedData()
-makeStackedBarChart(data.scientificName, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)  
-  
+  makeHorizontalStackedBarChart(data.scientificName, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)  
 }
 
 // FETCH
@@ -585,12 +596,15 @@ async function bdDetectedByGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      genus.push(entry.genus)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
-  
+    if (entry.genus != 'Unknown') {
+      if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+        genus.push(entry.genus)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+    
+      }
     }
+
   })
 
   return { genus, trueValue, falseValue }
@@ -616,10 +630,12 @@ async function bsalDetectedByGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      genus.push(entry.genus)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+    if (entry.genus != 'Unknown') {
+      if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+        genus.push(entry.genus)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+      }
     }
   })
 
@@ -645,8 +661,10 @@ async function getBdGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    value.push(entry.value)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      value.push(entry.value)  
+    }
   })
   return { genus, value }
 }
@@ -654,7 +672,7 @@ async function getBdGenusData() {
 // CHART
 async function bdGenus() {
   let data = await getBdGenusData()
-makeBarChart(data.genus, 'Bd By Genus', data.value, bdColor)
+  makeBarChart(data.genus, 'Bd By Genus', data.value, bdColor)
 }
 
 // FETCH
@@ -670,8 +688,10 @@ async function getBsalGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    value.push(entry.value)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      value.push(entry.value)
+    }
   })
   return { genus, value }
 }
@@ -696,9 +716,11 @@ async function getBothStackedGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    bdValue.push(entry.Bd)
-    bsalValue.push(entry.Bsal)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      bdValue.push(entry.Bd)
+      bsalValue.push(entry.Bsal)
+    }
   })
   return { genus, bdValue, bsalValue }
 }
@@ -728,6 +750,9 @@ async function getDiseaseTestedBothData() {
 async function getBsalDetectedByCountryData() {
   const response = await fetch(`${baseURL}country_diseaseDetected_Bsal.json`)
   const data = await response.json()
+
+  console.log(data.length)
+
   
   let country = []
   let trueValue = []
@@ -739,11 +764,9 @@ async function getBsalDetectedByCountryData() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      console.log(entry)
       country.push(entry.country)  
       trueValue.push(whichTrueBooleanCase(entry))
       falseValue.push(whichFalseBooleanCase(entry))
-  
     }
   })
 
@@ -1296,8 +1319,13 @@ const scrollToTop = () => {
 
     // GENERIC STACKED BAR CHART
     function makeStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
-      console.log(valuesOne, ' VALUES ONE')
-      console.log(valuesTwo, ' VALUES TWO')
+      let dashChart = document.querySelector('.toggle-chart')
+      let horizontalDashChart = document.querySelector('.toggle-horizontal-chart')
+      if(dashChart.style.display == 'none' && horizontalDashChart.style.display == 'block') {
+        horizontalDashChart.style.display = 'none'
+        dashChart.style.display = 'block'
+      }
+
       let chartContainer = document.getElementById('chart-container')
       let element = document.getElementById('dashboardChart');
       chartContainer.removeChild(element)
@@ -1307,6 +1335,10 @@ const scrollToTop = () => {
       canvas.width = '1000px'
       canvas.height = '600px'
       chartContainer.appendChild(canvas)
+
+      let wrap = document.querySelector('.wrapper')
+      adjustChartSize(xLabel.length, chartContainer, wrap)
+
       let ctx = document.getElementById('dashboardChart').getContext('2d');
     
       let dataChart = new Chart(ctx, {
@@ -1328,10 +1360,19 @@ const scrollToTop = () => {
         },
         options: {
           scales: {
-            xAxes: [{ stacked: true }],
-            yAxes: [{ stacked: true }]
+            xAxes: [{ 
+              stacked: true,
+              ticks: {
+                autoSkip: false,
+                // maxRotation: 90,
+                // minRotation: 90
+              }
+             }],
+            yAxes: [{ stacked: true }],
+            barThickness : 30,
           },
-          maintainAspectRatio: false,
+          responsive: true,
+          maintainAspectRatio: true,
           legend: {
             display: true
           }
@@ -1351,6 +1392,10 @@ const scrollToTop = () => {
       canvas.width = '1000px'
       canvas.height = '600px'
       chartContainer.appendChild(canvas)
+
+      let wrap = document.querySelector('.wrapper')
+      adjustChartSize(xLabel.length, chartContainer, wrap, canvas)
+
       let ctx = document.getElementById('dashboardChart').getContext('2d');
     
        let barChart = new Chart(ctx, {
@@ -1373,6 +1418,66 @@ const scrollToTop = () => {
         }
       });
     }
+    
+
+// GENERIC HORIZONTAL BAR CHART
+function makeHorizontalStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
+  let dashChart = document.querySelector('.toggle-chart')
+  let horizontalDashChart = document.querySelector('.toggle-horizontal-chart')
+
+  if(dashChart.style.display == 'block' && horizontalDashChart.style.display == 'none') {
+    horizontalDashChart.style.display = 'block'
+    dashChart.style.display = 'none'
+  }
+  
+  let chartContainer = document.getElementById('horizontal-chart-container')
+
+  let canvas = document.createElement('canvas')
+  canvas.id = 'dashboardHorizontalChart2'
+  canvas.width = '1000px'
+  canvas.height = '61000px'
+  chartContainer.appendChild(canvas)
+  let ctx = document.getElementById('dashboardHorizontalChart').getContext('2d');
+
+  let dataChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: xLabel,
+      datasets: [
+        {
+          label: valueLabelOne,
+          data: valuesOne,
+          backgroundColor: colorOne,
+        },
+        {
+          label: valueLabelTwo,
+          data: valuesTwo,
+          backgroundColor: colorTwo,
+        }
+      ],
+    },
+    options: {
+      animation: false,
+      scales: {
+        xAxes: [{ 
+          stacked: true,
+          ticks: {
+            autoSkip: false,
+            maxRotation: 90,
+            minRotation: 90
+          }
+         }],
+        yAxes: [{ stacked: true }],
+        barThickness : 30,
+      },
+      responsive: true,
+      maintainAspectRatio: true,
+      legend: {
+        display: true
+      }
+    }
+  });
+}
 
 // GENERIC PIE CHART
 function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valuesTwo, colorOne, colorTwo) {
@@ -1404,4 +1509,27 @@ function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valu
           }
         }
     });
+}
+
+function adjustChartSize(datasize, containerEl, wrapperEl) {
+
+  // console.log(datasize, ' DATASIZE')
+  // console.log(containerEl, ' CONTAINER')
+  // console.log(wrapperEl, ' WRAPPER')
+
+  if (datasize <= 20) {
+    newWidth = '100%'
+    // containerEl.style.border = '1px solid red'
+
+  } else if (501 <= datasize <= 1000) {
+
+    newWidth = '6000px'
+    // containerEl.style.border = '1px solid lime'
+
+  } else if (500 >= dataset >= 100) {
+
+    newWidth = '5000px'
+    // containerEl.style.border = '1px solid purple'
+  }
+  containerEl.style.width = newWidth
 }

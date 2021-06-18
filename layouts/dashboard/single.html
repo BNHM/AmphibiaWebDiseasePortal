@@ -71,7 +71,8 @@
 
 <!--CHART TAB-->
 <div id="charts-tab" class="tabcontent">
-  <h4>Select a Chart:</h4>
+  <h4 style="margin-bottom: 0;">Select a Chart:</h4>
+  <small>Charts are scrollable</small>
 
   <div id="dash-form-container">
 
@@ -82,7 +83,7 @@
       <option value="bothByCountryStacked">Both Tested By Country</option>
       <option value="bdDetectedByGenus"> Bd Detected by Genus</option>
       <option value="bsalDetectedByGenus"> Bsal Detected by Genus</option>
-      <option value="bdDetectedByScientificName">Bd Detected By Scientific Name</option>
+      <!-- <option value="bdDetectedByScientificName">Bd Detected By Scientific Name</option> -->
       <option value="bsalDetectedByScientificName">Bsal Detected By Scientific Name</option>
     </select>
 
@@ -97,17 +98,25 @@
       <option value="bdGenus">Bd Genus</option>
       <option value="bsalGenus">Bsal Genus</option>
       <option value="bothGenusStacked">Both Stacked Genus</option>
-      <option value="bdScientificName">Bd Scientific Name</option>
+      <!-- <option value="bdScientificName">Bd Scientific Name</option> -->
       <option value="bsalScientificName">Bsal Scientific Name</option>
-      <option value="bothScientificNameStacked">Both Stacked Scientific Name</option>
+      <!-- <option value="bothScientificNameStacked">Both Stacked Scientific Name</option> -->
       <option value="byOrder">Samples by Order</option>
     </select>
 
   </div> <!-- container for selects-->
 
+<div class="wrapper toggle-chart" style="margin: auto; display: block;">
   <div id="chart-container">
-    <canvas id="dashboardChart" height="500px" width="1000px" style="margin: auto;"></canvas>
- </div>  <!-- canvas container-->
+      <canvas id="dashboardChart" height="450px"></canvas>
+  </div>
+</div>
+
+<div class="horizontal-wrapper toggle-horizontal-chart" style="margin: auto; display: none;">
+  <div id="horizontal-chart-container">
+      <canvas id="dashboardHorizontalChart" height="1000px"></canvas>
+  </div>
+</div>
 
 </div> <!--chart tab container-->
 
@@ -212,6 +221,7 @@
 </div><!--country detail container-->
 
 </div>
+
 </body>
 
 <script>
