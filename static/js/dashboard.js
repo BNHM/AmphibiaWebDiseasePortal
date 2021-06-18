@@ -395,7 +395,7 @@ async function getBsalDetectedByScientificName() {
   data.forEach(entry => {
     bsalObj.push(entry)
   })
-  
+
   let sortedDescending = data.sort(function(a,b) {
     return parseFloat(whichTrueBooleanCase(b)) - parseFloat(whichTrueBooleanCase(a)) || parseFloat(whichFalseBooleanCase(b)) - parseFloat(whichFalseBooleanCase(a))
   })
@@ -435,8 +435,10 @@ async function getBdScientificNameData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)  
+    }
    })
 
   return { scientificName, value }
@@ -461,8 +463,10 @@ async function getBsalScientificNameData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)  
+    }
    })
 
   return { scientificName, value }
@@ -485,9 +489,11 @@ async function getBothScientificNameData() {
   let nameAndValue = []
 
   data.forEach(entry => {
-    nameAndValue.push(entry)
-    scientificName.push(entry.scientificName)
-    value.push(entry.value)
+    if (entry.scientificName != 'Unknown') {
+      nameAndValue.push(entry)
+      scientificName.push(entry.scientificName)
+      value.push(entry.value)
+    }
   })
   return { scientificName, value, nameAndValue }
 }
@@ -507,10 +513,12 @@ async function getBothScientificNameStackedData() {
   })
 
   sortedDescending.forEach(entry => {
-    scientificName.push(entry.scientificName)
-    bdValue.push(entry.Bd)
-    bsalValue.push(entry.Bsal)
-    stackedObj.push(entry)
+    if (entry.scientificName != 'Unknown') {
+      scientificName.push(entry.scientificName)
+      bdValue.push(entry.Bd)
+      bsalValue.push(entry.Bsal)
+      stackedObj.push(entry)  
+    }
   })
 
   return { scientificName, bdValue, bsalValue, stackedObj }
@@ -519,8 +527,7 @@ async function getBothScientificNameStackedData() {
 // CHART
 async function bothScientificNameStacked() {
   const data = await getBothScientificNameStackedData()
-makeStackedBarChart(data.scientificName, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)  
-  
+  makeHorizontalStackedBarChart(data.scientificName, 'Bd', data.bdValue, bdColor, 'Bsal', data.bsalValue, bsalColor)  
 }
 
 // FETCH
@@ -589,12 +596,15 @@ async function bdDetectedByGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      genus.push(entry.genus)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
-  
+    if (entry.genus != 'Unknown') {
+      if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+        genus.push(entry.genus)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+    
+      }
     }
+
   })
 
   return { genus, trueValue, falseValue }
@@ -620,10 +630,12 @@ async function bsalDetectedByGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      genus.push(entry.genus)  
-      trueValue.push(whichTrueBooleanCase(entry))
-      falseValue.push(whichFalseBooleanCase(entry))
+    if (entry.genus != 'Unknown') {
+      if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
+        genus.push(entry.genus)  
+        trueValue.push(whichTrueBooleanCase(entry))
+        falseValue.push(whichFalseBooleanCase(entry))
+      }
     }
   })
 
@@ -649,8 +661,10 @@ async function getBdGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    value.push(entry.value)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      value.push(entry.value)  
+    }
   })
   return { genus, value }
 }
@@ -658,7 +672,7 @@ async function getBdGenusData() {
 // CHART
 async function bdGenus() {
   let data = await getBdGenusData()
-makeBarChart(data.genus, 'Bd By Genus', data.value, bdColor)
+  makeBarChart(data.genus, 'Bd By Genus', data.value, bdColor)
 }
 
 // FETCH
@@ -674,8 +688,10 @@ async function getBsalGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    value.push(entry.value)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      value.push(entry.value)
+    }
   })
   return { genus, value }
 }
@@ -700,9 +716,11 @@ async function getBothStackedGenusData() {
   })
 
   sortedDescending.forEach(entry => {
-    genus.push(entry.genus)
-    bdValue.push(entry.Bd)
-    bsalValue.push(entry.Bsal)
+    if (entry.genus != 'Unknown') {
+      genus.push(entry.genus)
+      bdValue.push(entry.Bd)
+      bsalValue.push(entry.Bsal)
+    }
   })
   return { genus, bdValue, bsalValue }
 }
@@ -732,6 +750,9 @@ async function getDiseaseTestedBothData() {
 async function getBsalDetectedByCountryData() {
   const response = await fetch(`${baseURL}country_diseaseDetected_Bsal.json`)
   const data = await response.json()
+
+  console.log(data.length)
+
   
   let country = []
   let trueValue = []
@@ -743,11 +764,9 @@ async function getBsalDetectedByCountryData() {
 
   sortedDescending.forEach(entry => {
     if (whichTrueBooleanCase(entry) != undefined || whichFalseBooleanCase(entry) != undefined) {
-      console.log(entry)
       country.push(entry.country)  
       trueValue.push(whichTrueBooleanCase(entry))
       falseValue.push(whichFalseBooleanCase(entry))
-  
     }
   })
 
@@ -1316,6 +1335,10 @@ const scrollToTop = () => {
       canvas.width = '1000px'
       canvas.height = '600px'
       chartContainer.appendChild(canvas)
+
+      let wrap = document.querySelector('.wrapper')
+      adjustChartSize(xLabel.length, chartContainer, wrap)
+
       let ctx = document.getElementById('dashboardChart').getContext('2d');
     
       let dataChart = new Chart(ctx, {
@@ -1369,6 +1392,10 @@ const scrollToTop = () => {
       canvas.width = '1000px'
       canvas.height = '600px'
       chartContainer.appendChild(canvas)
+
+      let wrap = document.querySelector('.wrapper')
+      adjustChartSize(xLabel.length, chartContainer, wrap, canvas)
+
       let ctx = document.getElementById('dashboardChart').getContext('2d');
     
        let barChart = new Chart(ctx, {
@@ -1391,6 +1418,7 @@ const scrollToTop = () => {
         }
       });
     }
+    
 
 // GENERIC HORIZONTAL BAR CHART
 function makeHorizontalStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOne, valueLabelTwo, valuesTwo, colorTwo) {
@@ -1405,9 +1433,9 @@ function makeHorizontalStackedBarChart(xLabel, valueLabelOne, valuesOne, colorOn
   let chartContainer = document.getElementById('horizontal-chart-container')
 
   let canvas = document.createElement('canvas')
-  canvas.id = 'dashboardHorizontalChart'
+  canvas.id = 'dashboardHorizontalChart2'
   canvas.width = '1000px'
-  canvas.height = '1000px'
+  canvas.height = '61000px'
   chartContainer.appendChild(canvas)
   let ctx = document.getElementById('dashboardHorizontalChart').getContext('2d');
 
@@ -1481,4 +1509,27 @@ function makePieChart(containerId, canvasId, labelOne, labelTwo, valuesOne, valu
           }
         }
     });
+}
+
+function adjustChartSize(datasize, containerEl, wrapperEl) {
+
+  // console.log(datasize, ' DATASIZE')
+  // console.log(containerEl, ' CONTAINER')
+  // console.log(wrapperEl, ' WRAPPER')
+
+  if (datasize <= 20) {
+    newWidth = '100%'
+    // containerEl.style.border = '1px solid red'
+
+  } else if (501 <= datasize <= 1000) {
+
+    newWidth = '6000px'
+    // containerEl.style.border = '1px solid lime'
+
+  } else if (500 >= dataset >= 100) {
+
+    newWidth = '5000px'
+    // containerEl.style.border = '1px solid purple'
+  }
+  containerEl.style.width = newWidth
 }

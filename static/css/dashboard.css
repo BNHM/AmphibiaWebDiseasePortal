@@ -372,14 +372,16 @@ div ul {
     display: none;
 }
 
-/* CHART PAGINATION TEST */
+/* CHART SIZES */
 
   .wrapper {
     width: 95%;
     height: 972px;
     border: 1px solid #ccc;
     overflow-x: scroll;
+    border-radius: 5px;
   }
+
   #chart-container {
     width: 8000px;
   }
@@ -389,11 +391,16 @@ div ul {
     height: 600px;
     border: 1px solid #ccc;
     overflow-x: scroll;
+    border-radius: 5px;
   }
 
-  #horizontal-chart-container {
+  /* #horizontal-chart-container {
     width: 8000px;
-  }
+  } */
+
+#horizontal-chart-container {
+    width: 4000px;
+}
 
 /* For Chart Selects */
 @media screen 
